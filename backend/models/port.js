@@ -24,6 +24,15 @@ const portSchema = mongoose.Schema({
     type: String,
     enum: ["available", "booked"],
     default: "available",
+  },
+  chargerType: {
+    type: String,
+    enum: ["normal", "fast"],
+    required: true
+  },
+  chargerSpeed: {
+    type: Number,
+    required: true
   }
 });
 
