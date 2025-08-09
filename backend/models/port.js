@@ -4,10 +4,11 @@ const portSchema = mongoose.Schema({
   portNumber: {
      type: Number,
      required: true,
+     unique: true
    },
   location: {
     type: String,
-    required: true,
+    required: true
   },
   coordinates: {
     lat: {
