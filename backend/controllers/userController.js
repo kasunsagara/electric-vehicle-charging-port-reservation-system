@@ -10,12 +10,12 @@ export async function createUser(req, res) {
         const user = new User(newUserData);
         await user.save();
 
-        res.json({
+        res.status(201).json({
             message: "User created successfully"
         });
 
     } catch (error) {
-        res.json({
+        res.status(400).json({
             message: "User creation failed"
         });
     }
@@ -26,7 +26,7 @@ export async function loginUser(req, res) {
         const users = await User.find({ email: req.body.email });
 
         if (users.length == 0) {
-            res.json({
+            res.status(404).json({
                 message: "User not found"
             });
         }
@@ -43,13 +43,13 @@ export async function loginUser(req, res) {
                 phone: user.phone
             }, "20010924");
 
-            res.json({
+            res.status(200).json({
                 message: "Login successful",
                 token: token
             });
         }
     } catch (error) {
-        res.json({
+        res.status(401).json({
             message: "Login failed"
         });
     }
