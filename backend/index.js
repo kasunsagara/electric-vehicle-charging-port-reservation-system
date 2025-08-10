@@ -1,7 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
 import userRouter from './routes/userRouter.js';
+
 
 const app = express();
 
@@ -14,6 +16,25 @@ connection.once('open', () => {
 });
 
 app.use(bodyParser.json());
+
+app.use(
+  (req, res, next) => {
+
+    const token = req.header("Authorization")?.replace("Bearer ", "");
+
+    if (token != null) {
+      jwt.verify(token, "20010924", (error, decoded) => {
+
+        if (!error) {
+          req.user = decoded;
+        }
+
+      });
+    }
+
+    next();
+
+  });
 
 app.use("/api/users", userRouter);
 
