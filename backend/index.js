@@ -21,6 +21,7 @@ app.use(
   (req, res, next) => {
 
     const token = req.header("Authorization")?.replace("Bearer ", "");
+    console.log(token);
 
     if (token != null) {
       jwt.verify(token, "20010924", (error, decoded) => {
