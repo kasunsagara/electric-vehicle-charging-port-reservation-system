@@ -13,11 +13,11 @@ const bookingSchema = mongoose.Schema({
   },
   vehicleType: {                     
     type: String,
-    required: true
+    required: false
   },
   vehicleModel: {                         
     type: String,
-    required: true
+    required: false
   },
   chargerType: {                       
     type: String,

@@ -1,12 +1,16 @@
 import User from "../models/user.js";
 
-export function createUser(req, res) {
-    const user = new User(req.body)
-    user.save()
-        .then(() =>{ res.json({ 
-            message: "User created successfully" })
-        })
-        .catch((error) =>{ res.json({
-            message: "User creation failed" })
-        })
+export async function createUsers(req, res) {
+    try {
+        const user = new User(req.body)
+        await user.save()
+        res.json({
+            message: "User created successfully"
+        });
+
+    } catch (error) {
+        res.json({
+            message: "User creation failed"
+        });
     }
+}
