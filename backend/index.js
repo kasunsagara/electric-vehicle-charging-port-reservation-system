@@ -44,3 +44,19 @@ app.use("/api/ports", portRouter);
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });
+
+
+
+
+
+
+
+/* {
+    "email": "kasunsagara689@gmail.com",
+    "password": "80187968"
+   } 
+
+   {
+    "email": "nimal@example.com",
+    "password": "1234",
+   } */
