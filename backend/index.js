@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import userRouter from './routes/userRouter.js';
 import portRouter from './routes/portRouter.js';
+import bookingRouter from './routes/bookingRouter.js';
 
 
 const app = express();
@@ -40,6 +41,7 @@ app.use(
 
 app.use("/api/users", userRouter);
 app.use("/api/ports", portRouter);
+app.use("/api/bookings", bookingRouter);
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

@@ -2,38 +2,53 @@ import mongoose from "mongoose";
 
 const portSchema = mongoose.Schema({
   portNumber: {
-     type: Number,
-     required: true,
-     unique: true
-   },
+    type: Number,
+    required: true,
+    unique: true
+  },
   location: {
     type: String,
     required: true
   },
   coordinates: {
-    lat: {
-      type: Number,
-      required: true
+    lat: { 
+      type: Number, 
+      required: true 
     },
-    lng: {
-      type: Number,
-      required: true
+    lng: { 
+      type: Number, 
+      required: true 
     }
   },
   status: {
     type: String,
     enum: ["available", "booked"],
-    default: "available",
+    default: "available"
   },
-  chargerType: {
-    type: String,
-    enum: ["normal", "fast"],
-    required: true
-  },
-  chargerSpeed: {
-    type: Number,
-    required: true
+  chargerOptions: [
+    {
+      type: { 
+        type: String, 
+        enum: ["normal", "fast"], 
+        required: true 
+      },
+      speed: { 
+        type: Number, 
+        required: true 
+      }
+    }
+  ]
+});
+
+// Example: pre-fill each new port with normal + fast chargers
+portSchema.pre("save", function (next) {
+  if (!this.chargerOptions || this.chargerOptions.length === 0) {
+    this.chargerOptions = [
+      { type: "normal", speed: 10 },
+      { type: "fast", speed: 20 }
+    ];
   }
+  next();
 });
 
 const Port = mongoose.model("ports", portSchema);
