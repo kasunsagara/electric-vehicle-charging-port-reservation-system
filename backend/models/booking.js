@@ -11,7 +11,12 @@ const bookingSchema = mongoose.Schema({
     ref: "Port",
     required: true
   },
-  vehicleType: {                     
+  bookingId: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  vehicleType: {
     type: String,
     required: false
   },
@@ -49,10 +54,6 @@ const bookingSchema = mongoose.Schema({
     type: String,
     enum: ["pending", "paid"],
     default: "pending"
-  },
-  createdAt: {                       
-    type: Date,
-    default: Date.now
   }
 });
 

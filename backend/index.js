@@ -5,7 +5,9 @@ import jwt from 'jsonwebtoken';
 import userRouter from './routes/userRouter.js';
 import portRouter from './routes/portRouter.js';
 import bookingRouter from './routes/bookingRouter.js';
-
+import User from './models/user.js';
+import Port from './models/port.js';
+import Booking from './models/booking.js';
 
 const app = express();
 
@@ -60,5 +62,5 @@ app.listen(5000, () => {
 
    {
     "email": "nimal@example.com",
-    "password": "1234",
+    "password": "1234"
    } */
