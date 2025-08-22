@@ -1,11 +1,14 @@
 import User from "../models/user.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-export async function createUser(req, res) {
+dotenv.config();
+
+export async function createUser(req, res) { 
     try {
         const newUserData = req.body;
-        newUserData.password = bcrypt.hashSync(newUserData.password, 10);
+        newUserData.password = bcrypt.hashSync(newUserData.password, 10); 
 
         const user = new User(newUserData);
         await user.save();
@@ -41,7 +44,7 @@ export async function loginUser(req, res) {
                 email: user.email,
                 role: user.role,
                 phone: user.phone
-            }, "20010924");
+            }, process.env.JWT_SECRET);
 
             res.status(200).json({
                 message: "Login successful",

@@ -5,13 +5,13 @@ import jwt from 'jsonwebtoken';
 import userRouter from './routes/userRouter.js';
 import portRouter from './routes/portRouter.js';
 import bookingRouter from './routes/bookingRouter.js';
-import User from './models/user.js';
-import Port from './models/port.js';
-import Booking from './models/booking.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
-const mongoUrl = "mongodb+srv://kasunsagara689:56649901@cluster0.hulg4fz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const mongoUrl = process.env.MONGO_DB_URI;
 
 mongoose.connect(mongoUrl, {})
 const connection = mongoose.connection;
@@ -28,7 +28,7 @@ app.use(
     console.log(token);
 
     if (token != null) {
-      jwt.verify(token, "20010924", (error, decoded) => {
+      jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
 
         if (!error) {
           req.user = decoded;
