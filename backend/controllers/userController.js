@@ -57,3 +57,72 @@ export async function loginUser(req, res) {
         });
     }
 }
+
+export async function getUsers(req, res) {
+    if(req.user.role != 'admin') {
+            res.status(403).json({
+                message: "You are not an admin"
+            });
+            return;
+        }
+
+        const users = await User.find();
+        
+    try {
+        res.status(200).json({
+            message: "Users retrieved successfully",
+            users: users
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error retrieving users",
+            error: error.message
+        });
+    }
+}
+
+export async function getUserProfile(req, res) {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "User profile retrieved successfully",
+            user: user  
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error retrieving user profile",
+            error: error.message
+        });
+    }
+}
+
+
+export async function deleteUser(req, res) {
+     if (req.user.role !== 'admin') {
+            return res.status(403).json({
+                message: "You are not an admin"
+            });
+        }
+
+        const email = req.params.email;
+
+        try {
+            await User.deleteOne({ email: email });
+            res.json({
+                message: "User deleted"
+            });
+        } catch (error) {
+            res.status(403).json({
+                message: "Error deleting user",
+                error: error.message
+            });
+        }
+    }
+
