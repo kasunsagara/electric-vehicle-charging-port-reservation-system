@@ -2,7 +2,6 @@ import Booking from "../models/booking.js";
 import Port from "../models/port.js";
 
 export async function createBooking(req, res) {
- 
   if (req.user.role !== "customer") {
     res.status(403).json({
       message: "Please login as customer to create booking"
@@ -11,9 +10,9 @@ export async function createBooking(req, res) {
   }
 
   try {
-    const { user, port, vehicleType, vehicleModel, chargerType, photo, bookingDate, timeSlot } = req.body;
+    const { portId, vehicleType, vehicleModel, chargerType, carPhoto, bookingDate, timeSlot } = req.body;
 
-    if (!user || !port || !bookingDate || !timeSlot) {
+    if (!portId || !bookingDate || !timeSlot || !chargerType) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -30,33 +29,27 @@ export async function createBooking(req, res) {
       bookingId = "EV" + newNumber;
     }
 
-    const portData = await Port.findById(port);
+    const portData = await Port.findOne({ portId });
     if (!portData) {
       return res.status(404).json({ message: "Port not found" });
     }
 
-    const existingBooking = await Booking.findOne({
-      port,
-      bookingDate,
-      timeSlot,
-      status: "booked"
-    });
-
+    const existingBooking = await Booking.findOne({ portId, bookingDate, timeSlot });
     if (existingBooking) {
       return res.status(400).json({ message: "Port already booked for this time slot" });
     }
 
     const newBooking = new Booking({
       bookingId,
-      user,
-      port,
+      email: req.user.email,
+      portId,
       vehicleType,
       vehicleModel,
       chargerType,
-      photo,
+      carPhoto,
       bookingDate,
       timeSlot,
-      status: "booked"
+      paymentStatus: "pending"
     });
 
     await newBooking.save();
@@ -65,8 +58,24 @@ export async function createBooking(req, res) {
     await portData.save();
 
     res.status(201).json({ message: "Booking successful", booking: newBooking });
+
   } catch (error) {
     console.error("Error creating booking:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function getBookings(req, res) {
+  if (req.user.role !== "admin") {
+    res.status(403).json({ message: "Please login as admin to view all bookings" });
+    return;
+  }
+
+  try {
+    const bookings = await Booking.find();
+    res.status(200).json({ message: "Bookings fetched successfully", bookings });
+  } catch (error) {
+    console.error("Error fetching bookings:", error);
     res.status(500).json({ message: "Server error" });
   }
 }

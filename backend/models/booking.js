@@ -1,14 +1,12 @@
 import mongoose from "mongoose";
 
 const bookingSchema = mongoose.Schema({
-  user: {                                  
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  email: {
+    type: String,
     required: true
   },
-  port: {                                  
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Port",
+  portId: {
+    type: String,
     required: true
   },
   bookingId: {

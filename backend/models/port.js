@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const portSchema = mongoose.Schema({
-  portNumber: {
-    type: Number,
+  portId: {
+    type: String,
     required: true,
     unique: true
   },
