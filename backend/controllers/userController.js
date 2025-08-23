@@ -11,15 +11,15 @@ export async function createUser(req, res) {
 
         if(newUserData.role == 'admin') {
             if(req.user == null) {
-                res.json({
-                    message: "Please login as administrator to create admin account"
+                res.status(401).json({
+                    message: "You are not logged in"
                 })
                 return;
             }
 
             if(req.user.role !== 'admin') {
-                res.json({
-                    message: "Please login as administrator to create admin account"
+                res.status(403).json({
+                    message: "You are not an admin"
                 })
                 return;
             }
