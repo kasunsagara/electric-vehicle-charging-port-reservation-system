@@ -4,6 +4,7 @@ import HomePage from './pages/homePage.jsx'
 import SignUpPage from './pages/signupPage.jsx'
 import LoginPage from './pages/loginPage.jsx'
 import AdminHomePage from './pages/adminHomePage.jsx'
+import PortStatusPage from './pages/portStatusPage.jsx'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
     <BrowserRouter>
       <Routes path="/*">
       <Route path="/" element={<HomePage />} />
+      <Route path="/port-status" element={<PortStatusPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/admin/*" element={<AdminHomePage />} />
