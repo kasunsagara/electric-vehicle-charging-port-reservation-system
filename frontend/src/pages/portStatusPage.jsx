@@ -112,7 +112,7 @@ export default function PortStatusPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left bg-white rounded-lg shadow-md">
             <thead>
-              <tr className="bg-gray-300 text-gray-900 uppercase text-sm font-semibold">
+              <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
                 <th className="px-6 py-3">Port</th>
                 <th className="px-6 py-3">Status</th>
                 <th className="px-6 py-3">Location</th>
