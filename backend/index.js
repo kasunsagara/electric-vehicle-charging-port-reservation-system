@@ -6,10 +6,13 @@ import userRouter from './routes/userRouter.js';
 import portRouter from './routes/portRouter.js';
 import bookingRouter from './routes/bookingRouter.js';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 
 const mongoUrl = process.env.MONGO_DB_URI;
 
