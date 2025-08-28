@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-const SignUp = () => {
+export default function SignUpPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -40,10 +40,7 @@ const SignUp = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-green-100">
       <div className="w-full max-w-md bg-teal-50 p-8 rounded-lg shadow-sm">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Sign Up</h2>
-        <p className="text-gray-500 mb-6">
-          Enter your information to create an account
-        </p>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2 text-center">Sign Up</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name */}
@@ -56,7 +53,6 @@ const SignUp = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="John Doe"
               className="w-full border rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
@@ -72,23 +68,6 @@ const SignUp = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="newuser@example.com"
-              className="w-full border rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-              required
-            />
-          </div>
-
-          {/* Phone */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Phone
-            </label>
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="0771234567"
               className="w-full border rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
@@ -103,6 +82,21 @@ const SignUp = () => {
               type="password"
               name="password"
               value={formData.password}
+              onChange={handleChange}
+              className="w-full border rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              required
+            />
+          </div>          
+
+          {/* Phone */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Phone
+            </label>
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
               onChange={handleChange}
               className="w-full border rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
@@ -130,4 +124,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+

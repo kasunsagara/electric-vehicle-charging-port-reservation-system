@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-const Login = () => {
+export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -40,8 +40,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-green-100">
       <div className="w-full max-w-md bg-teal-50 p-8 rounded-lg shadow-sm">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Login</h2>
-        <p className="text-gray-500 mb-6">Enter your credentials to sign in</p>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2 text-center">Login</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email */}
@@ -54,7 +53,6 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="user@example.com"
               className="w-full border rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
@@ -96,4 +94,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+
