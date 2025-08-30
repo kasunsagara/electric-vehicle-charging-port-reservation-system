@@ -4,47 +4,41 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Earth radius in KM
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) *
-      Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // distance in KM
+  return R * c;
 }
 
 export default function PortStatusPage() {
-  const [userLocation, setUserLocation] = useState({ lat: 8.5874, lng: 81.2152 }); // Default Trinco Town
+  const [userLocation, setUserLocation] = useState({ lat: 8.5874, lng: 81.2152 });
   const [ports, setPorts] = useState([]);
   const [view, setView] = useState("list");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
 
-  // get user location
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      (pos) =>
         setUserLocation({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
-        });
-      },
-      (err) => {
-        console.error("Location error:", err);
-      }
+        }),
+      (err) => console.error("Location error:", err)
     );
   }, []);
 
-  // get ports with axios
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/ports")
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : res.data.data;
-
         const portsWithDistance = data.map((port) => ({
           ...port,
           distance: getDistanceFromLatLonInKm(
@@ -54,29 +48,25 @@ export default function PortStatusPage() {
             port.coordinates.lng
           ),
         }));
-
         portsWithDistance.sort((a, b) => a.distance - b.distance);
         setPorts(portsWithDistance);
       })
       .catch((err) => console.error("Error fetching ports:", err));
   }, [userLocation]);
 
-  const handleBooking = (portId, status) => {
+  const handleBooking = (portId, location, status) => {
     if (status === "available" && selectedDate && selectedTime) {
-      window.location.href = `/port-booking/${portId}?date=${selectedDate}&timeSlot=${selectedTime}`;
-    } else if (!selectedDate || !selectedTime) {
+      const encodedLocation = encodeURIComponent(location);
+      window.location.href = `/port-booking/${portId}?date=${selectedDate}&timeSlot=${selectedTime}&location=${encodedLocation}`;
+    } else {
       alert("Please select date and time slot first.");
     }
   };
 
   return (
     <div className="p-6 bg-green-100 min-h-screen">
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-        <div>
-          <h2 className="text-2xl font-bold">Charging Port Status</h2>
-        </div>
-
+        <h2 className="text-2xl font-bold">Charging Port Status</h2>
         <div className="flex space-x-2 mt-4 md:mt-0">
           <input
             type="date"
@@ -106,7 +96,6 @@ export default function PortStatusPage() {
         </div>
       </div>
 
-      {/* View Toggle */}
       <div className="flex space-x-2 mb-4">
         <button
           onClick={() => setView("list")}
@@ -126,7 +115,6 @@ export default function PortStatusPage() {
         </button>
       </div>
 
-      {/* List View */}
       {view === "list" && (
         <div className="overflow-x-auto">
           <table className="w-full text-left bg-white rounded-lg shadow-md">
@@ -140,27 +128,21 @@ export default function PortStatusPage() {
               </tr>
             </thead>
             <tbody>
-              {ports.map((port, index) => (
+              {ports.map((port) => (
                 <tr
                   key={port._id}
-                  className={`border-b ${
-                    index % 2 === 0 ? "bg-white" : "bg-white"
-                  } hover:bg-gray-100 transition-colors`}
+                  className={`border-b hover:bg-gray-100 transition-colors`}
                 >
                   <td className="px-6 py-4 font-semibold">{port.portId}</td>
                   <td className="px-6 py-4">
                     <span
                       className={`flex items-center space-x-2 ${
-                        port.status === "available"
-                          ? "text-green-600"
-                          : "text-red-600"
+                        port.status === "available" ? "text-green-600" : "text-red-600"
                       }`}
                     >
                       <span
                         className={`h-3 w-3 rounded-full ${
-                          port.status === "available"
-                            ? "bg-green-500"
-                            : "bg-red-500"
+                          port.status === "available" ? "bg-green-500" : "bg-red-500"
                         }`}
                       ></span>
                       <span className="capitalize">{port.status}</span>
@@ -172,11 +154,9 @@ export default function PortStatusPage() {
                     <button
                       disabled={port.status !== "available"}
                       className={`px-4 py-2 rounded text-white font-semibold transition-colors ${
-                        port.status === "available"
-                          ? "bg-orange-500 hover:bg-orange-600"
-                          : "bg-gray-400 cursor-not-allowed"
+                        port.status === "available" ? "bg-orange-500 hover:bg-orange-600" : "bg-gray-400 cursor-not-allowed"
                       }`}
-                      onClick={() => handleBooking(port.portId, port.status)}
+                      onClick={() => handleBooking(port.portId, port.location, port.status)}
                     >
                       Book Now
                     </button>
@@ -188,7 +168,6 @@ export default function PortStatusPage() {
         </div>
       )}
 
-      {/* Map View */}
       {view === "map" && (
         <MapContainer
           center={[userLocation.lat, userLocation.lng]}
@@ -204,10 +183,7 @@ export default function PortStatusPage() {
             <Popup>You are here</Popup>
           </Marker>
           {ports.map((port) => (
-            <Marker
-              key={port._id}
-              position={[port.coordinates.lat, port.coordinates.lng]}
-            >
+            <Marker key={port._id} position={[port.coordinates.lat, port.coordinates.lng]}>
               <Popup>
                 <b>Port {port.portId}</b>
                 <br />
@@ -220,11 +196,9 @@ export default function PortStatusPage() {
                 <button
                   disabled={port.status !== "available"}
                   className={`px-2 py-1 rounded text-white font-semibold ${
-                    port.status === "available"
-                      ? "bg-orange-500 hover:bg-orange-600"
-                      : "bg-gray-400 cursor-not-allowed"
+                    port.status === "available" ? "bg-orange-500 hover:bg-orange-600" : "bg-gray-400 cursor-not-allowed"
                   }`}
-                  onClick={() => handleBooking(port.portId, port.status)}
+                  onClick={() => handleBooking(port.portId, port.location, port.status)}
                 >
                   Book Now
                 </button>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -9,18 +9,21 @@ export default function PortBookingPage() {
 
   const bookingDate = queryParams.get("date");
   const timeSlot = queryParams.get("timeSlot");
+  const locationFromQuery = queryParams.get("location");
 
   const [port, setPort] = useState(null);
   const [formData, setFormData] = useState({
     portId: portId,
-    bookingId: "BK" + Date.now(),
     vehicleType: "Car",
     vehicleModel: "",
     chargerType: "normal",
     carPhoto: null,
     bookingDate: bookingDate || "",
     timeSlot: timeSlot || "",
+    portLocation: locationFromQuery || "",
   });
+
+  const [realBookingId, setRealBookingId] = useState(null);
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/ports/${portId}`)
@@ -41,15 +44,15 @@ export default function PortBookingPage() {
     e.preventDefault();
     try {
       const data = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        data.append(key, value);
-      });
+      Object.entries(formData).forEach(([key, value]) => data.append(key, value));
 
-      await axios.post("http://localhost:5000/api/bookings", data, {
+      const response = await axios.post("http://localhost:5000/api/bookings", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Booking successful!");
+      const bookingIdFromBackend = response.data.booking.bookingId;
+      setRealBookingId(bookingIdFromBackend);
+      alert(`Booking successful! Your Booking ID: ${bookingIdFromBackend}`);
     } catch (error) {
       console.error(error);
       alert("Booking failed!");
@@ -63,10 +66,13 @@ export default function PortBookingPage() {
         {/* Booking Summary */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-xl font-bold mb-4">Booking Summary</h2>
-          <p><strong>Port Number:</strong> {port?.portId}</p>
-          <p><strong>Location:</strong> {port?.location}</p>
+          <p><strong>Port Id:</strong> {formData.portId || port?.portId}</p>
+          <p><strong>Location:</strong> {formData.portLocation || port?.location}</p>
           <p><strong>Date:</strong> {formData.bookingDate}</p>
           <p><strong>Time Slot:</strong> {formData.timeSlot}</p>
+          {realBookingId && (
+            <p className="mt-2 text-green-700 font-semibold">Booking ID: {realBookingId}</p>
+          )}
         </div>
 
         {/* Booking Form */}
@@ -77,7 +83,6 @@ export default function PortBookingPage() {
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Vehicle Type */}
             <div>
               <label className="block mb-1 font-medium">Vehicle Type</label>
               <select
@@ -92,7 +97,6 @@ export default function PortBookingPage() {
               </select>
             </div>
 
-            {/* Vehicle Model */}
             <div>
               <label className="block mb-1 font-medium">Vehicle Model</label>
               <input
@@ -105,7 +109,6 @@ export default function PortBookingPage() {
               />
             </div>
 
-            {/* Charger Type */}
             <div>
               <label className="block mb-1 font-medium">Charger Type</label>
               <select
@@ -115,12 +118,11 @@ export default function PortBookingPage() {
                 className="w-full border rounded px-3 py-2"
                 required
               >
-                <option value="normal">Normal (10kW)</option>
+                <option value="normal">Normal (kW)</option>
                 <option value="fast">Fast (20kW)</option>
               </select>
             </div>
 
-            {/* Car Photo */}
             <div>
               <label className="block mb-1 font-medium">Car Photo (Optional)</label>
               <input
@@ -132,7 +134,6 @@ export default function PortBookingPage() {
               />
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               className="bg-teal-700 text-white px-6 py-2 rounded hover:bg-teal-800"
