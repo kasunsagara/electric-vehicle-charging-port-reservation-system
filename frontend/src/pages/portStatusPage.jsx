@@ -17,10 +17,11 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 }
 
 export default function PortStatusPage() {
+  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
   const [userLocation, setUserLocation] = useState({ lat: 8.5874, lng: 81.2152 });
   const [ports, setPorts] = useState([]);
   const [view, setView] = useState("list");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(today); // default today
   const [selectedTime, setSelectedTime] = useState("");
 
   useEffect(() => {
@@ -71,6 +72,7 @@ export default function PortStatusPage() {
           <input
             type="date"
             value={selectedDate}
+            min={today} // cannot select past dates
             onChange={(e) => setSelectedDate(e.target.value)}
             className="border rounded px-3 py-2"
           />
