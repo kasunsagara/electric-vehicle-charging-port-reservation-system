@@ -1,16 +1,22 @@
 import Booking from "../models/booking.js";
 import Port from "../models/port.js";
+import multer from "multer";
+
+// Multer setup
+const storage = multer.memoryStorage();
+export const upload = multer({ storage });
 
 export async function createBooking(req, res) {
-  if (req.user.role !== "customer") {
+  try {
+    if (req.user.role !== "customer") {
     res.status(403).json({
       message: "Please login as customer to create booking"
     });
     return;
   }
 
-  try {
-    const { portId, vehicleType, vehicleModel, chargerType, carPhoto, bookingDate, timeSlot } = req.body;
+    const { portId, vehicleType, vehicleModel, chargerType, bookingDate, timeSlot } = req.body;
+    const carPhoto = req.file; // optional
 
     if (!portId || !bookingDate || !timeSlot || !chargerType) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -46,7 +52,7 @@ export async function createBooking(req, res) {
       vehicleType,
       vehicleModel,
       chargerType,
-      carPhoto,
+      carPhoto: carPhoto ? carPhoto.buffer : null,
       bookingDate,
       timeSlot
     });
@@ -63,6 +69,7 @@ export async function createBooking(req, res) {
     res.status(500).json({ message: "Server error" });
   }
 }
+
 
 export async function getBookings(req, res) {
   try {
