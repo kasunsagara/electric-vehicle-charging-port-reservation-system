@@ -40,17 +40,6 @@ const portSchema = mongoose.Schema({
   ]
 });
 
-// Example: pre-fill each new port with normal + fast chargers
-portSchema.pre("save", function (next) {
-  if (!this.chargerOptions || this.chargerOptions.length === 0) {
-    this.chargerOptions = [
-      { type: "normal", speed: 10 },
-      { type: "fast", speed: 20 }
-    ];
-  }
-  next();
-});
-
 const Port = mongoose.model("ports", portSchema);
 
 export default Port;

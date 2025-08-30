@@ -12,11 +12,12 @@ export default function PortBookingPage() {
   const locationFromQuery = queryParams.get("location");
 
   const [port, setPort] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     portId: portId,
     vehicleType: "Car",
     vehicleModel: "",
-    chargerType: "normal",
+    chargerType: "", // will set dynamically
     carPhoto: null,
     bookingDate: bookingDate || "",
     timeSlot: timeSlot || "",
@@ -25,10 +26,25 @@ export default function PortBookingPage() {
 
   const [realBookingId, setRealBookingId] = useState(null);
 
+  // Fetch port details
   useEffect(() => {
+    console.log("Fetching port:", portId);
     axios.get(`http://localhost:5000/api/ports/${portId}`)
-      .then(res => setPort(res.data))
-      .catch(err => console.error(err));
+      .then(res => {
+        console.log("Port data:", res.data);
+        setPort(res.data);
+        if (res.data.chargerOptions?.length > 0) {
+          setFormData(prev => ({
+            ...prev,
+            chargerType: res.data.chargerOptions[0].type
+          }));
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
   }, [portId]);
 
   const handleChange = (e) => {
@@ -59,6 +75,14 @@ export default function PortBookingPage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <p>Loading port details...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-teal-50 flex justify-center items-start py-10 px-6">
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -66,10 +90,13 @@ export default function PortBookingPage() {
         {/* Booking Summary */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-xl font-bold mb-4">Booking Summary</h2>
-          <p><strong>Port Id:</strong> {formData.portId || port?.portId}</p>
+          <p><strong>Port Id:</strong> {formData.portId}</p>
           <p><strong>Location:</strong> {formData.portLocation || port?.location}</p>
           <p><strong>Date:</strong> {formData.bookingDate}</p>
           <p><strong>Time Slot:</strong> {formData.timeSlot}</p>
+
+          {/* Charger Type removed from summary */}
+
           {realBookingId && (
             <p className="mt-2 text-green-700 font-semibold">Booking ID: {realBookingId}</p>
           )}
@@ -111,16 +138,23 @@ export default function PortBookingPage() {
 
             <div>
               <label className="block mb-1 font-medium">Charger Type</label>
-              <select
-                name="chargerType"
-                value={formData.chargerType}
-                onChange={handleChange}
-                className="w-full border rounded px-3 py-2"
-                required
-              >
-                <option value="normal">Normal (kW)</option>
-                <option value="fast">Fast (20kW)</option>
-              </select>
+              {port?.chargerOptions?.length > 0 ? (
+                <select
+                  name="chargerType"
+                  value={formData.chargerType}
+                  onChange={handleChange}
+                  className="w-full border rounded px-3 py-2"
+                  required
+                >
+                  {port.chargerOptions.map((option) => (
+                    <option key={option.type} value={option.type}>
+                      {option.type} ({option.speed} kW)
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <p>No charger options available</p>
+              )}
             </div>
 
             <div>

@@ -44,6 +44,16 @@ export async function getPorts(req, res) {
     }
 }
 
+export async function getPortById(req, res) {
+    try {
+        const port = await Port.findOne({ portId: req.params.id });
+        if (!port) return res.status(404).json({ message: "Port not found" });
+        res.status(200).json(port);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to retrieve port" });
+    }
+}
+
 export async function deletePort(req, res) {
   try {
     if (req.user == null) {
