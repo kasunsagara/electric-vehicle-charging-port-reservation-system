@@ -1,7 +1,30 @@
+// src/pages/PortBookingPage.jsx
 import { useState, useEffect } from "react";  
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
-import ChargingEstimates from "../components/chargingEstimates";
+import ChargingEstimates from "../components/ChargingEstimates";
+
+// Battery capacities per vehicle model (kWh)
+const batteryCapacityMap = {
+  "Tata Nexon EV": 30,
+  "MG ZS EV": 44,
+  "Hyundai Kona Electric": 39.2,
+  "BYD Atto 3": 50,
+  "Nissan Leaf": 40,
+  "Revolt RV400": 3.24,
+  "Hero Electric Optima": 1.6,
+  "Ather 450X": 2.9,
+  "Okinawa i-Praise": 2.0,
+  "Tata Winger EV": 26,
+  "Mahindra eSupro": 25,
+  "Piaggio Ape Electric": 8,
+};
+
+// Format hour to "HH:00"
+const formatHour = (hour) => {
+  const h = hour % 24;
+  return `${h.toString().padStart(2, "0")}:00`;
+};
 
 export default function PortBookingPage() {
   const { portId } = useParams();
@@ -27,6 +50,7 @@ export default function PortBookingPage() {
 
   const [realBookingId, setRealBookingId] = useState(null);
   const [showEstimates, setShowEstimates] = useState(false);
+  const [finalTimeSlot, setFinalTimeSlot] = useState(timeSlot || "");
 
   const vehicleModels = {
     Car: ["Tata Nexon EV","MG ZS EV","Hyundai Kona Electric","BYD Atto 3","Nissan Leaf"],
@@ -64,6 +88,22 @@ export default function PortBookingPage() {
   const handleCalculateEstimates = (e) => {
     e.preventDefault();
     setShowEstimates(true);
+
+    const charger = port.chargerOptions.find(c => c.type === formData.chargerType);
+    const batteryCapacity = batteryCapacityMap[formData.vehicleModel] || 0;
+    let chargingTime = batteryCapacity / (charger?.speed || 1);
+    chargingTime = parseFloat(chargingTime.toFixed(2)); // 2 decimal places
+
+    if (formData.timeSlot) {
+      const [startStr, endStr] = formData.timeSlot.split("-").map(s => parseInt(s, 10));
+      const displayChargingTime = Math.max(0, chargingTime - 1); // 1 hour අඩු කරලා display
+      const newEnd = startStr + Math.round(chargingTime); // real end time for booking
+
+      // Format: 09:00-10:00 + 2.00 hours = 09:00-12:00
+      setFinalTimeSlot(
+        `${formatHour(startStr)}-${formatHour(endStr)} + ${displayChargingTime.toFixed(2)} hours = ${formatHour(startStr)}-${formatHour(newEnd)}`
+      );
+    }
   };
 
   const handleConfirmBooking = async () => {
@@ -71,14 +111,28 @@ export default function PortBookingPage() {
       const token = localStorage.getItem("token");
       if (!token) { alert("You must be logged in to book a port."); return; }
 
+      const charger = port.chargerOptions.find(c => c.type === formData.chargerType);
+      const batteryCapacity = batteryCapacityMap[formData.vehicleModel] || 0;
+      let chargingTime = batteryCapacity / (charger?.speed || 1);
+      chargingTime = parseFloat(chargingTime.toFixed(2));
+
+      const [startStr] = formData.timeSlot.split("-").map(s => parseInt(s, 10));
+      const newEnd = startStr + Math.round(chargingTime);
+      const bookingTimeSlot = `${formatHour(startStr)}-${formatHour(newEnd)}`;
+
       const data = new FormData();
-      Object.entries(formData).forEach(([key, value]) => data.append(key, value));
+      const finalFormData = { ...formData, timeSlot: bookingTimeSlot };
+      Object.entries(finalFormData).forEach(([key, value]) => data.append(key, value));
 
       const res = await axios.post("http://localhost:5000/api/bookings", data, {
         headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` }
       });
 
       setRealBookingId(res.data.booking.bookingId);
+      // Display charging time minus 1 hour
+      setFinalTimeSlot(
+        `${formatHour(startStr)}-${formatHour(startStr + 1)} + ${Math.max(0, chargingTime - 1).toFixed(2)} hours = ${formatHour(startStr)}-${formatHour(newEnd)}`
+      );
       alert(`Booking confirmed! Your Booking ID: ${res.data.booking.bookingId}`);
     } catch (error) {
       console.error(error);
@@ -117,7 +171,7 @@ export default function PortBookingPage() {
             </div>
             <div className="flex justify-between">
               <span>Time Slot:</span>
-              <span>{formData.timeSlot}</span>
+              <span>{finalTimeSlot}</span>
             </div>
             {realBookingId && (
               <div className="mt-4 p-3 bg-white/20 text-center text-green-100">
@@ -135,10 +189,10 @@ export default function PortBookingPage() {
             <div>
               <label>Vehicle Type</label>
               <select 
-              name="vehicleType" 
-              value={formData.vehicleType} 
-              onChange={handleChange} 
-              className="w-full border rounded px-3 py-2"
+                name="vehicleType" 
+                value={formData.vehicleType} 
+                onChange={handleChange} 
+                className="w-full border rounded px-3 py-2"
               >
                 <option value="Car">Car</option>
                 <option value="Bike">Bike</option>
@@ -149,14 +203,16 @@ export default function PortBookingPage() {
             <div>
               <label>Vehicle Model</label>
               <select 
-              name="vehicleModel" 
-              value={formData.vehicleModel} 
-              onChange={handleChange} 
-              className="w-full border rounded px-3 py-2" 
-              required
+                name="vehicleModel" 
+                value={formData.vehicleModel} 
+                onChange={handleChange} 
+                className="w-full border rounded px-3 py-2" 
+                required
               >
                 <option value="">Select Model</option>
-                {vehicleModels[formData.vehicleType].map(model => <option key={model} value={model}>{model}</option>)}
+                {vehicleModels[formData.vehicleType].map(model => (
+                  <option key={model} value={model}>{model}</option>
+                ))}
               </select>
             </div>
 
@@ -164,13 +220,17 @@ export default function PortBookingPage() {
               <label>Charger Type</label>
               {port?.chargerOptions?.length > 0 ? (
                 <select 
-                name="chargerType" 
-                value={formData.chargerType} 
-                onChange={handleChange} 
-                className="w-full border rounded px-3 py-2" 
-                required
+                  name="chargerType" 
+                  value={formData.chargerType} 
+                  onChange={handleChange} 
+                  className="w-full border rounded px-3 py-2" 
+                  required
                 >
-                  {port.chargerOptions.map(option => <option key={option.type} value={option.type}>{option.type} ({option.speed} kW)</option>)}
+                  {port.chargerOptions.map(option => (
+                    <option key={option.type} value={option.type}>
+                      {option.type} ({option.speed} kW)
+                    </option>
+                  ))}
                 </select>
               ) : <p>No charger options available</p>}
             </div>
@@ -181,20 +241,22 @@ export default function PortBookingPage() {
                 <label className="bg-gray-100 text-black px-3 py-1 rounded border border-black cursor-pointer hover:bg-gray-200">
                   Choose File
                   <input 
-                  type="file" 
-                  name="carPhoto" 
-                  accept="image/*" 
-                  onChange={handleChange} 
-                  className="hidden" 
+                    type="file" 
+                    name="carPhoto" 
+                    accept="image/*" 
+                    onChange={handleChange} 
+                    className="hidden" 
                   />
                 </label>
-                <span className="flex-1 text-gray-600 truncate ml-2">{formData.carPhoto ? formData.carPhoto.name : "No file chosen"}</span>
+                <span className="flex-1 text-gray-600 truncate ml-2">
+                  {formData.carPhoto ? formData.carPhoto.name : "No file chosen"}
+                </span>
               </div>
             </div>
 
             <button 
-            type="submit" 
-            className="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">
+              type="submit" 
+              className="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">
               Calculate Estimates
             </button>
           </form>
@@ -202,13 +264,13 @@ export default function PortBookingPage() {
           {showEstimates && (
             <div className="mt-4">
               <ChargingEstimates 
-              chargerType={formData.chargerType} 
-              vehicleModel={formData.vehicleModel} 
-              port={port} 
+                chargerType={formData.chargerType} 
+                vehicleModel={formData.vehicleModel} 
+                port={port} 
               />
               <button 
-              onClick={handleConfirmBooking} 
-              className="mt-3 w-full bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">
+                onClick={handleConfirmBooking} 
+                className="mt-3 w-full bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">
                 Confirm Booking
               </button>
             </div>
