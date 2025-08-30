@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect } from "react";  
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
+import ChargingEstimates from "../components/chargingEstimates"; // adjust path
 
 export default function PortBookingPage() {
   const { portId } = useParams();
@@ -17,7 +18,7 @@ export default function PortBookingPage() {
     portId: portId,
     vehicleType: "Car",
     vehicleModel: "",
-    chargerType: "", // will set dynamically
+    chargerType: "", 
     carPhoto: null,
     bookingDate: bookingDate || "",
     timeSlot: timeSlot || "",
@@ -25,19 +26,21 @@ export default function PortBookingPage() {
   });
 
   const [realBookingId, setRealBookingId] = useState(null);
+  const [showEstimates, setShowEstimates] = useState(false);
 
-  // Fetch port details
+  // Sri Lanka EV Models by type
+  const vehicleModels = {
+    Car: ["Tata Nexon EV","MG ZS EV","Hyundai Kona Electric","BYD Atto 3","Nissan Leaf"],
+    Bike: ["Revolt RV400","Hero Electric Optima","Ather 450X","Okinawa i-Praise"],
+    Van: ["Tata Winger EV","Mahindra eSupro","Piaggio Ape Electric"]
+  };
+
   useEffect(() => {
-    console.log("Fetching port:", portId);
     axios.get(`http://localhost:5000/api/ports/${portId}`)
       .then(res => {
-        console.log("Port data:", res.data);
         setPort(res.data);
         if (res.data.chargerOptions?.length > 0) {
-          setFormData(prev => ({
-            ...prev,
-            chargerType: res.data.chargerOptions[0].type
-          }));
+          setFormData(prev => ({ ...prev, chargerType: res.data.chargerOptions[0].type }));
         }
         setLoading(false);
       })
@@ -53,11 +56,16 @@ export default function PortBookingPage() {
       setFormData({ ...formData, carPhoto: files[0] });
     } else {
       setFormData({ ...formData, [name]: value });
+      if (name === "vehicleType") {
+        setFormData(prev => ({ ...prev, vehicleModel: "" }));
+      }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowEstimates(true); // Show estimates after click
+
     try {
       const data = new FormData();
       Object.entries(formData).forEach(([key, value]) => data.append(key, value));
@@ -66,12 +74,29 @@ export default function PortBookingPage() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      const bookingIdFromBackend = response.data.booking.bookingId;
-      setRealBookingId(bookingIdFromBackend);
-      alert(`Booking successful! Your Booking ID: ${bookingIdFromBackend}`);
+      setRealBookingId(response.data.booking.bookingId);
+      alert(`Booking successful! Your Booking ID: ${response.data.booking.bookingId}`);
     } catch (error) {
       console.error(error);
       alert("Booking failed!");
+    }
+  };
+
+  const handleConfirmBooking = async () => {
+    try {
+      const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => data.append(key, value));
+
+      const response = await axios.post(
+        "http://localhost:5000/api/bookings/confirm",
+        data,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      alert(`Booking confirmed! Your Booking ID: ${response.data.booking.bookingId}`);
+    } catch (error) {
+      console.error(error);
+      alert("Booking confirmation failed!");
     }
   };
 
@@ -84,30 +109,44 @@ export default function PortBookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-teal-50 flex justify-center items-start py-10 px-6">
+    <div className="min-h-screen bg-green-100 flex justify-center items-start py-10 px-6">
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
 
         {/* Booking Summary */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-4">Booking Summary</h2>
-          <p><strong>Port Id:</strong> {formData.portId}</p>
-          <p><strong>Location:</strong> {formData.portLocation || port?.location}</p>
-          <p><strong>Date:</strong> {formData.bookingDate}</p>
-          <p><strong>Time Slot:</strong> {formData.timeSlot}</p>
+        <div className="bg-teal-50 text-gray-800 p-6 rounded-2xl shadow-sm h-[400px] overflow-y-auto">
+          <h2 className="text-2xl font-bold mb-4 border-b border-white/50 pb-2">Booking Summary</h2>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Port Id:</span>
+              <span className="font-semibold">{formData.portId}</span>
+            </div>
 
-          {/* Charger Type removed from summary */}
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Location:</span>
+              <span className="font-semibold">{formData.portLocation || port?.location}</span>
+            </div>
 
-          {realBookingId && (
-            <p className="mt-2 text-green-700 font-semibold">Booking ID: {realBookingId}</p>
-          )}
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Date:</span>
+              <span className="font-semibold">{formData.bookingDate}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="font-medium">Time Slot:</span>
+              <span className="font-semibold">{formData.timeSlot}</span>
+            </div>
+
+            {realBookingId && (
+              <div className="mt-4 p-3 bg-white/20 rounded-lg text-center font-semibold text-green-100">
+                Booking ID: {realBookingId}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Booking Form */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-semibold mb-2">Book Charging Port</h2>
-          <p className="text-gray-500 mb-4">
-            Enter your vehicle details to get a charging estimate.
-          </p>
+        <div className="bg-teal-50 p-6 rounded-2xl shadow-sm">
+          <h2 className="text-2xl font-semibold mb-4 border-b border-white/50 pb-2">Book Charging Port</h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -126,14 +165,18 @@ export default function PortBookingPage() {
 
             <div>
               <label className="block mb-1 font-medium">Vehicle Model</label>
-              <input
-                type="text"
+              <select
                 name="vehicleModel"
-                placeholder="Ex: Tata Nexon EV"
                 value={formData.vehicleModel}
                 onChange={handleChange}
                 className="w-full border rounded px-3 py-2"
-              />
+                required
+              >
+                <option value="">Select Model</option>
+                {vehicleModels[formData.vehicleType].map((model) => (
+                  <option key={model} value={model}>{model}</option>
+                ))}
+              </select>
             </div>
 
             <div>
@@ -159,22 +202,48 @@ export default function PortBookingPage() {
 
             <div>
               <label className="block mb-1 font-medium">Car Photo (Optional)</label>
-              <input
-                type="file"
-                name="carPhoto"
-                accept="image/*"
-                onChange={handleChange}
-                className="w-full"
-              />
+              <div className="flex items-center border rounded px-3 py-2">
+                <label className="bg-gray-100 text-black px-3 py-1 rounded border border-black cursor-pointer hover:bg-gray-200">
+                  Choose File
+                  <input
+                    type="file"
+                    name="carPhoto"
+                    accept="image/*"
+                    onChange={handleChange}
+                    className="hidden"
+                  />
+                </label>
+                <span className="flex-1 text-gray-600 truncate ml-2">
+                  {formData.carPhoto ? formData.carPhoto.name : "No file chosen"}
+                </span>
+              </div>
             </div>
 
             <button
               type="submit"
-              className="bg-teal-700 text-white px-6 py-2 rounded hover:bg-teal-800"
+              className="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700"
             >
               Calculate Estimates
             </button>
           </form>
+
+          {/* Charging Estimates + Confirm Button */}
+          {showEstimates && (
+            <div className="mt-4">
+              <ChargingEstimates
+                chargerType={formData.chargerType}
+                vehicleModel={formData.vehicleModel}
+                port={port}
+              />
+
+              <button
+                onClick={handleConfirmBooking}
+                className="mt-3 w-full bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700"
+              >
+                Confirm Booking
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
