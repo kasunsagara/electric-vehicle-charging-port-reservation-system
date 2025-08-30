@@ -5,7 +5,6 @@ const bookingRouter = express.Router();
 
 // Use multer middleware for handling file upload
 bookingRouter.post("/", upload.single("carPhoto"), createBooking);
-
 bookingRouter.get("/", getBookings);
 bookingRouter.delete("/:bookingId", cancelBooking);
 
