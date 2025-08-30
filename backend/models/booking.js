@@ -47,11 +47,6 @@ const bookingSchema = mongoose.Schema({
   },
   estimatedCost: {                     
     type: Number
-  },
-  paymentStatus: {                    
-    type: String,
-    enum: ["pending", "paid"],
-    default: "pending"
   }
 });
 

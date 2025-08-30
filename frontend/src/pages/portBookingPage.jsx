@@ -62,37 +62,25 @@ export default function PortBookingPage() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  // Only show estimates, don't send booking yet
+  const handleCalculateEstimates = (e) => {
     e.preventDefault();
-    setShowEstimates(true); // Show estimates after click
-
-    try {
-      const data = new FormData();
-      Object.entries(formData).forEach(([key, value]) => data.append(key, value));
-
-      const response = await axios.post("http://localhost:5000/api/bookings", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      setRealBookingId(response.data.booking.bookingId);
-      alert(`Booking successful! Your Booking ID: ${response.data.booking.bookingId}`);
-    } catch (error) {
-      console.error(error);
-      alert("Booking failed!");
-    }
+    setShowEstimates(true);
   };
 
+  // Send booking request on confirm
   const handleConfirmBooking = async () => {
     try {
       const data = new FormData();
       Object.entries(formData).forEach(([key, value]) => data.append(key, value));
 
       const response = await axios.post(
-        "http://localhost:5000/api/bookings/confirm",
+        "http://localhost:5000/api/bookings",
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
+      setRealBookingId(response.data.booking.bookingId);
       alert(`Booking confirmed! Your Booking ID: ${response.data.booking.bookingId}`);
     } catch (error) {
       console.error(error);
@@ -148,7 +136,7 @@ export default function PortBookingPage() {
         <div className="bg-teal-50 p-6 rounded-2xl shadow-sm">
           <h2 className="text-2xl font-semibold mb-4 border-b border-white/50 pb-2">Book Charging Port</h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleCalculateEstimates} className="space-y-4">
             <div>
               <label className="block mb-1 font-medium">Vehicle Type</label>
               <select

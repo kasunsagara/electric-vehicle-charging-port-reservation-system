@@ -48,8 +48,7 @@ export async function createBooking(req, res) {
       chargerType,
       carPhoto,
       bookingDate,
-      timeSlot,
-      paymentStatus: "pending"
+      timeSlot
     });
 
     await newBooking.save();
@@ -77,5 +76,35 @@ export async function getBookings(req, res) {
   } catch (error) {
     console.error("Error fetching bookings:", error);
     res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function cancelBooking(req, res) {
+  try {
+    // check role
+    if (!req.user || req.user.role !== "customer") {
+      return res
+        .status(403)
+        .json({ message: "Please login as customer to cancel booking" });
+    }
+
+    const { bookingId } = req.params; // bookingId from URL
+
+    if (!bookingId) {
+      return res.status(400).json({ message: "Missing booking ID" });
+    }
+
+    const booking = await Booking.findOne({ bookingId });
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // delete booking
+    await Booking.deleteOne({ bookingId });
+
+    return res.status(200).json({ message: "Booking cancelled successfully" });
+  } catch (error) {
+    console.error("Error cancelling booking:", error);
+    return res.status(500).json({ message: "Server error" });
   }
 }
