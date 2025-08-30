@@ -20,6 +20,8 @@ export default function PortStatusPage() {
   const [userLocation, setUserLocation] = useState({ lat: 8.5874, lng: 81.2152 }); // Default Trinco Town
   const [ports, setPorts] = useState([]);
   const [view, setView] = useState("list");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
 
   // get user location
   useEffect(() => {
@@ -60,8 +62,10 @@ export default function PortStatusPage() {
   }, [userLocation]);
 
   const handleBooking = (portId, status) => {
-    if (status === "available") {
-      window.location.href = `/booking/${portId}`;
+    if (status === "available" && selectedDate && selectedTime) {
+      window.location.href = `/port-booking/${portId}?date=${selectedDate}&timeSlot=${selectedTime}`;
+    } else if (!selectedDate || !selectedTime) {
+      alert("Please select date and time slot first.");
     }
   };
 
@@ -76,13 +80,28 @@ export default function PortStatusPage() {
         <div className="flex space-x-2 mt-4 md:mt-0">
           <input
             type="date"
-            defaultValue="2025-08-29"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
             className="border rounded px-3 py-2"
           />
-          <select className="border rounded px-3 py-2">
+          <select
+            value={selectedTime}
+            onChange={(e) => setSelectedTime(e.target.value)}
+            className="border rounded px-3 py-2"
+          >
+            <option value="">Select Time</option>
             <option>08:00-09:00</option>
             <option>09:00-10:00</option>
             <option>10:00-11:00</option>
+            <option>11:00-12:00</option>
+            <option>12:00-13:00</option>
+            <option>13:00-14:00</option>
+            <option>14:00-15:00</option>
+            <option>15:00-16:00</option>
+            <option>16:00-17:00</option>
+            <option>17:00-18:00</option>
+            <option>18:00-19:00</option>
+            <option>19:00-20:00</option>
           </select>
         </div>
       </div>
