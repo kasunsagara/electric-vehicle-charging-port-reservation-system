@@ -15,13 +15,13 @@ export default function Header() {
       <div className="flex space-x-6">
         <Link
           to="/login"
-          className="text-teal-700 text-xl font-medium border-3 border-teal-700 px-4 py-2 rounded-md hover:bg-teal-700 hover:text-white"
+          className="text-teal-700 text-xl font-medium border-2 border-teal-700 px-4 py-2 rounded-md hover:bg-teal-700 hover:text-white"
         >
           Login
         </Link>
         <Link
           to="/signup"
-          className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-3 border-teal-700"
+          className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-2 border-teal-700"
         >
           Sign Up
         </Link>

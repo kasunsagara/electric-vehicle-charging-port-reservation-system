@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate(); // 👉 navigation hook
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,25 +19,23 @@ export default function LoginPage() {
     console.log("Login Data:", formData);
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await axios.post("http://localhost:5000/api/users/login", formData);
 
-      const data = await res.json();
-      if (res.ok) {
+      if (res.status === 200) {
         alert("Login successful 🎉");
-        // 👉 save token to localStorage
-        localStorage.setItem("token", data.token);
-      } else {
-        alert(data.message || "Login failed ❌");
+        // 👉 save token
+        localStorage.setItem("token", res.data.token);
+
+        // 👉 redirect to port-status page
+        navigate("/port-status");
       }
     } catch (error) {
       console.error(error);
-      alert("Something went wrong!");
+      if (error.response) {
+        alert(error.response.data.message || "Login failed ❌");
+      } else {
+        alert("Something went wrong!");
+      }
     }
   };
 
@@ -92,6 +94,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-};
-
-
+}

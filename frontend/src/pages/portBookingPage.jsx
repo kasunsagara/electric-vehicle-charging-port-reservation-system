@@ -84,7 +84,7 @@ export default function PortBookingPage() {
       alert(`Booking confirmed! Your Booking ID: ${response.data.booking.bookingId}`);
     } catch (error) {
       console.error(error);
-      alert("Booking confirmation failed!");
+      alert("Booking confirmation failed!" + error);
     }
   };
 

@@ -65,14 +65,23 @@ export async function createBooking(req, res) {
 }
 
 export async function getBookings(req, res) {
-  if (req.user.role !== "admin") {
-    res.status(403).json({ message: "Please login as admin to view all bookings" });
-    return;
-  }
-
   try {
-    const bookings = await Booking.find();
-    res.status(200).json({ message: "Bookings fetched successfully", bookings });
+    let bookings;
+
+    if (req.user.role === "admin") {
+      // Admin sees all bookings
+      bookings = await Booking.find();
+    } else if (req.user.role === "customer") {
+      // Customers see only their own bookings (based on email or userId)
+      bookings = await Booking.find({ email: req.user.email });
+    } else {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
+
+    res.status(200).json({
+      message: "Bookings fetched successfully",
+      bookings,
+    });
   } catch (error) {
     console.error("Error fetching bookings:", error);
     res.status(500).json({ message: "Server error" });

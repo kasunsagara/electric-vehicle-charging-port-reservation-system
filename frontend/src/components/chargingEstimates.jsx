@@ -30,8 +30,8 @@ export default function ChargingEstimates({ chargerType, vehicleModel, port }) {
   const estimatedCost = chargingTime * UNIT_RATE; // Rs
 
   return (
-    <div className="bg-teal-50 text-gray-800 p-6 rounded-2xl border border-gray-300 mt-6">
-      <h2 className="text-2xl font-bold mb-4 border-b border-white/50 pb-2">Charging Estimates</h2>
+    <div className="bg-teal-50 text-gray-800 p-6 rounded-2xl border border-gray-400 mt-6">
+      <h2 className="text-2xl font-bold mb-4 pb-2">Charging Estimates</h2>
       <div className="space-y-3">
         <div className="flex justify-between items-center">
           <span className="font-medium">Battery Capacity:</span>

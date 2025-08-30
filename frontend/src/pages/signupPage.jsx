@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";  // 👈 add this
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -7,6 +9,8 @@ export default function SignUpPage() {
     password: "",
     phone: "",
   });
+
+  const navigate = useNavigate();  // 👈 initialize navigate
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,23 +21,22 @@ export default function SignUpPage() {
     console.log("Form Data:", formData);
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...formData, role: "customer" }), // role default
+      const res = await axios.post("http://localhost:5000/api/users", {
+        ...formData,
+        role: "customer",
       });
 
-      const data = await res.json();
-      if (res.ok) {
+      if (res.status === 201 || res.status === 200) {
         alert("Signup successful 🎉");
-      } else {
-        alert(data.message || "Signup failed ❌");
+        navigate("/login");   // 👈 redirect to login page
       }
     } catch (error) {
-      console.error(error);
-      alert("Something went wrong!");
+      if (error.response) {
+        alert(error.response.data.message || "Signup failed ❌");
+      } else {
+        alert("Something went wrong!");
+      }
+      console.error("Signup Error:", error);
     }
   };
 
@@ -86,7 +89,7 @@ export default function SignUpPage() {
               className="w-full border rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
-          </div>          
+          </div>
 
           {/* Phone */}
           <div>
@@ -112,7 +115,6 @@ export default function SignUpPage() {
           </button>
         </form>
 
-        {/* Login Link */}
         <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
           <a href="/login" className="text-teal-700 hover:underline">
@@ -122,6 +124,4 @@ export default function SignUpPage() {
       </div>
     </div>
   );
-};
-
-
+}

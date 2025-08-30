@@ -75,6 +75,12 @@ export async function loginUser(req, res) {
     }
 }
 
+export async function logoutUser(req, res) {
+    res.status(200).json({
+        message: "Logout successful"
+    });
+}
+
 export async function getUsers(req, res) {
     if(req.user.role != 'admin') {
             res.status(403).json({
