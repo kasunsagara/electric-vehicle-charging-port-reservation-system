@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import ChargingEstimates from "../components/ChargingEstimates";
+import toast from "react-hot-toast"; // ✅ added toast
 
 // Battery capacities per vehicle model (kWh)
 const batteryCapacityMap = {
@@ -69,6 +70,7 @@ export default function PortBookingPage() {
       })
       .catch(err => {
         console.error(err);
+        toast.error("Failed to load port details!");
         setLoading(false);
       });
   }, [portId]);
@@ -109,7 +111,10 @@ export default function PortBookingPage() {
   const handleConfirmBooking = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) { alert("You must be logged in to book a port."); return; }
+      if (!token) { 
+        toast.error("You must be logged in to book a port."); 
+        return; 
+      }
 
       const charger = port.chargerOptions.find(c => c.type === formData.chargerType);
       const batteryCapacity = batteryCapacityMap[formData.vehicleModel] || 0;
@@ -133,11 +138,12 @@ export default function PortBookingPage() {
       setFinalTimeSlot(
         `${formatHour(startStr)}-${formatHour(startStr + 1)} + ${Math.max(0, chargingTime - 1).toFixed(2)} hours = ${formatHour(startStr)}-${formatHour(newEnd)}`
       );
-      alert(`Booking confirmed! Your Booking ID: ${res.data.booking.bookingId}`);
+
+      toast.success(`Booking confirmed! Your Booking ID: ${res.data.booking.bookingId}`);
     } catch (error) {
       console.error(error);
-      if (error.response) alert(error.response.data.message || "Booking failed!");
-      else alert("Booking failed! Check console.");
+      if (error.response) toast.error(error.response.data.message || "Booking failed!");
+      else toast.error("Booking failed! Check console.");
     }
   };
 

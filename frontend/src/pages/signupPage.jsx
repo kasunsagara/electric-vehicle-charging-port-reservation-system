@@ -1,6 +1,8 @@
+// src/pages/SignUpPage.jsx
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";  // 👈 add this
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast"; // 👈 import toast
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -10,7 +12,7 @@ export default function SignUpPage() {
     phone: "",
   });
 
-  const navigate = useNavigate();  // 👈 initialize navigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,14 +29,14 @@ export default function SignUpPage() {
       });
 
       if (res.status === 201 || res.status === 200) {
-        alert("Signup successful 🎉");
-        navigate("/login");   // 👈 redirect to login page
+        toast.success("Signup successful 🎉"); // ✅ toast success
+        navigate("/login");
       }
     } catch (error) {
       if (error.response) {
-        alert(error.response.data.message || "Signup failed ❌");
+        toast.error(error.response.data.message || "Signup failed ❌"); // ✅ toast error
       } else {
-        alert("Something went wrong!");
+        toast.error("Something went wrong! ❌"); // ✅ toast error
       }
       console.error("Signup Error:", error);
     }
@@ -48,9 +50,7 @@ export default function SignUpPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Name
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
             <input
               type="text"
               name="name"
@@ -63,9 +63,7 @@ export default function SignUpPage() {
 
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input
               type="email"
               name="email"
@@ -78,9 +76,7 @@ export default function SignUpPage() {
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <input
               type="password"
               name="password"
@@ -93,9 +89,7 @@ export default function SignUpPage() {
 
           {/* Phone */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Phone
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
             <input
               type="text"
               name="phone"

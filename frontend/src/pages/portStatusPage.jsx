@@ -1,7 +1,9 @@
+// src/pages/PortStatusPage.jsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { toast } from "react-hot-toast";
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
@@ -21,7 +23,7 @@ export default function PortStatusPage() {
   const [userLocation, setUserLocation] = useState({ lat: 8.5874, lng: 81.2152 });
   const [ports, setPorts] = useState([]);
   const [view, setView] = useState("list");
-  const [selectedDate, setSelectedDate] = useState(today); // default today
+  const [selectedDate, setSelectedDate] = useState(today);
   const [selectedTime, setSelectedTime] = useState("");
 
   useEffect(() => {
@@ -60,7 +62,7 @@ export default function PortStatusPage() {
       const encodedLocation = encodeURIComponent(location);
       window.location.href = `/port-booking/${portId}?date=${selectedDate}&timeSlot=${selectedTime}&location=${encodedLocation}`;
     } else {
-      alert("Please select date and time slot first.");
+      toast.error("Please select date and time slot first.");
     }
   };
 
@@ -72,7 +74,7 @@ export default function PortStatusPage() {
           <input
             type="date"
             value={selectedDate}
-            min={today} // cannot select past dates
+            min={today}
             onChange={(e) => setSelectedDate(e.target.value)}
             className="border rounded px-3 py-2"
           />
