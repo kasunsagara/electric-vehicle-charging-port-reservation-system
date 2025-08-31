@@ -6,12 +6,14 @@ import LoginPage from './pages/loginPage.jsx'
 import AdminHomePage from './pages/adminHomePage.jsx'
 import PortStatusPage from './pages/portStatusPage.jsx'
 import PortBookingPage from './pages/portBookingPage.jsx'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
 
   return (
     <>
     <BrowserRouter>
+    <Toaster position="top-right" />
       <Routes path="/*">
       <Route path="/" element={<HomePage />} />
       <Route path="/signup" element={<SignUpPage />} />
