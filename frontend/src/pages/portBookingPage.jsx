@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import ChargingEstimates from "../components/ChargingEstimates";
-import toast from "react-hot-toast"; // ✅ added toast
+import toast from "react-hot-toast";
 
 // Battery capacities per vehicle model (kWh)
 const batteryCapacityMap = {
@@ -27,7 +27,7 @@ export default function PortBookingPage() {
   const queryParams = new URLSearchParams(location.search);
 
   const bookingDate = queryParams.get("date");
-  const timeSlot = queryParams.get("timeSlot");
+  const bookingTime = queryParams.get("bookingTime");
   const locationFromQuery = queryParams.get("location");
 
   const [port, setPort] = useState(null);
@@ -39,13 +39,13 @@ export default function PortBookingPage() {
     chargerType: "", 
     carPhoto: null,
     bookingDate: bookingDate || "",
-    timeSlot: timeSlot || "",   // ✅ from PortStatusPage
+    bookingTime: bookingTime || "",
     portLocation: locationFromQuery || "",
   });
 
   const [realBookingId, setRealBookingId] = useState(null);
   const [showEstimates, setShowEstimates] = useState(false);
-  const [finalTimeSlot, setFinalTimeSlot] = useState(timeSlot || ""); // used for estimates only
+  const [finalbookingTime, setFinalbookingTime] = useState(bookingTime || "");
 
   const vehicleModels = {
     Car: ["Tata Nexon EV","MG ZS EV","Hyundai Kona Electric","BYD Atto 3","Nissan Leaf"],
@@ -84,16 +84,8 @@ export default function PortBookingPage() {
   const handleCalculateEstimates = (e) => {
     e.preventDefault();
     setShowEstimates(true);
-
-    const charger = port.chargerOptions.find(c => c.type === formData.chargerType);
-    const batteryCapacity = batteryCapacityMap[formData.vehicleModel] || 0;
-    let chargingTime = batteryCapacity / (charger?.speed || 1);
-    chargingTime = parseFloat(chargingTime.toFixed(2));
-
-    // ✅ Save only for showing in estimates (not summary)
-    if (formData.timeSlot) {
-      setFinalTimeSlot(`${formData.timeSlot} (+ ~${Math.max(0, chargingTime - 1).toFixed(2)} hrs extra)`);
-    }
+    // Just show the booking time as-is
+    setFinalbookingTime(formData.bookingTime);
   };
 
   const handleConfirmBooking = async () => {
@@ -104,23 +96,15 @@ export default function PortBookingPage() {
         return; 
       }
 
-      const charger = port.chargerOptions.find(c => c.type === formData.chargerType);
-      const batteryCapacity = batteryCapacityMap[formData.vehicleModel] || 0;
-      let chargingTime = batteryCapacity / (charger?.speed || 1);
-      chargingTime = parseFloat(chargingTime.toFixed(2));
-
-      const bookingTimeSlot = formData.timeSlot;
-
       const data = new FormData();
-      const finalFormData = { ...formData, timeSlot: bookingTimeSlot };
-      Object.entries(finalFormData).forEach(([key, value]) => data.append(key, value));
+      Object.entries(formData).forEach(([key, value]) => data.append(key, value));
 
       const res = await axios.post("http://localhost:5000/api/bookings", data, {
         headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` }
       });
 
       setRealBookingId(res.data.booking.bookingId);
-      setFinalTimeSlot(`${bookingTimeSlot} (+ ~${Math.max(0, chargingTime - 1).toFixed(2)} hrs extra)`);
+      setFinalbookingTime(formData.bookingTime);
 
       toast.success(`Booking confirmed! Your Booking ID: ${res.data.booking.bookingId}`);
     } catch (error) {
@@ -159,9 +143,8 @@ export default function PortBookingPage() {
               <span>{formData.bookingDate}</span>
             </div>
             <div className="flex justify-between">
-              <span>Time Slot:</span>
-              {/* ✅ Show clean time slot only */}
-              <span>{formData.timeSlot}</span>
+              <span>Time:</span>
+              <span>{finalbookingTime || formData.bookingTime}</span>
             </div>
             {realBookingId && (
               <div className="mt-4 p-3 bg-white/20 text-center text-green-100">
@@ -258,9 +241,6 @@ export default function PortBookingPage() {
                 vehicleModel={formData.vehicleModel} 
                 port={port} 
               />
-              <p className="mt-2 text-sm text-gray-700">
-                Estimated Time Slot: <strong>{finalTimeSlot}</strong>
-              </p>
               <button 
                 onClick={handleConfirmBooking} 
                 className="mt-3 w-full bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">

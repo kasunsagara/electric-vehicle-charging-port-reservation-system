@@ -15,10 +15,10 @@ export async function createBooking(req, res) {
     return;
   }
 
-    const { portId, vehicleType, vehicleModel, chargerType, bookingDate, timeSlot } = req.body;
+    const { portId, vehicleType, vehicleModel, chargerType, bookingDate, bookingTime } = req.body;
     const carPhoto = req.file; // optional
 
-    if (!portId || !bookingDate || !timeSlot || !chargerType) {
+    if (!portId || !bookingDate || !bookingTime || !chargerType) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -40,7 +40,7 @@ export async function createBooking(req, res) {
       return res.status(404).json({ message: "Port not found" });
     }
 
-    const existingBooking = await Booking.findOne({ portId, bookingDate, timeSlot });
+    const existingBooking = await Booking.findOne({ portId, bookingDate, bookingTime });
     if (existingBooking) {
       return res.status(400).json({ message: "Port already booked for this time slot" });
     }
@@ -54,7 +54,7 @@ export async function createBooking(req, res) {
       chargerType,
       carPhoto: carPhoto ? carPhoto.buffer : null,
       bookingDate,
-      timeSlot
+      bookingTime
     });
 
     await newBooking.save();

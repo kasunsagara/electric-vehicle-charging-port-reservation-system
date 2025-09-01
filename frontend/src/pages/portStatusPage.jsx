@@ -60,7 +60,7 @@ export default function PortStatusPage() {
   const handleBooking = (portId, location, status) => {
     if (status === "available" && selectedDate && selectedTime) {
       const encodedLocation = encodeURIComponent(location);
-      window.location.href = `/port-booking/${portId}?date=${selectedDate}&timeSlot=${selectedTime}&location=${encodedLocation}`;
+      window.location.href = `/port-booking/${portId}?date=${selectedDate}&bookingTime=${selectedTime}&location=${encodedLocation}`;
     } else {
       toast.error("Please select date and time slot first.");
     }
@@ -84,18 +84,9 @@ export default function PortStatusPage() {
             className="border rounded px-3 py-2"
           >
             <option value="">Select Time</option>
-            <option>08:00-09:00</option>
-            <option>09:00-10:00</option>
-            <option>10:00-11:00</option>
-            <option>11:00-12:00</option>
-            <option>12:00-13:00</option>
-            <option>13:00-14:00</option>
-            <option>14:00-15:00</option>
-            <option>15:00-16:00</option>
-            <option>16:00-17:00</option>
-            <option>17:00-18:00</option>
-            <option>18:00-19:00</option>
-            <option>19:00-20:00</option>
+            <option>08:00</option>
+            <option>13:00</option>
+            <option>18:00</option>
           </select>
         </div>
       </div>
