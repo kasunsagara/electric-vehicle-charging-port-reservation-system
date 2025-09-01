@@ -20,7 +20,7 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 
 export default function PortStatusPage() {
   const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-  const [userLocation, setUserLocation] = useState({ lat: 8.5874, lng: 81.2152 });
+  const [userLocation, setUserLocation] = useState({ lat: 8.6541, lng: 81.2139 }); 
   const [ports, setPorts] = useState([]);
   const [view, setView] = useState("list");
   const [selectedDate, setSelectedDate] = useState(today);

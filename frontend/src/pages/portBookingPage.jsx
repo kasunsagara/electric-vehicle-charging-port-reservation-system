@@ -21,12 +21,6 @@ const batteryCapacityMap = {
   "Piaggio Ape Electric": 8,
 };
 
-// Format hour to "HH:00"
-const formatHour = (hour) => {
-  const h = hour % 24;
-  return `${h.toString().padStart(2, "0")}:00`;
-};
-
 export default function PortBookingPage() {
   const { portId } = useParams();
   const location = useLocation();
@@ -45,13 +39,13 @@ export default function PortBookingPage() {
     chargerType: "", 
     carPhoto: null,
     bookingDate: bookingDate || "",
-    timeSlot: timeSlot || "",
+    timeSlot: timeSlot || "",   // ✅ from PortStatusPage
     portLocation: locationFromQuery || "",
   });
 
   const [realBookingId, setRealBookingId] = useState(null);
   const [showEstimates, setShowEstimates] = useState(false);
-  const [finalTimeSlot, setFinalTimeSlot] = useState(timeSlot || "");
+  const [finalTimeSlot, setFinalTimeSlot] = useState(timeSlot || ""); // used for estimates only
 
   const vehicleModels = {
     Car: ["Tata Nexon EV","MG ZS EV","Hyundai Kona Electric","BYD Atto 3","Nissan Leaf"],
@@ -94,17 +88,11 @@ export default function PortBookingPage() {
     const charger = port.chargerOptions.find(c => c.type === formData.chargerType);
     const batteryCapacity = batteryCapacityMap[formData.vehicleModel] || 0;
     let chargingTime = batteryCapacity / (charger?.speed || 1);
-    chargingTime = parseFloat(chargingTime.toFixed(2)); // 2 decimal places
+    chargingTime = parseFloat(chargingTime.toFixed(2));
 
+    // ✅ Save only for showing in estimates (not summary)
     if (formData.timeSlot) {
-      const [startStr, endStr] = formData.timeSlot.split("-").map(s => parseInt(s, 10));
-      const displayChargingTime = Math.max(0, chargingTime - 1); // 1 hour අඩු කරලා display
-      const newEnd = startStr + Math.round(chargingTime); // real end time for booking
-
-      // Format: 09:00-10:00 + 2.00 hours = 09:00-12:00
-      setFinalTimeSlot(
-        `${formatHour(startStr)}-${formatHour(endStr)} + ${displayChargingTime.toFixed(2)} hours = ${formatHour(startStr)}-${formatHour(newEnd)}`
-      );
+      setFinalTimeSlot(`${formData.timeSlot} (+ ~${Math.max(0, chargingTime - 1).toFixed(2)} hrs extra)`);
     }
   };
 
@@ -121,9 +109,7 @@ export default function PortBookingPage() {
       let chargingTime = batteryCapacity / (charger?.speed || 1);
       chargingTime = parseFloat(chargingTime.toFixed(2));
 
-      const [startStr] = formData.timeSlot.split("-").map(s => parseInt(s, 10));
-      const newEnd = startStr + Math.round(chargingTime);
-      const bookingTimeSlot = `${formatHour(startStr)}-${formatHour(newEnd)}`;
+      const bookingTimeSlot = formData.timeSlot;
 
       const data = new FormData();
       const finalFormData = { ...formData, timeSlot: bookingTimeSlot };
@@ -134,10 +120,7 @@ export default function PortBookingPage() {
       });
 
       setRealBookingId(res.data.booking.bookingId);
-      // Display charging time minus 1 hour
-      setFinalTimeSlot(
-        `${formatHour(startStr)}-${formatHour(startStr + 1)} + ${Math.max(0, chargingTime - 1).toFixed(2)} hours = ${formatHour(startStr)}-${formatHour(newEnd)}`
-      );
+      setFinalTimeSlot(`${bookingTimeSlot} (+ ~${Math.max(0, chargingTime - 1).toFixed(2)} hrs extra)`);
 
       toast.success(`Booking confirmed! Your Booking ID: ${res.data.booking.bookingId}`);
     } catch (error) {
@@ -177,7 +160,8 @@ export default function PortBookingPage() {
             </div>
             <div className="flex justify-between">
               <span>Time Slot:</span>
-              <span>{finalTimeSlot}</span>
+              {/* ✅ Show clean time slot only */}
+              <span>{formData.timeSlot}</span>
             </div>
             {realBookingId && (
               <div className="mt-4 p-3 bg-white/20 text-center text-green-100">
@@ -274,6 +258,9 @@ export default function PortBookingPage() {
                 vehicleModel={formData.vehicleModel} 
                 port={port} 
               />
+              <p className="mt-2 text-sm text-gray-700">
+                Estimated Time Slot: <strong>{finalTimeSlot}</strong>
+              </p>
               <button 
                 onClick={handleConfirmBooking} 
                 className="mt-3 w-full bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">
