@@ -1,4 +1,3 @@
-// src/pages/PortStatusPage.jsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -20,7 +19,7 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 
 export default function PortStatusPage() {
   const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-  const [userLocation, setUserLocation] = useState({ lat: 8.6541, lng: 81.2139 }); 
+  const [userLocation, setUserLocation] = useState({ lat: 8.6541, lng: 81.2139 });
   const [ports, setPorts] = useState([]);
   const [view, setView] = useState("list");
   const [selectedDate, setSelectedDate] = useState(today);
@@ -38,24 +37,27 @@ export default function PortStatusPage() {
   }, []);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/ports")
-      .then((res) => {
-        const data = Array.isArray(res.data) ? res.data : res.data.data;
-        const portsWithDistance = data.map((port) => ({
-          ...port,
-          distance: getDistanceFromLatLonInKm(
-            userLocation.lat,
-            userLocation.lng,
-            port.coordinates.lat,
-            port.coordinates.lng
-          ),
-        }));
-        portsWithDistance.sort((a, b) => a.distance - b.distance);
-        setPorts(portsWithDistance);
-      })
-      .catch((err) => console.error("Error fetching ports:", err));
-  }, [userLocation]);
+    // Only fetch ports if both date and time are selected
+    if (selectedDate && selectedTime) {
+      axios
+        .get(`http://localhost:5000/api/ports?date=${selectedDate}&time=${selectedTime}`)
+        .then((res) => {
+          const data = Array.isArray(res.data) ? res.data : res.data.data;
+          const portsWithDistance = data.map((port) => ({
+            ...port,
+            distance: getDistanceFromLatLonInKm(
+              userLocation.lat,
+              userLocation.lng,
+              port.coordinates.lat,
+              port.coordinates.lng
+            ),
+          }));
+          portsWithDistance.sort((a, b) => a.distance - b.distance);
+          setPorts(portsWithDistance);
+        })
+        .catch((err) => console.error("Error fetching ports:", err));
+    }
+  }, [userLocation, selectedDate, selectedTime]); // Add selectedDate and selectedTime as dependencies
 
   const handleBooking = (portId, location, status) => {
     if (status === "available" && selectedDate && selectedTime) {
@@ -84,13 +86,12 @@ export default function PortStatusPage() {
             className="border rounded px-3 py-2"
           >
             <option value="">Select Time</option>
-            <option>08:00</option>
-            <option>13:00</option>
-            <option>18:00</option>
+            <option value="08:00">08:00</option>
+            <option value="13:00">13:00</option>
+            <option value="18:00">18:00</option>
           </select>
         </div>
       </div>
-
       <div className="flex space-x-2 mb-4">
         <button
           onClick={() => setView("list")}
@@ -109,7 +110,6 @@ export default function PortStatusPage() {
           Map View
         </button>
       </div>
-
       {view === "list" && (
         <div className="overflow-x-auto">
           <table className="w-full text-left bg-white rounded-lg shadow-md">
@@ -162,7 +162,6 @@ export default function PortStatusPage() {
           </table>
         </div>
       )}
-
       {view === "map" && (
         <MapContainer
           center={[userLocation.lat, userLocation.lng]}

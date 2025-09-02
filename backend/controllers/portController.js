@@ -1,4 +1,5 @@
 import Port from '../models/port.js';
+import Booking from '../models/booking.js';
 
 export async function createPort(req, res) {
     try {
@@ -31,17 +32,40 @@ export async function createPort(req, res) {
 }
 
 export async function getPorts(req, res) {
-    try {
-        const ports = await Port.find();
-        res.status(200).json({
-            message: "Ports retrieved successfully",
-            data: ports
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: "Failed to retrieve ports"
-        });
+  try {
+    const { date, time } = req.query; // Get date and time from query parameters
+
+    if (!date || !time) {
+      return res.status(400).json({ message: "Date and time are required" });
     }
+
+    // Fetch all ports
+    const ports = await Port.find();
+
+    // Fetch bookings for the selected date and time
+    const bookings = await Booking.find({
+      bookingDate: new Date(date),
+      bookingTime: time,
+    });
+
+    // Map ports to include dynamic status based on bookings
+    const portsWithStatus = ports.map((port) => {
+      // Check if the port is booked for the given date and time
+      const isBooked = bookings.some((booking) => booking.portId === port.portId);
+      return {
+        ...port._doc, // Spread the port document
+        status: isBooked ? 'booked' : 'available', // Override status based on booking
+      };
+    });
+
+    res.status(200).json({
+      message: "Ports retrieved successfully",
+      data: portsWithStatus,
+    });
+  } catch (error) {
+    console.error("Error fetching ports:", error);
+    res.status(500).json({ message: "Failed to retrieve ports" });
+  }
 }
 
 export async function getPortById(req, res) {
