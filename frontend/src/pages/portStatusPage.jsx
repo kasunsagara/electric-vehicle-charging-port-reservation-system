@@ -3,6 +3,7 @@ import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
@@ -24,6 +25,7 @@ export default function PortStatusPage() {
   const [view, setView] = useState("list");
   const [selectedDate, setSelectedDate] = useState(today);
   const [selectedTime, setSelectedTime] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -57,12 +59,13 @@ export default function PortStatusPage() {
         })
         .catch((err) => console.error("Error fetching ports:", err));
     }
-  }, [userLocation, selectedDate, selectedTime]); // Add selectedDate and selectedTime as dependencies
+  }, [userLocation, selectedDate, selectedTime]);
 
   const handleBooking = (portId, location, status) => {
     if (status === "available" && selectedDate && selectedTime) {
       const encodedLocation = encodeURIComponent(location);
-      window.location.href = `/port-booking/${portId}?date=${selectedDate}&bookingTime=${selectedTime}&location=${encodedLocation}`;
+      // Use navigate instead of window.location.href
+      navigate(`/port-booking/${portId}?date=${selectedDate}&bookingTime=${selectedTime}&location=${encodedLocation}`);
     } else {
       toast.error("Please select date and time slot first.");
     }
