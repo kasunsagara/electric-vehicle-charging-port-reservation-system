@@ -64,7 +64,6 @@ export default function PortStatusPage() {
   const handleBooking = (portId, location, status) => {
     if (status === "available" && selectedDate && selectedTime) {
       const encodedLocation = encodeURIComponent(location);
-      // Use navigate instead of window.location.href
       navigate(`/port-booking/${portId}?date=${selectedDate}&bookingTime=${selectedTime}&location=${encodedLocation}`);
     } else {
       toast.error("Please select date and time slot first.");
@@ -95,76 +94,82 @@ export default function PortStatusPage() {
           </select>
         </div>
       </div>
+
       <div className="flex space-x-2 mb-4">
         <button
           onClick={() => setView("list")}
-          className={`px-4 py-2 rounded ${
-            view === "list" ? "bg-teal-200 shadow font-semibold" : "bg-white"
-          }`}
+          className={`px-4 py-2 rounded ${view === "list" ? "bg-teal-200 shadow font-semibold" : "bg-white"}`}
         >
           List View
         </button>
         <button
           onClick={() => setView("map")}
-          className={`px-4 py-2 rounded ${
-            view === "map" ? "bg-teal-200 shadow font-semibold" : "bg-white"
-          }`}
+          className={`px-4 py-2 rounded ${view === "map" ? "bg-teal-200 shadow font-semibold" : "bg-white"}`}
         >
           Map View
         </button>
       </div>
+
       {view === "list" && (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left bg-white rounded-lg shadow-md">
-            <thead>
-              <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
-                <th className="px-6 py-3">Port</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3">Location</th>
-                <th className="px-6 py-3">Distance</th>
-                <th className="px-6 py-3">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ports.map((port) => (
-                <tr
-                  key={port._id}
-                  className={`border-b hover:bg-gray-100 transition-colors`}
-                >
-                  <td className="px-6 py-4 font-semibold">{port.portId}</td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`flex items-center space-x-2 ${
-                        port.status === "available" ? "text-green-600" : "text-red-600"
-                      }`}
-                    >
-                      <span
-                        className={`h-3 w-3 rounded-full ${
-                          port.status === "available" ? "bg-green-500" : "bg-red-500"
-                        }`}
-                      ></span>
-                      <span className="capitalize">{port.status}</span>
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">{port.location}</td>
-                  <td className="px-6 py-4">{port.distance.toFixed(1)} km</td>
-                  <td className="px-6 py-4">
-                    <button
-                      disabled={port.status !== "available"}
-                      className={`px-4 py-2 rounded text-white font-semibold transition-colors ${
-                        port.status === "available" ? "bg-orange-500 hover:bg-orange-600" : "bg-gray-400 cursor-not-allowed"
-                      }`}
-                      onClick={() => handleBooking(port.portId, port.location, port.status)}
-                    >
-                      Book Now
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <>
+          {(!selectedDate || !selectedTime) ? (
+            <div className="bg-yellow-100 text-yellow-800 px-4 py-3 rounded mb-4">
+              Please select date and time to view charging port details.
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left bg-white rounded-lg shadow-md">
+                <thead>
+                  <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
+                    <th className="px-6 py-3">Port</th>
+                    <th className="px-6 py-3">Status</th>
+                    <th className="px-6 py-3">Location</th>
+                    <th className="px-6 py-3">Distance</th>
+                    <th className="px-6 py-3">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ports.map((port) => (
+                    <tr key={port._id} className="border-b hover:bg-gray-100 transition-colors">
+                      <td className="px-6 py-4 font-semibold">{port.portId}</td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={`flex items-center space-x-2 ${
+                            port.status === "available" ? "text-green-600" : "text-red-600"
+                          }`}
+                        >
+                          <span
+                            className={`h-3 w-3 rounded-full ${
+                              port.status === "available" ? "bg-green-500" : "bg-red-500"
+                            }`}
+                          ></span>
+                          <span className="capitalize">{port.status}</span>
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">{port.location}</td>
+                      <td className="px-6 py-4">{port.distance.toFixed(1)} km</td>
+                      <td className="px-6 py-4">
+                        <button
+                          disabled={port.status !== "available"}
+                          className={`px-4 py-2 rounded text-white font-semibold transition-colors ${
+                            port.status === "available"
+                              ? "bg-orange-500 hover:bg-orange-600"
+                              : "bg-gray-400 cursor-not-allowed"
+                          }`}
+                          onClick={() => handleBooking(port.portId, port.location, port.status)}
+                        >
+                          Book Now
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
       )}
+
       {view === "map" && (
         <MapContainer
           center={[userLocation.lat, userLocation.lng]}
