@@ -1,15 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-hot-toast"; // ✅ import toast
+import { toast } from "react-hot-toast";
 
 export default function LoginPage() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const navigate = useNavigate(); // 👉 navigation hook
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,25 +13,28 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
-
     try {
-      const res = await axios.post("http://localhost:5000/api/users/login", formData);
+      const res = await axios.post(
+        "http://localhost:5000/api/users/login",
+        formData,
+        { withCredentials: true }
+      );
 
       if (res.status === 200) {
-        toast.success("Login successful 🎉"); // ✅ toast success
-        // 👉 save token
-        localStorage.setItem("token", res.data.token);
+        toast.success("Login successful 🎉");
 
-        // 👉 redirect to port-status page
-        navigate("/port-status");
+        // Save token + user in localStorage
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        navigate("/port-status"); // redirect to port status page
       }
     } catch (error) {
       console.error(error);
       if (error.response) {
-        toast.error(error.response.data.message || "Login failed ❌"); // ✅ toast error
+        toast.error(error.response.data.message || "Login failed ❌");
       } else {
-        toast.error("Something went wrong! ❌"); // ✅ toast error
+        toast.error("Something went wrong! ❌");
       }
     }
   };

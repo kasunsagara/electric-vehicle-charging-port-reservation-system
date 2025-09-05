@@ -7,7 +7,7 @@ userRouter.post("/", createUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/logout", logoutUser);
 userRouter.get("/", getUsers);
-userRouter.get("/profile", getUserProfile);
+userRouter.get("/me", getUserProfile);
 userRouter.delete("/:email", deleteUser);
 
 export default userRouter;

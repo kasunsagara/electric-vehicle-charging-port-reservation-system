@@ -12,7 +12,12 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
+app.use(bodyParser.json());
 
 const mongoUrl = process.env.MONGO_DB_URI;
 
@@ -21,8 +26,6 @@ const connection = mongoose.connection;
 connection.once('open', () => {
   console.log("Database connected");
 });
-
-app.use(bodyParser.json());
 
 app.use(
   (req, res, next) => {

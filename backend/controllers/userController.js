@@ -82,9 +82,15 @@ export async function loginUser(req, res) {
 }
 
 export async function logoutUser(req, res) {
-    res.status(200).json({
-        message: "Logout successful"
-    });
+    try {
+        res.status(200).json({
+            message: "Logout successful"
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Logout failed"
+        });
+    }
 }
 
 export async function getUsers(req, res) {
@@ -111,25 +117,29 @@ export async function getUsers(req, res) {
 }
 
 export async function getUserProfile(req, res) {
-    try {
-        const user = await User.findOne({ email: req.body.email });
-
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
-        }
-
-        res.status(200).json({
-            message: "User profile retrieved successfully",
-            user: user  
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: "Error retrieving user profile",
-            error: error.message
-        });
+  try {
+    const email = req.query.email; // GET request: use query params
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
     }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "User profile retrieved successfully",
+      user,
+    });
+  } catch (error) {
+    console.error("Error in getUserProfile:", error);
+    res.status(500).json({
+      message: "Error retrieving user profile",
+      error: error.message,
+    });
+  }
 }
 
 
