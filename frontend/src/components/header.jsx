@@ -1,7 +1,9 @@
+// Header.jsx
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBolt, FaChevronDown } from "react-icons/fa"; 
+import { FaBolt, FaChevronDown } from "react-icons/fa";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 export default function Header() {
   const [user, setUser] = useState(null);
@@ -14,12 +16,21 @@ export default function Header() {
     if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
-    toast.success("Logged out successfully ✅");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/users/logout", {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
+      
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setUser(null);
+      toast.success("Logged out successfully ✅");
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      toast.error("Logout failed!");
+    }
   };
 
   useEffect(() => {
@@ -34,13 +45,11 @@ export default function Header() {
 
   return (
     <header className="flex justify-between mt-2 mr-4 items-center px-6 py-4">
-      {/* Logo */}
       <div className="flex items-center space-x-1">
         <FaBolt className="text-teal-700 text-xl" /> 
         <h1 className="text-xl font-semibold text-teal-700">ChargeNow</h1>
       </div>
 
-      {/* Right buttons */}
       <div className="flex space-x-4 items-center relative">
         {!user ? (
           <>
@@ -59,14 +68,12 @@ export default function Header() {
           </>
         ) : (
           <>
-            {/* Profile button with dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-3 border-teal-700 flex items-center justify-between w-full group"
               >
                 Profile
-                {/* Chevron shows only on hover */}
                 <FaChevronDown className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
 
@@ -80,7 +87,7 @@ export default function Header() {
                     My Account
                   </Link>
                   <Link
-                    to="/bookings"
+                    to="/my-bookings"
                     className="block px-4 py-2 text-gray-800 font-bold hover:bg-teal-200"
                     onClick={() => setDropdownOpen(false)}
                   >
@@ -90,7 +97,6 @@ export default function Header() {
               )}
             </div>
 
-            {/* Logout button */}
             <button
               onClick={handleLogout}
               className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-3 border-teal-700"

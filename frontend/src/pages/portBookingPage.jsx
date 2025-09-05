@@ -1,6 +1,6 @@
 // src/pages/PortBookingPage.jsx
 import { useState, useEffect } from "react";  
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom"; // ✅ import useNavigate
 import axios from "axios";
 import ChargingEstimates from "../components/ChargingEstimates";
 import toast from "react-hot-toast";
@@ -24,8 +24,9 @@ const batteryCapacityMap = {
 export default function PortBookingPage() {
   const { portId } = useParams();
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
+  const navigate = useNavigate(); // ✅ useNavigate hook
 
+  const queryParams = new URLSearchParams(location.search);
   const bookingDate = queryParams.get("date");
   const bookingTime = queryParams.get("bookingTime");
   const locationFromQuery = queryParams.get("location");
@@ -53,6 +54,7 @@ export default function PortBookingPage() {
     Van: ["Tata Winger EV","Mahindra eSupro","Piaggio Ape Electric"]
   };
 
+  // Fetch port details
   useEffect(() => {
     axios.get(`http://localhost:5000/api/ports/${portId}`)
       .then(res => {
@@ -69,6 +71,7 @@ export default function PortBookingPage() {
       });
   }, [portId]);
 
+  // Handle form changes
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "carPhoto") {
@@ -81,13 +84,14 @@ export default function PortBookingPage() {
     }
   };
 
+  // Calculate estimates
   const handleCalculateEstimates = (e) => {
     e.preventDefault();
     setShowEstimates(true);
-    // Just show the booking time as-is
     setFinalbookingTime(formData.bookingTime);
   };
 
+  // Confirm booking & navigate
   const handleConfirmBooking = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -107,6 +111,10 @@ export default function PortBookingPage() {
       setFinalbookingTime(formData.bookingTime);
 
       toast.success(`Booking confirmed! Your Booking ID: ${res.data.booking.bookingId}`);
+
+      // ✅ Navigate to My Bookings page
+      navigate("/my-bookings"); 
+
     } catch (error) {
       console.error(error);
       if (error.response) toast.error(error.response.data.message || "Booking failed!");

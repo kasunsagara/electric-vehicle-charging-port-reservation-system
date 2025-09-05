@@ -3,7 +3,7 @@ import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
@@ -19,13 +19,13 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 }
 
 export default function PortStatusPage() {
-  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0];
   const [userLocation, setUserLocation] = useState({ lat: 8.6541, lng: 81.2139 });
   const [ports, setPorts] = useState([]);
   const [view, setView] = useState("list");
   const [selectedDate, setSelectedDate] = useState(today);
   const [selectedTime, setSelectedTime] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -39,7 +39,6 @@ export default function PortStatusPage() {
   }, []);
 
   useEffect(() => {
-    // Only fetch ports if both date and time are selected
     if (selectedDate && selectedTime) {
       axios
         .get(`http://localhost:5000/api/ports?date=${selectedDate}&time=${selectedTime}`)
@@ -62,9 +61,19 @@ export default function PortStatusPage() {
   }, [userLocation, selectedDate, selectedTime]);
 
   const handleBooking = (portId, location, status) => {
+    const user = JSON.parse(localStorage.getItem("user")); // Check if user is logged in
+
+    if (!user) {
+      toast.error("You must log in to book a charging port!");
+      navigate("/login"); // Redirect to login page
+      return;
+    }
+
     if (status === "available" && selectedDate && selectedTime) {
       const encodedLocation = encodeURIComponent(location);
-      navigate(`/port-booking/${portId}?date=${selectedDate}&bookingTime=${selectedTime}&location=${encodedLocation}`);
+      navigate(
+        `/port-booking/${portId}?date=${selectedDate}&bookingTime=${selectedTime}&location=${encodedLocation}`
+      );
     } else {
       toast.error("Please select date and time slot first.");
     }
