@@ -22,6 +22,7 @@ export default function PortStatusPage() {
   const today = new Date().toISOString().split("T")[0];
   const [userLocation, setUserLocation] = useState({ lat: 8.6541, lng: 81.2139 });
   const [ports, setPorts] = useState([]);
+  const [loading, setLoading] = useState(false); // ✅ loading state
   const [view, setView] = useState("list");
   const [selectedDate, setSelectedDate] = useState(today);
   const [selectedTime, setSelectedTime] = useState("");
@@ -40,6 +41,7 @@ export default function PortStatusPage() {
 
   useEffect(() => {
     if (selectedDate && selectedTime) {
+      setLoading(true); // ✅ start loading
       axios
         .get(`http://localhost:5000/api/ports?date=${selectedDate}&time=${selectedTime}`)
         .then((res) => {
@@ -56,16 +58,17 @@ export default function PortStatusPage() {
           portsWithDistance.sort((a, b) => a.distance - b.distance);
           setPorts(portsWithDistance);
         })
-        .catch((err) => console.error("Error fetching ports:", err));
+        .catch((err) => console.error("Error fetching ports:", err))
+        .finally(() => setLoading(false)); // ✅ stop loading
     }
   }, [userLocation, selectedDate, selectedTime]);
 
   const handleBooking = (portId, location, status) => {
-    const user = JSON.parse(localStorage.getItem("user")); // Check if user is logged in
+    const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
       toast.error("You must log in to book a charging port!");
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
       return;
     }
 
@@ -81,6 +84,7 @@ export default function PortStatusPage() {
 
   return (
     <div className="p-6 bg-green-100 min-h-screen">
+      {/* Filters */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <h2 className="text-2xl font-bold">Charging Port Status</h2>
         <div className="flex space-x-2 mt-4 md:mt-0">
@@ -104,6 +108,7 @@ export default function PortStatusPage() {
         </div>
       </div>
 
+      {/* View toggle */}
       <div className="flex space-x-2 mb-4">
         <button
           onClick={() => setView("list")}
@@ -119,104 +124,117 @@ export default function PortStatusPage() {
         </button>
       </div>
 
-      {view === "list" && (
+      {/* ✅ Spinner display */}
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      ) : (
         <>
-          {(!selectedDate || !selectedTime) ? (
-            <div className="bg-yellow-100 text-yellow-800 px-4 py-3 rounded mb-4">
-              Please select date and time to view charging port details.
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left bg-white rounded-lg shadow-md">
-                <thead>
-                  <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
-                    <th className="px-6 py-3">Port</th>
-                    <th className="px-6 py-3">Status</th>
-                    <th className="px-6 py-3">Location</th>
-                    <th className="px-6 py-3">Distance</th>
-                    <th className="px-6 py-3">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {ports.map((port) => (
-                    <tr key={port._id} className="border-b hover:bg-gray-100 transition-colors">
-                      <td className="px-6 py-4 font-semibold">{port.portId}</td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`flex items-center space-x-2 ${
-                            port.status === "available" ? "text-green-600" : "text-red-600"
-                          }`}
-                        >
-                          <span
-                            className={`h-3 w-3 rounded-full ${
-                              port.status === "available" ? "bg-green-500" : "bg-red-500"
-                            }`}
-                          ></span>
-                          <span className="capitalize">{port.status}</span>
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">{port.location}</td>
-                      <td className="px-6 py-4">{port.distance.toFixed(1)} km</td>
-                      <td className="px-6 py-4">
-                        <button
-                          disabled={port.status !== "available"}
-                          className={`px-4 py-2 rounded text-white font-semibold transition-colors ${
-                            port.status === "available"
-                              ? "bg-orange-500 hover:bg-orange-600"
-                              : "bg-gray-400 cursor-not-allowed"
-                          }`}
-                          onClick={() => handleBooking(port.portId, port.location, port.status)}
-                        >
-                          Book Now
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          {/* List View */}
+          {view === "list" && (
+            <>
+              {(!selectedDate || !selectedTime) ? (
+                <div className="bg-yellow-100 text-yellow-800 px-4 py-3 rounded mb-4">
+                  Please select date and time to view charging port details.
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left bg-white rounded-lg shadow-md">
+                    <thead>
+                      <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
+                        <th className="px-6 py-3">Port</th>
+                        <th className="px-6 py-3">Status</th>
+                        <th className="px-6 py-3">Location</th>
+                        <th className="px-6 py-3">Distance</th>
+                        <th className="px-6 py-3">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {ports.map((port) => (
+                        <tr key={port._id} className="border-b hover:bg-gray-100 transition-colors">
+                          <td className="px-6 py-4 font-semibold">{port.portId}</td>
+                          <td className="px-6 py-4">
+                            <span
+                              className={`flex items-center space-x-2 ${
+                                port.status === "available" ? "text-green-600" : "text-red-600"
+                              }`}
+                            >
+                              <span
+                                className={`h-3 w-3 rounded-full ${
+                                  port.status === "available" ? "bg-green-500" : "bg-red-500"
+                                }`}
+                              ></span>
+                              <span className="capitalize">{port.status}</span>
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">{port.location}</td>
+                          <td className="px-6 py-4">{port.distance.toFixed(1)} km</td>
+                          <td className="px-6 py-4">
+                            <button
+                              disabled={port.status !== "available"}
+                              className={`px-4 py-2 rounded text-white font-semibold transition-colors ${
+                                port.status === "available"
+                                  ? "bg-orange-500 hover:bg-orange-600"
+                                  : "bg-gray-400 cursor-not-allowed"
+                              }`}
+                              onClick={() => handleBooking(port.portId, port.location, port.status)}
+                            >
+                              Book Now
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Map View */}
+          {view === "map" && (
+            <MapContainer
+              center={[userLocation.lat, userLocation.lng]}
+              zoom={11}
+              style={{ height: "500px", width: "100%" }}
+              className="rounded-lg shadow"
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution="&copy; OpenStreetMap contributors"
+              />
+              <Marker position={[userLocation.lat, userLocation.lng]}>
+                <Popup>You are here</Popup>
+              </Marker>
+              {ports.map((port) => (
+                <Marker key={port._id} position={[port.coordinates.lat, port.coordinates.lng]}>
+                  <Popup>
+                    <b>Port {port.portId}</b>
+                    <br />
+                    {port.location}
+                    <br />
+                    Distance: {port.distance.toFixed(2)} km
+                    <br />
+                    Status: {port.status}
+                    <br />
+                    <button
+                      disabled={port.status !== "available"}
+                      className={`px-2 py-1 rounded text-white font-semibold ${
+                        port.status === "available"
+                          ? "bg-orange-500 hover:bg-orange-600"
+                          : "bg-gray-400 cursor-not-allowed"
+                      }`}
+                      onClick={() => handleBooking(port.portId, port.location, port.status)}
+                    >
+                      Book Now
+                    </button>
+                  </Popup>
+                </Marker>
+              ))}
+            </MapContainer>
           )}
         </>
-      )}
-
-      {view === "map" && (
-        <MapContainer
-          center={[userLocation.lat, userLocation.lng]}
-          zoom={11}
-          style={{ height: "500px", width: "100%" }}
-          className="rounded-lg shadow"
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution="&copy; OpenStreetMap contributors"
-          />
-          <Marker position={[userLocation.lat, userLocation.lng]}>
-            <Popup>You are here</Popup>
-          </Marker>
-          {ports.map((port) => (
-            <Marker key={port._id} position={[port.coordinates.lat, port.coordinates.lng]}>
-              <Popup>
-                <b>Port {port.portId}</b>
-                <br />
-                {port.location}
-                <br />
-                Distance: {port.distance.toFixed(2)} km
-                <br />
-                Status: {port.status}
-                <br />
-                <button
-                  disabled={port.status !== "available"}
-                  className={`px-2 py-1 rounded text-white font-semibold ${
-                    port.status === "available" ? "bg-orange-500 hover:bg-orange-600" : "bg-gray-400 cursor-not-allowed"
-                  }`}
-                  onClick={() => handleBooking(port.portId, port.location, port.status)}
-                >
-                  Book Now
-                </button>
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
       )}
     </div>
   );

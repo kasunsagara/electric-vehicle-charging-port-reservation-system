@@ -5,9 +5,11 @@ import { toast } from "react-hot-toast";
 
 export default function AdminPortsPage() {
   const [ports, setPorts] = useState([]);
+  const [loading, setLoading] = useState(false); // ✅ loading state
   const navigate = useNavigate();
 
   const fetchPorts = async () => {
+    setLoading(true); // start loading
     try {
       const res = await axios.get("http://localhost:5000/api/ports", {
         headers: {
@@ -18,6 +20,8 @@ export default function AdminPortsPage() {
     } catch (err) {
       console.error("Error fetching ports:", err);
       toast.error("Failed to fetch ports");
+    } finally {
+      setLoading(false); // stop loading
     }
   };
 
@@ -33,7 +37,7 @@ export default function AdminPortsPage() {
       });
 
       toast.success(res.data.message);
-      fetchPorts(); // reload ports after deletion
+      fetchPorts();
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Port deletion failed");
@@ -42,7 +46,6 @@ export default function AdminPortsPage() {
 
   return (
     <div className="p-6">
-      {/* Heading + Add Port button */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Manage Ports</h1>
         <Link
@@ -53,63 +56,68 @@ export default function AdminPortsPage() {
         </Link>
       </div>
 
-      {/* Ports table */}
-      <div className="mt-6 overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg shadow-md">
-          <thead>
-            <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
-              <th className="px-4 py-3">Port ID</th>
-              <th className="px-4 py-3">Location</th>
-              <th className="px-4 py-3">Coordinates</th>
-              <th className="px-4 py-3">Charger Options</th>
-              <th className="px-4 py-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ports.map((port) => (
-              <tr key={port._id} className="hover:bg-gray-100 transition-colors">
-                <td className="px-4 py-3 border-b">{port.portId}</td>
-                <td className="px-4 py-3 border-b">{port.location}</td>
-                <td className="px-4 py-3 border-b">
-                  {port.coordinates?.lat}, {port.coordinates?.lng}
-                </td>
-                <td className="px-4 py-3 border-b">
-                  {port.chargerOptions?.map((opt, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-gray-200 text-gray-700 rounded px-2 py-1 text-sm inline-block mr-2 mb-1"
+      {loading ? ( // ✅ show spinner while loading
+        <div className="flex justify-center py-20">
+          <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <div className="mt-6 overflow-x-auto">
+          <table className="min-w-full bg-white rounded-lg shadow-md">
+            <thead>
+              <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
+                <th className="px-4 py-3">Port ID</th>
+                <th className="px-4 py-3">Location</th>
+                <th className="px-4 py-3">Coordinates</th>
+                <th className="px-4 py-3">Charger Options</th>
+                <th className="px-4 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ports.map((port) => (
+                <tr key={port._id} className="hover:bg-gray-100 transition-colors">
+                  <td className="px-4 py-3 border-b">{port.portId}</td>
+                  <td className="px-4 py-3 border-b">{port.location}</td>
+                  <td className="px-4 py-3 border-b">
+                    {port.coordinates?.lat}, {port.coordinates?.lng}
+                  </td>
+                  <td className="px-4 py-3 border-b">
+                    {port.chargerOptions?.map((opt, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-gray-200 text-gray-700 rounded px-2 py-1 text-sm inline-block mr-2 mb-1"
+                      >
+                        {opt.type} - {opt.speed} kW
+                      </div>
+                    ))}
+                  </td>
+                  <td className="px-4 py-3 border-b">
+                    <button
+                      onClick={() => navigate(`/admin/ports/${port._id}`)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-sm text-sm mr-3"
                     >
-                      {opt.type} - {opt.speed} kW
-                    </div>
-                  ))}
-                </td>
-                <td className="px-4 py-3 border-b">
-                  <button
-                    onClick={() => navigate(`/admin/ports/${port._id}`)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-sm text-sm mr-3"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => deletePort(port._id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-sm text-sm"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => deletePort(port._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-sm text-sm"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
 
-            {ports.length === 0 && (
-              <tr>
-                <td colSpan="5" className="text-center py-6 text-gray-500 italic">
-                  No ports available.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              {ports.length === 0 && !loading && (
+                <tr>
+                  <td colSpan="5" className="text-center py-6 text-gray-500 italic">
+                    No ports available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
