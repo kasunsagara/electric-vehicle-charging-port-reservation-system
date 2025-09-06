@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBolt, FaChevronDown } from "react-icons/fa";
+import { FaBolt } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
@@ -73,7 +73,6 @@ export default function Header() {
                 className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-3 border-teal-700 flex items-center justify-between w-full group"
               >
                 Profile
-                <FaChevronDown className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
 
               {dropdownOpen && (
