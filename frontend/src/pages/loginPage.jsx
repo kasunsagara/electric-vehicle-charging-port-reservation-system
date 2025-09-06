@@ -85,7 +85,7 @@ export default function LoginPage() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-teal-700 text-white py-2 rounded-md font-medium hover:bg-teal-800 transition"
+            className="w-full bg-teal-600 text-white py-2 rounded-md font-medium hover:bg-teal-700 transition"
           >
             Login
           </button>

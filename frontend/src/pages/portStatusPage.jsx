@@ -22,7 +22,7 @@ export default function PortStatusPage() {
   const today = new Date().toISOString().split("T")[0];
   const [userLocation, setUserLocation] = useState({ lat: 8.6541, lng: 81.2139 });
   const [ports, setPorts] = useState([]);
-  const [loading, setLoading] = useState(false); // ✅ loading state
+  const [loading, setLoading] = useState(false);
   const [view, setView] = useState("list");
   const [selectedDate, setSelectedDate] = useState(today);
   const [selectedTime, setSelectedTime] = useState("");
@@ -41,7 +41,7 @@ export default function PortStatusPage() {
 
   useEffect(() => {
     if (selectedDate && selectedTime) {
-      setLoading(true); // ✅ start loading
+      setLoading(true);
       axios
         .get(`http://localhost:5000/api/ports?date=${selectedDate}&time=${selectedTime}`)
         .then((res) => {
@@ -59,7 +59,7 @@ export default function PortStatusPage() {
           setPorts(portsWithDistance);
         })
         .catch((err) => console.error("Error fetching ports:", err))
-        .finally(() => setLoading(false)); // ✅ stop loading
+        .finally(() => setLoading(false));
     }
   }, [userLocation, selectedDate, selectedTime]);
 
@@ -84,10 +84,41 @@ export default function PortStatusPage() {
 
   return (
     <div className="p-6 bg-green-100 min-h-screen">
-      {/* Filters */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+      {/* Header with Home button */}
+      <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Charging Port Status</h2>
-        <div className="flex space-x-2 mt-4 md:mt-0">
+        <button
+          onClick={() => navigate("/")}
+          className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
+        >
+          Home
+        </button>
+      </div>
+
+      {/* Top bar: View toggle left, Filters right */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        {/* List/Map Buttons on the left */}
+        <div className="flex space-x-2 mb-4 md:mb-0">
+          <button
+            onClick={() => setView("list")}
+            className={`px-4 py-2 rounded ${
+              view === "list" ? "bg-teal-200 shadow font-semibold" : "bg-white"
+            }`}
+          >
+            List View
+          </button>
+          <button
+            onClick={() => setView("map")}
+            className={`px-4 py-2 rounded ${
+              view === "map" ? "bg-teal-200 shadow font-semibold" : "bg-white"
+            }`}
+          >
+            Map View
+          </button>
+        </div>
+
+        {/* Date & Time filters on the right */}
+        <div className="flex space-x-2 justify-end">
           <input
             type="date"
             value={selectedDate}
@@ -108,23 +139,7 @@ export default function PortStatusPage() {
         </div>
       </div>
 
-      {/* View toggle */}
-      <div className="flex space-x-2 mb-4">
-        <button
-          onClick={() => setView("list")}
-          className={`px-4 py-2 rounded ${view === "list" ? "bg-teal-200 shadow font-semibold" : "bg-white"}`}
-        >
-          List View
-        </button>
-        <button
-          onClick={() => setView("map")}
-          className={`px-4 py-2 rounded ${view === "map" ? "bg-teal-200 shadow font-semibold" : "bg-white"}`}
-        >
-          Map View
-        </button>
-      </div>
-
-      {/* ✅ Spinner display */}
+      {/* Spinner */}
       {loading ? (
         <div className="flex justify-center py-20">
           <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>

@@ -65,10 +65,17 @@ export default function AdminHomePage() {
             Users
           </Link>
 
+          <Link
+            to="/"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
+          >
+            Home
+          </Link>
+
           {/* Logout button at bottom */}
           <button
             onClick={handleLogout}
-            className="mt-100 text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full text-left"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full text-left"
           >
             Logout
           </button>

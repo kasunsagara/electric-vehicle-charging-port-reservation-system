@@ -249,7 +249,7 @@ export default function PortBookingPage() {
 
             <button 
               type="submit" 
-              className="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">
+              className="mt-3 w-full bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">
               Calculate Estimates
             </button>
           </form>
