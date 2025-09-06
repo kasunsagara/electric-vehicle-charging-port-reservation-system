@@ -135,7 +135,7 @@ export default function PortBookingPage() {
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
 
         {/* Booking Summary */}
-        <div className="bg-teal-50 text-gray-800 p-6 rounded-2xl shadow-sm h-[400px] overflow-y-auto">
+        <div className="bg-white text-gray-800 p-6 rounded-2xl shadow-sm h-[400px] overflow-y-auto">
           <h2 className="text-2xl font-bold mb-4 border-b border-white/50 pb-2">Booking Summary</h2>
           <div className="space-y-3">
             <div className="flex justify-between">
@@ -163,7 +163,7 @@ export default function PortBookingPage() {
         </div>
 
         {/* Booking Form */}
-        <div className="bg-teal-50 p-6 rounded-2xl shadow-sm">
+        <div className="bg-white p-6 rounded-2xl shadow-sm">
           <h2 className="text-2xl font-semibold mb-4 border-b border-white/50 pb-2">Book Charging Port</h2>
 
           <form onSubmit={handleCalculateEstimates} className="space-y-4">

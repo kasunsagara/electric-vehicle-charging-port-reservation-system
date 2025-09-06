@@ -33,8 +33,19 @@ export async function createPort(req, res) {
 
 export async function getPorts(req, res) {
   try {
-    const { date, time } = req.query; // Get date and time from query parameters
+    const { date, time } = req.query;
+    const userRole = req.user?.role; // Safely access user role
 
+    // ----- Admin logic -----
+    if (userRole === "admin") {
+      const ports = await Port.find();
+      return res.status(200).json({
+        message: "All ports retrieved successfully (admin view)",
+        data: ports,
+      });
+    }
+
+    // ----- Normal user logic -----
     if (!date || !time) {
       return res.status(400).json({ message: "Date and time are required" });
     }
@@ -48,18 +59,19 @@ export async function getPorts(req, res) {
       bookingTime: time,
     });
 
-    // Map ports to include dynamic status based on bookings
+    // Map ports to include dynamic status
     const portsWithStatus = ports.map((port) => {
-      // Check if the port is booked for the given date and time
-      const isBooked = bookings.some((booking) => booking.portId === port.portId);
+      const isBooked = bookings.some(
+        (booking) => booking.portId === port.portId
+      );
       return {
-        ...port._doc, // Spread the port document
-        status: isBooked ? 'booked' : 'available', // Override status based on booking
+        ...port._doc,
+        status: isBooked ? "booked" : "available",
       };
     });
 
     res.status(200).json({
-      message: "Ports retrieved successfully",
+      message: "Ports retrieved successfully (user view)",
       data: portsWithStatus,
     });
   } catch (error) {
@@ -67,6 +79,7 @@ export async function getPorts(req, res) {
     res.status(500).json({ message: "Failed to retrieve ports" });
   }
 }
+
 
 export async function getPortById(req, res) {
     try {

@@ -39,7 +39,7 @@ export default function MyAccount() {
 
   return (
     <div className="min-h-screen bg-green-100 flex items-center justify-center">
-      <div className="max-w-md w-full p-6 bg-teal-50 shadow-lg rounded-xl">
+      <div className="max-w-md w-full p-6 bg-white shadow-lg rounded-xl">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">My Account</h1>
         <p className="mb-4">
           <strong>Name:</strong> {user.name}

@@ -2,6 +2,7 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import AdminPortsPage from "./admin/adminPortsPage";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -40,17 +41,19 @@ export default function AdminHomePage() {
           >
             Dashboard
           </Link>
+
+          <Link
+            to="/admin/ports"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
+          >
+            Ports
+          </Link>
+
           <Link
             to="/admin/users"
             className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
           >
             Users
-          </Link>
-          <Link
-            to="/admin/settings"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
-          >
-            Settings
           </Link>
 
           {/* Logout button at bottom */}
@@ -81,8 +84,8 @@ export default function AdminHomePage() {
             }
           />
           <Route path="/dashboard" element={<h1>Dashboard</h1>} />
+          <Route path="/ports" element={<AdminPortsPage />} />
           <Route path="/users" element={<h1>Users</h1>} />
-          <Route path="/settings" element={<h1>Settings</h1>} />
         </Routes>
       </div>
     </div>
