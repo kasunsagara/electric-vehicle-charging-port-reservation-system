@@ -1,92 +1,115 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export default function AdminPortsPage() {
   const [ports, setPorts] = useState([]);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/ports", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // admin token
-        },
-      })
-      .then((res) => {
-        setPorts(res.data.data); // backend response => { message, data }
-      })
-      .catch((err) => {
-        console.error("Error fetching ports:", err);
-      });
-  }, []);
-
-  async function handleDelete(id) {
-    if (!window.confirm("Are you sure you want to delete this port?")) return;
-
+  const fetchPorts = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/ports/${id}`, {
+      const res = await axios.get("http://localhost:5000/api/ports", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setPorts(ports.filter((p) => p._id !== id)); // remove from UI
+      setPorts(res.data.data || []);
     } catch (err) {
-      console.error("Error deleting port:", err);
+      console.error("Error fetching ports:", err);
+      toast.error("Failed to fetch ports");
     }
-  }
+  };
+
+  useEffect(() => {
+    fetchPorts();
+  }, []);
+
+  const deletePort = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.delete(`http://localhost:5000/api/ports/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      toast.success(res.data.message);
+      fetchPorts(); // reload ports after deletion
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || "Port deletion failed");
+    }
+  };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Manage Ports</h1>
-      <Link
-        to="/admin/ports/new"
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Add New Port
-      </Link>
-      <table className="min-w-full mt-4 border">
-        <thead>
-          <tr>
-            <th className="border-b py-2">Port ID</th>
-            <th className="border-b py-2">Location</th>
-            <th className="border-b py-2">Coordinates</th>
-            <th className="border-b py-2">Charger Options</th>
-            <th className="border-b py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ports.map((port) => (
-            <tr key={port._id}>
-              <td className="border-b py-2">{port.portId}</td>
-              <td className="border-b py-2">{port.location}</td>
-              <td className="border-b py-2">
-                {port.coordinates?.lat}, {port.coordinates?.lng}
-              </td>
-              <td className="border-b py-2">
-                {port.chargerOptions?.map((opt, idx) => (
-                  <div key={idx}>
-                    {opt.type} - {opt.speed} kW
-                  </div>
-                ))}
-              </td>
-              <td className="border-b py-2">
-                <Link
-                  to={`/admin/ports/${port._id}`}
-                  className="text-blue-500 mr-2"
-                >
-                  Edit
-                </Link>
-                <button
-                  className="text-red-500"
-                  onClick={() => handleDelete(port._id)}
-                >
-                  Delete
-                </button>
-              </td>
+    <div className="p-6">
+      {/* Heading + Add Port button */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Manage Ports</h1>
+        <Link
+          to="/admin/ports/addPort"
+          className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2 rounded-lg shadow-md"
+        >
+          Add Port
+        </Link>
+      </div>
+
+      {/* Ports table */}
+      <div className="mt-6 overflow-x-auto">
+        <table className="min-w-full bg-white rounded-lg shadow-md">
+          <thead>
+            <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
+              <th className="px-4 py-3">Port ID</th>
+              <th className="px-4 py-3">Location</th>
+              <th className="px-4 py-3">Coordinates</th>
+              <th className="px-4 py-3">Charger Options</th>
+              <th className="px-4 py-3">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {ports.map((port) => (
+              <tr key={port._id} className="hover:bg-gray-100 transition-colors">
+                <td className="px-4 py-3 border-b">{port.portId}</td>
+                <td className="px-4 py-3 border-b">{port.location}</td>
+                <td className="px-4 py-3 border-b">
+                  {port.coordinates?.lat}, {port.coordinates?.lng}
+                </td>
+                <td className="px-4 py-3 border-b">
+                  {port.chargerOptions?.map((opt, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-gray-200 text-gray-700 rounded px-2 py-1 text-sm inline-block mr-2 mb-1"
+                    >
+                      {opt.type} - {opt.speed} kW
+                    </div>
+                  ))}
+                </td>
+                <td className="px-4 py-3 border-b">
+                  <button
+                    onClick={() => navigate(`/admin/ports/${port._id}`)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-sm text-sm mr-3"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deletePort(port._id)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-sm text-sm"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+
+            {ports.length === 0 && (
+              <tr>
+                <td colSpan="5" className="text-center py-6 text-gray-500 italic">
+                  No ports available.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

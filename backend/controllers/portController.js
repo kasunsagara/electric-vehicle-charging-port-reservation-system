@@ -93,26 +93,25 @@ export async function getPortById(req, res) {
 
 export async function deletePort(req, res) {
   try {
-    if (req.user == null) {
-      res.status(401).json({ message: "You are not logged in" });
-      return;
+    if (!req.user) {
+      return res.status(401).json({ message: "You are not logged in" });
     }
 
-    if (req.user.role !== 'admin') {
-      res.status(403).json({ message: "You are not an admin" });
-      return;
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "You are not an admin" });
     }
 
-    const portId = req.params.id; 
-    
-    const deletedPort = await Port.findOneAndDelete({ portId });
+    const portId = req.params.id;
+
+    console.log("Deleting port:", portId, "by user:", req.user.email);
+
+    const deletedPort = await Port.findByIdAndDelete(portId);
 
     if (!deletedPort) {
       return res.status(404).json({ message: "Port not found" });
     }
 
     res.status(200).json({ message: "Port deleted successfully" });
-
   } catch (error) {
     console.error("Error deleting port:", error);
     res.status(400).json({ message: "Port deletion failed" });
