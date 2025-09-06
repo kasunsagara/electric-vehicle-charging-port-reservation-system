@@ -1,6 +1,5 @@
 import Booking from "../models/booking.js";
 import Port from "../models/port.js";
-import User from "../models/user.js";
 import multer from "multer";
 
 // Multer setup
@@ -48,6 +47,7 @@ export async function createBooking(req, res) {
 
     const newBooking = new Booking({
       bookingId,
+      name: req.user.name,
       email: req.user.email,
       portId,
       vehicleType,
@@ -55,7 +55,10 @@ export async function createBooking(req, res) {
       chargerType,
       carPhoto: carPhoto ? carPhoto.buffer : null,
       bookingDate,
-      bookingTime
+      bookingTime,
+      estimatedBatteryCapacity: req.body.estimatedBatteryCapacity,
+      estimatedChargingTime: req.body.estimatedChargingTime,
+      estimatedCost: req.body.estimatedCost
     });
 
     await newBooking.save();
@@ -78,21 +81,10 @@ export async function getBookings(req, res) {
 
     if (req.user.role === "admin") {
       // Admin sees all bookings
-      bookings = await Booking.find().lean();
-
-      // attach userName from User collection
-      const bookingsWithNames = await Promise.all(
-        bookings.map(async (b) => {
-          const user = await User.findOne({ email: b.email }).lean();
-          return { ...b, userName: user?.name || "Unknown" };
-        })
-      );
-
-      bookings = bookingsWithNames;
+      bookings = await Booking.find();
     } else if (req.user.role === "customer") {
-      bookings = await Booking.find({ email: req.user.email }).lean();
-      const user = await User.findOne({ email: req.user.email }).lean();
-      bookings = bookings.map((b) => ({ ...b, userName: user?.name || "Unknown" }));
+      // Customers see only their own bookings (based on email or userId)
+      bookings = await Booking.find({ email: req.user.email });
     } else {
       return res.status(403).json({ message: "Unauthorized access" });
     }

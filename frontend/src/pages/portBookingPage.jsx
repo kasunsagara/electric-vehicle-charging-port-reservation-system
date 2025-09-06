@@ -1,6 +1,6 @@
 // src/pages/PortBookingPage.jsx
 import { useState, useEffect } from "react";  
-import { useParams, useLocation, useNavigate } from "react-router-dom"; // ✅ import useNavigate
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChargingEstimates from "../components/ChargingEstimates";
 import toast from "react-hot-toast";
@@ -21,10 +21,12 @@ const batteryCapacityMap = {
   "Piaggio Ape Electric": 8,
 };
 
+const UNIT_RATE = 400; // Rs per hour
+
 export default function PortBookingPage() {
   const { portId } = useParams();
   const location = useLocation();
-  const navigate = useNavigate(); // ✅ useNavigate hook
+  const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
   const bookingDate = queryParams.get("date");
@@ -100,8 +102,19 @@ export default function PortBookingPage() {
         return; 
       }
 
+      // 🔹 calculate estimates before saving
+      const batteryCapacity = batteryCapacityMap[formData.vehicleModel] || 0;
+      const charger = port?.chargerOptions.find(c => c.type === formData.chargerType);
+      const chargingTime = charger ? batteryCapacity / charger.speed : 0;
+      const estimatedCost = chargingTime * UNIT_RATE;
+
       const data = new FormData();
       Object.entries(formData).forEach(([key, value]) => data.append(key, value));
+
+      // 🔹 add calculated values
+      data.append("estimatedBatteryCapacity", batteryCapacity);
+      data.append("estimatedChargingTime", chargingTime.toFixed(2));
+      data.append("estimatedCost", estimatedCost.toFixed(0));
 
       const res = await axios.post("http://localhost:5000/api/bookings", data, {
         headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` }
@@ -112,7 +125,6 @@ export default function PortBookingPage() {
 
       toast.success(`Booking confirmed! Your Booking ID: ${res.data.booking.bookingId}`);
 
-      // ✅ Navigate to My Bookings page
       navigate("/my-bookings"); 
 
     } catch (error) {

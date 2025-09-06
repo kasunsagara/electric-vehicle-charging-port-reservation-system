@@ -58,22 +58,50 @@ export default function AdminBookingsPage() {
               {bookings.map((booking) => (
                 <tr key={booking._id} className="hover:bg-gray-100 transition-colors">
                   <td className="px-4 py-3 border-b">{booking.bookingId}</td>
+
+                  {/* User column */}
                   <td className="px-4 py-3 border-b">
-                    {booking.userName} ({booking.email})
+                    <div className="flex flex-col">
+                      <span>{booking.name}</span>
+                      <span>{booking.email}</span>
+                    </div>
                   </td>
+
                   <td className="px-4 py-3 border-b">{booking.portId}</td>
+
+                  {/* Vehicle column */}
                   <td className="px-4 py-3 border-b">
-                    {booking.vehicleType || "-"} {booking.vehicleModel || ""}
+                    <div className="flex flex-col">
+                      <span>{booking.vehicleType || "-"}</span>
+                      <span>{booking.vehicleModel || ""}</span>
+                    </div>
                   </td>
+
                   <td className="px-4 py-3 border-b">{booking.chargerType}</td>
+
+                  {/* Date & Time column */}
                   <td className="px-4 py-3 border-b">
-                    {new Date(booking.bookingDate).toLocaleDateString()}{" "}
-                    {booking.bookingTime}
+                    <div className="flex flex-col">
+                      <span>
+                        {new Date(booking.bookingDate).toLocaleDateString()}
+                      </span>
+                      <span>{booking.bookingTime}</span>
+                    </div>
                   </td>
+
+                  {/* Estimated Info column */}
                   <td className="px-4 py-3 border-b">
-                    <div>Battery: {booking.estimatedBatteryCapacity || "-"} kWh</div>
-                    <div>Time: {booking.estimatedChargingTime || "-"} hrs</div>
-                    <div>Cost: ${booking.estimatedCost || "-"}</div>
+                    <div className="flex flex-col">
+                      <span>
+                        Battery: {booking.estimatedBatteryCapacity || "-"} kWh
+                      </span>
+                      <span>
+                        Time: {booking.estimatedChargingTime || "-"} hrs
+                      </span>
+                      <span>
+                        Cost: Rs. {booking.estimatedCost || "-"}
+                      </span>
+                    </div>
                   </td>
                 </tr>
               ))}
