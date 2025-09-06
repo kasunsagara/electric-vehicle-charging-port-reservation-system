@@ -143,11 +143,11 @@ export default function PortStatusPage() {
                   <table className="w-full text-left bg-white rounded-lg shadow-md">
                     <thead>
                       <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
-                        <th className="px-6 py-3">Port</th>
-                        <th className="px-6 py-3">Status</th>
-                        <th className="px-6 py-3">Location</th>
-                        <th className="px-6 py-3">Distance</th>
-                        <th className="px-6 py-3">Action</th>
+                        <th className="px-6 py-4">Port</th>
+                        <th className="px-6 py-4">Status</th>
+                        <th className="px-6 py-4">Location</th>
+                        <th className="px-6 py-4">Distance</th>
+                        <th className="px-6 py-4">Action</th>
                       </tr>
                     </thead>
                     <tbody>

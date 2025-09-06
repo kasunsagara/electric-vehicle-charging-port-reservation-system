@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
-export default function AdminBookingsPage() {
+export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false); 
 
@@ -33,8 +33,8 @@ export default function AdminBookingsPage() {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Manage Bookings</h1>
+    <div className="bg-green-100 p-6">
+      <h1 className="text-3xl font-bold mb-6 text-center">My Bookings</h1>
 
       {loading ? (
         <div className="flex justify-center py-20">
@@ -46,7 +46,6 @@ export default function AdminBookingsPage() {
             <thead>
               <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
                 <th className="px-6 py-4">Booking ID</th>
-                <th className="px-6 py-4">User</th>
                 <th className="px-6 py-4">Port ID</th>
                 <th className="px-6 py-4">Vehicle</th>
                 <th className="px-6 py-4">Charger Type</th>
@@ -58,15 +57,6 @@ export default function AdminBookingsPage() {
               {bookings.map((booking) => (
                 <tr key={booking._id} className="hover:bg-gray-100 transition-colors">
                   <td className="px-6 py-4 border-b">{booking.bookingId}</td>
-
-                  {/* User column */}
-                  <td className="px-6 py-4 border-b">
-                    <div className="flex flex-col">
-                      <span>{booking.name}</span>
-                      <span>{booking.email}</span>
-                    </div>
-                  </td>
-
                   <td className="px-6 py-4 border-b">{booking.portId}</td>
 
                   {/* Vehicle column */}
@@ -108,7 +98,7 @@ export default function AdminBookingsPage() {
 
               {bookings.length === 0 && !loading && (
                 <tr>
-                  <td colSpan="7" className="text-center py-6 text-gray-500 italic">
+                  <td colSpan="6" className="text-center py-6 text-gray-500 italic">
                     No bookings available.
                   </td>
                 </tr>

@@ -65,22 +65,22 @@ export default function AdminPortsPage() {
           <table className="min-w-full bg-white rounded-lg shadow-md">
             <thead>
               <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
-                <th className="px-4 py-3">Port ID</th>
-                <th className="px-4 py-3">Location</th>
-                <th className="px-4 py-3">Coordinates</th>
-                <th className="px-4 py-3">Charger Options</th>
-                <th className="px-4 py-3">Actions</th>
+                <th className="px-6 py-4">Port ID</th>
+                <th className="px-6 py-4">Location</th>
+                <th className="px-6 py-4">Coordinates</th>
+                <th className="px-6 py-4">Charger Options</th>
+                <th className="px-6 py-4">Actions</th>
               </tr>
             </thead>
             <tbody>
               {ports.map((port) => (
                 <tr key={port._id} className="hover:bg-gray-100 transition-colors">
-                  <td className="px-4 py-3 border-b">{port.portId}</td>
-                  <td className="px-4 py-3 border-b">{port.location}</td>
-                  <td className="px-4 py-3 border-b">
+                  <td className="px-6 py-4 border-b">{port.portId}</td>
+                  <td className="px-6 py-4 border-b">{port.location}</td>
+                  <td className="px-6 py-4 border-b">
                     {port.coordinates?.lat}, {port.coordinates?.lng}
                   </td>
-                  <td className="px-4 py-3 border-b">
+                  <td className="px-6 py-4 border-b">
                     {port.chargerOptions?.map((opt, idx) => (
                       <div
                         key={idx}
@@ -90,7 +90,7 @@ export default function AdminPortsPage() {
                       </div>
                     ))}
                   </td>
-                  <td className="px-4 py-3 border-b">
+                  <td className="px-6 py-4 border-b">
                     <button
                       onClick={() => navigate(`/admin/ports/${port._id}`)}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-sm text-sm mr-3"
