@@ -3,6 +3,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import AdminPortsPage from "./admin/adminPortsPage";
+import AddPortPage from "./admin/addPortPage";
+import AdminBookingsPage from "./admin/adminBookingsPage";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -50,6 +52,13 @@ export default function AdminHomePage() {
           </Link>
 
           <Link
+            to="/admin/bookings"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
+          >
+            Bookings
+          </Link>
+
+          <Link
             to="/admin/users"
             className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
           >
@@ -59,7 +68,7 @@ export default function AdminHomePage() {
           {/* Logout button at bottom */}
           <button
             onClick={handleLogout}
-            className="mt-113 text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full text-left"
+            className="mt-100 text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full text-left"
           >
             Logout
           </button>
@@ -85,6 +94,8 @@ export default function AdminHomePage() {
           />
           <Route path="/dashboard" element={<h1>Dashboard</h1>} />
           <Route path="/ports" element={<AdminPortsPage />} />
+          <Route path="/ports/addPort" element={<AddPortPage />} />
+          <Route path="/bookings" element={<AdminBookingsPage />} />
           <Route path="/users" element={<h1>Users</h1>} />
         </Routes>
       </div>

@@ -136,23 +136,23 @@ export default function PortBookingPage() {
 
         {/* Booking Summary */}
         <div className="bg-white text-gray-800 p-6 rounded-2xl shadow-sm h-[400px] overflow-y-auto">
-          <h2 className="text-2xl font-bold mb-4 border-b border-white/50 pb-2">Booking Summary</h2>
+          <h2 className="text-2xl font-bold mb-4 pb-2 text-center">Booking Summary</h2>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span>Port Id:</span>
-              <span>{formData.portId}</span>
+              <span className="font-semibold">Port Id:</span>
+              <span className="font-medium">{formData.portId}</span>
             </div>
             <div className="flex justify-between">
-              <span>Location:</span>
-              <span>{formData.portLocation || port?.location}</span>
+              <span className="font-semibold">Location:</span>
+              <span className="font-medium">{formData.portLocation || port?.location}</span>
             </div>
             <div className="flex justify-between">
-              <span>Date:</span>
-              <span>{formData.bookingDate}</span>
+              <span className="font-semibold">Date:</span>
+              <span className="font-medium">{formData.bookingDate}</span>
             </div>
             <div className="flex justify-between">
-              <span>Time:</span>
-              <span>{finalbookingTime || formData.bookingTime}</span>
+              <span className="font-semibold">Time:</span>
+              <span className="font-medium">{finalbookingTime || formData.bookingTime}</span>
             </div>
             {realBookingId && (
               <div className="mt-4 p-3 bg-white/20 text-center text-green-100">
@@ -163,12 +163,12 @@ export default function PortBookingPage() {
         </div>
 
         {/* Booking Form */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm">
-          <h2 className="text-2xl font-semibold mb-4 border-b border-white/50 pb-2">Book Charging Port</h2>
+        <div className="bg-white p-6 text-gray-800 rounded-2xl shadow-sm">
+          <h2 className="text-2xl font-bold mb-4 pb-2 text-center">Book Charging Port</h2>
 
           <form onSubmit={handleCalculateEstimates} className="space-y-4">
             <div>
-              <label>Vehicle Type</label>
+              <label className="font-semibold">Vehicle Type</label>
               <select 
                 name="vehicleType" 
                 value={formData.vehicleType} 
@@ -182,12 +182,12 @@ export default function PortBookingPage() {
             </div>
 
             <div>
-              <label>Vehicle Model</label>
+              <label className="font-semibold">Vehicle Model</label>
               <select 
                 name="vehicleModel" 
                 value={formData.vehicleModel} 
                 onChange={handleChange} 
-                className="w-full border rounded px-3 py-2" 
+                className="w-full border rounded px-3 py-2"
                 required
               >
                 <option value="">Select Model</option>
@@ -198,13 +198,13 @@ export default function PortBookingPage() {
             </div>
 
             <div>
-              <label>Charger Type</label>
+              <label className="font-semibold">Charger Type</label>
               {port?.chargerOptions?.length > 0 ? (
                 <select 
                   name="chargerType" 
                   value={formData.chargerType} 
                   onChange={handleChange} 
-                  className="w-full border rounded px-3 py-2" 
+                  className="w-full border rounded px-3 py-2"
                   required
                 >
                   {port.chargerOptions.map(option => (
@@ -217,7 +217,7 @@ export default function PortBookingPage() {
             </div>
 
             <div>
-              <label>Car Photo (Optional)</label>
+              <label className="font-semibold">Car Photo (Optional)</label>
               <div className="flex items-center border rounded px-3 py-2">
                 <label className="bg-gray-100 text-black px-3 py-1 rounded border border-black cursor-pointer hover:bg-gray-200">
                   Choose File

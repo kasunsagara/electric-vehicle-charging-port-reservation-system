@@ -31,21 +31,21 @@ export default function ChargingEstimates({ chargerType, vehicleModel, port }) {
 
   return (
     <div className="bg-white text-gray-800 p-6 rounded-2xl border border-gray-400 mt-6">
-      <h2 className="text-2xl font-bold mb-4 pb-2">Charging Estimates</h2>
+      <h2 className="text-2xl font-bold mb-4 pb-2 text-center">Charging Estimates</h2>
       <div className="space-y-3">
         <div className="flex justify-between items-center">
-          <span className="font-medium">Battery Capacity:</span>
-          <span className="font-semibold">{batteryCapacity} kWh</span>
+          <span className="font-semibold">Battery Capacity:</span>
+          <span className="font-medium">{batteryCapacity} kWh</span>
         </div>
 
         <div className="flex justify-between items-center">
-          <span className="font-medium">Estimated Charging Time:</span>
-          <span className="font-semibold">{chargingTime.toFixed(2)} hours</span>
+          <span className="font-semibold">Estimated Charging Time:</span>
+          <span className="font-medium">{chargingTime.toFixed(2)} hours</span>
         </div>
 
         <div className="flex justify-between items-center">
-          <span className="font-medium">Estimated Cost:</span>
-          <span className="font-semibold">Rs. {estimatedCost.toFixed(0)}</span>
+          <span className="font-semibold">Estimated Cost:</span>
+          <span className="font-medium">Rs. {estimatedCost.toFixed(0)}</span>
         </div>
       </div>
     </div>
