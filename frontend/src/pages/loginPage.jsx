@@ -27,7 +27,12 @@ export default function LoginPage() {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        navigate("/port-status"); // redirect to port status page
+        // 🔹 Redirect based on role
+        if (res.data.user.role === "admin") {
+          navigate("/admin"); // Admin dashboard
+        } else {
+          navigate("/port-status"); // Normal user
+        }
       }
     } catch (error) {
       console.error(error);
@@ -42,7 +47,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-green-100">
       <div className="w-full max-w-md bg-teal-50 p-8 rounded-lg shadow-sm">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2 text-center">Login</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2 text-center">
+          Login
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email */}
