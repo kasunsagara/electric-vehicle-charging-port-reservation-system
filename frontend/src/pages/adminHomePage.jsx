@@ -7,6 +7,7 @@ import AddPortPage from "./admin/addPortPage";
 import AdminBookingsPage from "./admin/adminBookingsPage";
 import AdminUsersPage from "./admin/adminUserPage";
 import AddAdminPage from "./admin/addAdminPage";
+import { FaTachometerAlt, FaShip, FaBook, FaUsers, FaHome, FaSignOutAlt } from "react-icons/fa";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -41,45 +42,45 @@ export default function AdminHomePage() {
         <nav className="flex flex-col h-full text-[17px]">
           <Link
             to="/admin/dashboard"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
           >
-            Dashboard
+            <FaTachometerAlt /> Dashboard
           </Link>
 
           <Link
             to="/admin/ports"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
           >
-            Ports
+            <FaShip /> Ports
           </Link>
 
           <Link
             to="/admin/bookings"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
           >
-            Bookings
+            <FaBook /> Bookings
           </Link>
 
           <Link
             to="/admin/users"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
           >
-            Users
+            <FaUsers /> Users
           </Link>
 
           <Link
             to="/"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
           >
-            Home
+            <FaHome /> Home
           </Link>
 
           {/* Logout button at bottom */}
           <button
             onClick={handleLogout}
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full text-left"
+            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
           >
-            Logout
+            <FaSignOutAlt /> Logout
           </button>
         </nav>
       </div>

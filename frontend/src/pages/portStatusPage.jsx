@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { FiList, FiMap } from "react-icons/fi";
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
@@ -101,19 +102,22 @@ export default function PortStatusPage() {
         <div className="flex space-x-2 mb-4 md:mb-0">
           <button
             onClick={() => setView("list")}
-            className={`px-4 py-2 rounded ${
+            className={`flex items-center space-x-1 px-4 py-2 rounded ${
               view === "list" ? "bg-teal-200 shadow font-semibold" : "bg-white"
             }`}
           >
-            List View
+            <FiList />
+            <span>List View</span>
           </button>
+
           <button
             onClick={() => setView("map")}
-            className={`px-4 py-2 rounded ${
+            className={`flex items-center space-x-1 px-4 py-2 rounded ${
               view === "map" ? "bg-teal-200 shadow font-semibold" : "bg-white"
             }`}
           >
-            Map View
+            <FiMap />
+            <span>Map View</span>
           </button>
         </div>
 
