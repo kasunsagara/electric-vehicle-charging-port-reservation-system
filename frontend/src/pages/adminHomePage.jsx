@@ -5,6 +5,7 @@ import axios from "axios";
 import AdminPortsPage from "./admin/adminPortsPage";
 import AddPortPage from "./admin/addPortPage";
 import AdminBookingsPage from "./admin/adminBookingsPage";
+import AdminUsersPage from "./admin/adminUserPage";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -88,7 +89,7 @@ export default function AdminHomePage() {
           <Route
             path="/"
             element={
-              <div className="max-w-4xl mx-auto flex flex-col items-center mt-20">
+              <div className="max-w-4xl mx-auto flex flex-col items-center mt-50">
                 <h1 className="text-[54px] font-bold text-teal-700 mb-6">
                   Welcome, Admin!
                 </h1>
@@ -103,7 +104,7 @@ export default function AdminHomePage() {
           <Route path="/ports" element={<AdminPortsPage />} />
           <Route path="/ports/addPort" element={<AddPortPage />} />
           <Route path="/bookings" element={<AdminBookingsPage />} />
-          <Route path="/users" element={<h1>Users</h1>} />
+          <Route path="/users" element={<AdminUsersPage />} />
         </Routes>
       </div>
     </div>

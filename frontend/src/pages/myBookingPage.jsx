@@ -45,12 +45,12 @@ export default function MyBookingsPage() {
           <table className="min-w-full bg-white rounded-lg shadow-md">
             <thead>
               <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
-                <th className="px-6 py-4">Booking ID</th>
-                <th className="px-6 py-4">Port ID</th>
-                <th className="px-6 py-4">Vehicle</th>
-                <th className="px-6 py-4">Charger Type</th>
-                <th className="px-6 py-4">Date & Time</th>
-                <th className="px-6 py-4">Estimated Info</th>
+                <th className="px-6 py-4 text-left">Booking ID</th>
+                <th className="px-6 py-4 text-left">Port ID</th>
+                <th className="px-6 py-4 text-left">Vehicle</th>
+                <th className="px-6 py-4 text-left">Charger Type</th>
+                <th className="px-6 py-4 text-left">Date & Time</th>
+                <th className="px-6 py-4 text-left">Estimated Info</th>
               </tr>
             </thead>
             <tbody>

@@ -65,11 +65,11 @@ export default function AdminPortsPage() {
           <table className="min-w-full bg-white rounded-lg shadow-md">
             <thead>
               <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
-                <th className="px-6 py-4">Port ID</th>
-                <th className="px-6 py-4">Location</th>
-                <th className="px-6 py-4">Coordinates</th>
-                <th className="px-6 py-4">Charger Options</th>
-                <th className="px-6 py-4">Actions</th>
+                <th className="px-6 py-4 text-left">Port ID</th>
+                <th className="px-6 py-4 text-left">Location</th>
+                <th className="px-6 py-4 text-left">Coordinates</th>
+                <th className="px-6 py-4 text-left">Charger Options</th>
+                <th className="px-6 py-4 text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
