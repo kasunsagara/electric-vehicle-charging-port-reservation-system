@@ -20,8 +20,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/my-account" element={<MyAccountPage />} />
-            <Route path="/my-bookings" element={<MyBookingsPage />} />
+            <Route path="/myAccount" element={<MyAccountPage />} />
+            <Route path="/myBookings" element={<MyBookingsPage />} />
             <Route path="/port-status" element={<PortStatusPage />} />
             <Route path="/port-booking/:portId" element={<PortBookingPage />} />
             <Route path="/admin/*" element={<AdminHomePage />} />

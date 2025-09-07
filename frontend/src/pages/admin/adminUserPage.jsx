@@ -1,6 +1,7 @@
 // AdminUsersPage.jsx
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 export default function AdminUsersPage() {
@@ -49,6 +50,12 @@ export default function AdminUsersPage() {
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Manage Users</h1>
+        <Link
+          to="/admin/users/addAdmin"
+          className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2 rounded-lg shadow-md"
+        >
+          Add Admin
+        </Link>
       </div>
 
       {loading ? (

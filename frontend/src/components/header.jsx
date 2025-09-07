@@ -78,14 +78,14 @@ export default function Header() {
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                   <Link
-                    to="/my-account"
+                    to="/myAccount"
                     className="block px-4 py-2 text-gray-800 font-bold hover:bg-teal-200"
                     onClick={() => setDropdownOpen(false)}
                   >
                     My Account
                   </Link>
                   <Link
-                    to="/my-bookings"
+                    to="/myBookings"
                     className="block px-4 py-2 text-gray-800 font-bold hover:bg-teal-200"
                     onClick={() => setDropdownOpen(false)}
                   >

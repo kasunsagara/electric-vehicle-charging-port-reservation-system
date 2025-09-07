@@ -6,39 +6,36 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export async function createUser(req, res) { 
-    try {
-        const newUserData = req.body;
+  try {
+    const newUserData = req.body;
 
-        if(newUserData.role == 'admin') {
-            if(req.user == null) {
-                res.status(401).json({
-                    message: "You are not logged in"
-                })
-                return;
-            }
+    // ✅ If creating admin, only main admin can do it
+    if (newUserData.role === "admin") {
+      if (!req.user) {
+        return res.status(401).json({ message: "You are not logged in" });
+      }
 
-            if(req.user.role !== 'admin') {
-                res.status(403).json({
-                    message: "You are not an admin"
-                })
-                return;
-            }
-        }
-
-        newUserData.password = bcrypt.hashSync(newUserData.password, 10); 
-
-        const user = new User(newUserData);
-        await user.save();
-
-        res.status(201).json({
-            message: "User created successfully"
-        });
-
-    } catch (error) {
-        res.status(400).json({
-            message: "User creation failed"
-        });
+      if (req.user.email !== "kasunsagara689@gmail.com") {
+        return res.status(403).json({ message: "Only main admin can add new admins" });
+      }
     }
+
+    // Hash password
+    newUserData.password = bcrypt.hashSync(newUserData.password, 10); 
+
+    const user = new User(newUserData);
+    await user.save();
+
+    res.status(201).json({
+      message: "User created successfully"
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      message: "User creation failed",
+      error: error.message
+    });
+  }
 }
 
 export async function loginUser(req, res) {

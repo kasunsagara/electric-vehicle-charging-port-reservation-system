@@ -6,6 +6,7 @@ import AdminPortsPage from "./admin/adminPortsPage";
 import AddPortPage from "./admin/addPortPage";
 import AdminBookingsPage from "./admin/adminBookingsPage";
 import AdminUsersPage from "./admin/adminUserPage";
+import AddAdminPage from "./admin/addAdminPage";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -105,6 +106,7 @@ export default function AdminHomePage() {
           <Route path="/ports/addPort" element={<AddPortPage />} />
           <Route path="/bookings" element={<AdminBookingsPage />} />
           <Route path="/users" element={<AdminUsersPage />} />
+          <Route path="/users/addAdmin" element={<AddAdminPage />} />
         </Routes>
       </div>
     </div>
