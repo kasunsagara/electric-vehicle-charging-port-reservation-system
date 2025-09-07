@@ -103,7 +103,7 @@ export default function PortStatusPage() {
           <button
             onClick={() => setView("list")}
             className={`flex items-center space-x-1 px-4 py-2 rounded ${
-              view === "list" ? "bg-teal-200 shadow font-semibold" : "bg-white"
+              view === "list" ? "bg-teal-200 shadow" : "bg-white shadow"
             }`}
           >
             <FiList />
@@ -113,7 +113,7 @@ export default function PortStatusPage() {
           <button
             onClick={() => setView("map")}
             className={`flex items-center space-x-1 px-4 py-2 rounded ${
-              view === "map" ? "bg-teal-200 shadow font-semibold" : "bg-white"
+              view === "map" ? "bg-teal-200 shadow" : "bg-white shadow"
             }`}
           >
             <FiMap />
@@ -128,12 +128,12 @@ export default function PortStatusPage() {
             value={selectedDate}
             min={today}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="border rounded px-3 py-2"
+            className="rounded px-3 py-2 bg-white shadow"
           />
           <select
             value={selectedTime}
             onChange={(e) => setSelectedTime(e.target.value)}
-            className="border rounded px-3 py-2"
+            className="rounded px-3 py-2 bg-white shadow"
           >
             <option value="">Select Time</option>
             <option value="08:00">08:00</option>

@@ -14,8 +14,7 @@ export default function HomePage() {
           Electric Vehicle Charging Port Reservation System
         </h2>
         <p className="text-gray-600 text-[17px] max-w-xl mb-6">
-          The future of electric vehicle charging is here. Easily find, book,
-          and manage your EV charging sessions.
+          The future of electric vehicle charging is here with the ability to easily find, book, and manage your EV charging sessions.
         </p>
         <Link
           to="/port-status"

@@ -45,8 +45,8 @@ export default function Header() {
   return (
     <header className="flex justify-between mt-2 mr-4 items-center px-6 py-4">
       <div className="flex items-center space-x-1">
-        <FaBolt className="text-teal-700 text-xl" /> 
-        <h1 className="text-xl font-semibold text-teal-700">ChargeNow</h1>
+        <FaBolt className="text-teal-700 text-2xl" /> 
+        <h1 className="text-2xl font-semibold text-teal-700">ChargeNow</h1>
       </div>
 
       <div className="flex space-x-4 items-center relative">

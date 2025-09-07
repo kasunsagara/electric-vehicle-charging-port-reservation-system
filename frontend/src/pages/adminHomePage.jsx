@@ -96,8 +96,7 @@ export default function AdminHomePage() {
                   Welcome, Admin!
                 </h1>
                 <p className="text-[18px] text-gray-600">
-                  This is your admin dashboard where you can manage users, view
-                  reports, and configure system settings.
+                  This is your admin dashboard where you can manage ports, manage users and view reports.
                 </p>
               </div>
             }

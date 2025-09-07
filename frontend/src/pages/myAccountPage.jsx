@@ -54,6 +54,9 @@ export default function MyAccountPage() {
           <strong>Email:</strong> {user.email}
         </p>
         <p className="mb-4">
+          <strong>Phone:</strong> {user.phone}
+        </p>
+        <p className="mb-4">
           <strong>Role:</strong> {user.role}
         </p>
       </div>
