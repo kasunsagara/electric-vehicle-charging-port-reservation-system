@@ -125,7 +125,7 @@ export default function PortBookingPage() {
 
       toast.success(`Booking confirmed! Your Booking ID: ${res.data.booking.bookingId}`);
 
-      navigate("/my-bookings"); 
+      navigate("/myBookings"); 
 
     } catch (error) {
       console.error(error);
