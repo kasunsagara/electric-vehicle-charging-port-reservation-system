@@ -4,6 +4,8 @@ import Toast from 'react-native-toast-message';
 
 // Screens
 import HomePage from './screens/homePage';
+import LoginPage from './screens/loginPage';
+import SignUpPage from './screens/signUpPage';
 
 
 const Stack = createNativeStackNavigator();
@@ -14,6 +16,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Home" component={HomePage} />
+          <Stack.Screen name="Login" component={LoginPage} />
+          <Stack.Screen name="SignUp" component={SignUpPage} />
 
 
         </Stack.Navigator>

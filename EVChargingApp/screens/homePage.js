@@ -1,12 +1,17 @@
-import React from "react";
+// HomePage.js
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import Header from "../components/header"; 
 
 export default function HomePage() {
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
+      {/* Header */}
+      <Header />
+
       {/* Hero Section */}
       <View style={styles.heroContainer}>
         <Text style={styles.title}>
@@ -31,7 +36,7 @@ export default function HomePage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#d4f1e0", // light green background
+    backgroundColor: "#d4f1e0",
   },
   heroContainer: {
     flex: 1,
@@ -42,13 +47,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#0f766e", // teal color
+    color: "#0f766e",
     textAlign: "center",
     marginBottom: 15,
   },
   subtitle: {
     fontSize: 16,
-    color: "#4b5563", // gray color
+    color: "#4b5563",
     textAlign: "center",
     marginBottom: 25,
     maxWidth: 300,
