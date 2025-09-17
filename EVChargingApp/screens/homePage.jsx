@@ -1,5 +1,5 @@
 // HomePage.js
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/header"; 

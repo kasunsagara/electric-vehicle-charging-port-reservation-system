@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Header() {
@@ -34,7 +33,6 @@ export default function Header() {
     <View style={styles.header}>
       {/* Logo */}
       <View style={styles.logoContainer}>
-        <Icon name="bolt" size={24} color="#14B8A6" />
         <Text style={styles.logoText}>ChargeNow</Text>
       </View>
 
