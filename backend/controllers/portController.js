@@ -117,3 +117,33 @@ export async function deletePort(req, res) {
     res.status(400).json({ message: "Port deletion failed" });
   }
 }
+
+export async function updatePort(req, res) {
+    if (!isAdmin(req)) {
+        res.status(403).json({
+            message: "Please login as admin to update ports",
+        });
+        return;
+    }
+
+    const portId = req.params.id;
+    const newPortData = req.body;
+
+    try {
+        await Port.updateOne({ portId: portId }, newPortData);
+        res.json({
+            message: "Port updated"
+        });
+    } catch (error) {
+        res.status(403).json({
+            message: error
+        });
+    }
+}
+function isAdmin(req) {
+    if (req.user == null) {
+        return false;
+    }
+
+    return req.user.role === "admin";
+}
