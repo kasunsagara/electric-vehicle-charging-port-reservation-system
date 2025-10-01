@@ -92,7 +92,7 @@ export default function AdminPortsPage() {
                   </td>
                   <td className="px-6 py-4 border-b">
                     <button
-                      onClick={() => navigate(`/admin/ports/${port._id}`)}
+                      onClick={() => navigate(`/admin/ports/updatePort`, { state: { port } })}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-sm text-sm mr-3"
                     >
                       Edit

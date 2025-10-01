@@ -91,6 +91,29 @@ export async function getPortById(req, res) {
     }
 }
 
+export async function updatePort(req, res) {
+    const portId = req.params.id;
+    const newPortData = req.body;
+
+    try {
+        const updated = await Port.findByIdAndUpdate(portId, newPortData, { new: true });
+        if (!updated) {
+            return res.status(404).json({ message: "Port not found" });
+        }
+        res.json({
+            message: "Port updated successfully",
+            port: updated,
+        });
+    } catch (error) {
+        console.error("Update port error:", error);
+        res.status(500).json({
+            message: "Server error while updating port",
+            error: error.message,
+        });
+    }
+}
+
+
 export async function deletePort(req, res) {
   try {
     if (!req.user) {
@@ -118,32 +141,3 @@ export async function deletePort(req, res) {
   }
 }
 
-export async function updatePort(req, res) {
-    if (!isAdmin(req)) {
-        res.status(403).json({
-            message: "Please login as admin to update ports",
-        });
-        return;
-    }
-
-    const portId = req.params.id;
-    const newPortData = req.body;
-
-    try {
-        await Port.updateOne({ portId: portId }, newPortData);
-        res.json({
-            message: "Port updated"
-        });
-    } catch (error) {
-        res.status(403).json({
-            message: error
-        });
-    }
-}
-function isAdmin(req) {
-    if (req.user == null) {
-        return false;
-    }
-
-    return req.user.role === "admin";
-}

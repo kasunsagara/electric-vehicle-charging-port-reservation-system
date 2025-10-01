@@ -6,6 +6,7 @@ import { FaTachometerAlt, FaChargingStation, FaUsers, FaCalendarCheck, FaHome, F
 import AdminDashboardPage from "./admin/adminDashboardPage";
 import AdminPortsPage from "./admin/adminPortsPage";
 import AddPortPage from "./admin/addPortPage";
+import UpdatePortPage from "./admin/updatePortPage";
 import AdminBookingsPage from "./admin/adminBookingsPage";
 import AdminUsersPage from "./admin/adminUserPage";
 import AddAdminPage from "./admin/addAdminPage";
@@ -105,6 +106,7 @@ export default function AdminHomePage() {
           <Route path="/dashboard" element={<AdminDashboardPage />} />
           <Route path="/ports" element={<AdminPortsPage />} />
           <Route path="/ports/addPort" element={<AddPortPage />} />
+          <Route path="/ports/updatePort" element={<UpdatePortPage />} />
           <Route path="/users" element={<AdminUsersPage />} />          
           <Route path="/bookings" element={<AdminBookingsPage />} />
           <Route path="/users/addAdmin" element={<AddAdminPage />} />
