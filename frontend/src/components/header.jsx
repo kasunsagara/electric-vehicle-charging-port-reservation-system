@@ -54,13 +54,13 @@ export default function Header() {
           <>
             <Link
               to="/login"
-              className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-3 border-teal-700"
+              className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-teal-100 hover:text-teal-700 border-3 border-teal-700"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-3 border-teal-700"
+              className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-teal-100 hover:text-teal-700 border-3 border-teal-700"
             >
               Sign Up
             </Link>
@@ -70,7 +70,7 @@ export default function Header() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-3 border-teal-700 flex items-center justify-between w-full group"
+                className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-teal-100 hover:text-teal-700 border-3 border-teal-700 flex items-center justify-between w-full group"
               >
                 Profile
               </button>
@@ -97,7 +97,7 @@ export default function Header() {
 
             <button
               onClick={handleLogout}
-              className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-3 border-teal-700"
+              className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-teal-100 hover:text-teal-700 border-3 border-teal-700"
             >
               Logout
             </button>

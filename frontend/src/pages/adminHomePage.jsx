@@ -2,12 +2,12 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { FaTachometerAlt, FaShip, FaBook, FaUsers, FaHome, FaSignOutAlt } from "react-icons/fa";
 import AdminPortsPage from "./admin/adminPortsPage";
 import AddPortPage from "./admin/addPortPage";
 import AdminBookingsPage from "./admin/adminBookingsPage";
 import AdminUsersPage from "./admin/adminUserPage";
 import AddAdminPage from "./admin/addAdminPage";
-import { FaTachometerAlt, FaShip, FaBook, FaUsers, FaHome, FaSignOutAlt } from "react-icons/fa";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -37,40 +37,40 @@ export default function AdminHomePage() {
   return (
     <div className="w-full h-screen flex font-sans">
       {/* Sidebar */}
-      <div className="w-[20%] h-screen bg-green-600 flex flex-col shadow-lg">
+      <div className="w-[20%] h-screen bg-teal-600 flex flex-col shadow-lg">
         <h2 className="text-white text-[24px] font-bold p-6">Admin Panel</h2>
-        <nav className="flex flex-col h-full text-[17px]">
+        <nav className="flex flex-col h-full text-[17px] font-semibold">
           <Link
             to="/admin/dashboard"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
+            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
           >
             <FaTachometerAlt /> Dashboard
           </Link>
 
           <Link
             to="/admin/ports"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
+            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
           >
             <FaShip /> Ports
           </Link>
 
           <Link
             to="/admin/bookings"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
+            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
           >
             <FaBook /> Bookings
           </Link>
 
           <Link
             to="/admin/users"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
+            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
           >
             <FaUsers /> Users
           </Link>
 
           <Link
             to="/"
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
+            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
           >
             <FaHome /> Home
           </Link>
@@ -78,7 +78,7 @@ export default function AdminHomePage() {
           {/* Logout button at bottom */}
           <button
             onClick={handleLogout}
-            className="text-white px-6 py-3 hover:bg-green-700 transition rounded-r-full flex items-center gap-3"
+            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
           >
             <FaSignOutAlt /> Logout
           </button>
@@ -86,7 +86,7 @@ export default function AdminHomePage() {
       </div>
 
       {/* Main Content */}
-      <div className="w-[80%] h-screen bg-green-100 p-8 overflow-y-auto">
+      <div className="w-[80%] h-screen bg-teal-100 p-8 overflow-y-auto">
         <Routes>
           <Route
             path="/"

@@ -72,7 +72,7 @@ export default function AddAdminPage() {
 
         <label className="font-medium">Phone</label>
         <input
-          type="text"
+          type="number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           className="w-full border p-2 rounded"

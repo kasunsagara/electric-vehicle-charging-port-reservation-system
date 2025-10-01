@@ -33,7 +33,7 @@ export default function MyBookingsPage() {
   }, []);
 
   return (
-    <div className="bg-green-100 p-6">
+    <div className="bg-teal-100 p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">My Bookings</h1>
 
       {loading ? (

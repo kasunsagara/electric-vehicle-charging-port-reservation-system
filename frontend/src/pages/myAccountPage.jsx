@@ -44,7 +44,7 @@ export default function MyAccountPage() {
   if (!user) return <p className="text-center mt-10">No user data available.</p>;
 
   return (
-    <div className="min-h-screen bg-green-100 flex items-center justify-center">
+    <div className="min-h-screen bg-teal-100 flex items-center justify-center">
       <div className="max-w-md w-full p-6 bg-white shadow-lg rounded-xl">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">My Account</h1>
         <p className="mb-4">

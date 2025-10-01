@@ -130,7 +130,7 @@ export default function PortStatusPage() {
   };
 
   return (
-    <div className="p-6 bg-green-100 min-h-screen">
+    <div className="p-6 bg-teal-100 min-h-screen">
       {/* Header with Home button */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Charging Port Status</h2>

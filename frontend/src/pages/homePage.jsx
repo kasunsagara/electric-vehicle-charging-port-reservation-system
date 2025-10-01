@@ -4,7 +4,7 @@ import Header from "../components/header"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-green-100 flex flex-col">
+    <div className="min-h-screen bg-teal-100 flex flex-col">
       {/* Navbar */}
       <Header /> 
 
@@ -18,7 +18,7 @@ export default function HomePage() {
         </p>
         <Link
           to="/port-status"
-          className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-green-100 hover:text-teal-700 border-3 border-teal-700"
+          className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-teal-100 hover:text-teal-700 border-3 border-teal-700"
         >
           Check Ports
         </Link>
