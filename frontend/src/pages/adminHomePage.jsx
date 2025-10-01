@@ -2,7 +2,8 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { FaTachometerAlt, FaShip, FaBook, FaUsers, FaHome, FaSignOutAlt } from "react-icons/fa";
+import { FaTachometerAlt, FaChargingStation, FaUsers, FaCalendarCheck, FaHome, FaSignOutAlt } from "react-icons/fa";
+import AdminDashboardPage from "./admin/adminDashboardPage";
 import AdminPortsPage from "./admin/adminPortsPage";
 import AddPortPage from "./admin/addPortPage";
 import AdminBookingsPage from "./admin/adminBookingsPage";
@@ -51,14 +52,7 @@ export default function AdminHomePage() {
             to="/admin/ports"
             className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
           >
-            <FaShip /> Ports
-          </Link>
-
-          <Link
-            to="/admin/bookings"
-            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
-          >
-            <FaBook /> Bookings
+            <FaChargingStation /> Ports
           </Link>
 
           <Link
@@ -66,6 +60,13 @@ export default function AdminHomePage() {
             className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
           >
             <FaUsers /> Users
+          </Link>
+
+          <Link
+            to="/admin/bookings"
+            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
+          >
+            <FaCalendarCheck /> Bookings
           </Link>
 
           <Link
@@ -101,11 +102,11 @@ export default function AdminHomePage() {
               </div>
             }
           />
-          <Route path="/dashboard" element={<h1>Dashboard</h1>} />
+          <Route path="/dashboard" element={<AdminDashboardPage />} />
           <Route path="/ports" element={<AdminPortsPage />} />
           <Route path="/ports/addPort" element={<AddPortPage />} />
+          <Route path="/users" element={<AdminUsersPage />} />          
           <Route path="/bookings" element={<AdminBookingsPage />} />
-          <Route path="/users" element={<AdminUsersPage />} />
           <Route path="/users/addAdmin" element={<AddAdminPage />} />
         </Routes>
       </div>
