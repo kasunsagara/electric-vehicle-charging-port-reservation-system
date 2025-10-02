@@ -45,7 +45,7 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-teal-100">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-sm">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2 text-center">Sign Up</h2>
+        <h2 className="text-2xl font-semibold text-teal-700 mb-2 text-center">Sign Up</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name */}
