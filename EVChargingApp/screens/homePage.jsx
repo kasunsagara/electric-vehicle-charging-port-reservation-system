@@ -36,7 +36,7 @@ export default function HomePage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#d4f1e0",
+    backgroundColor: "#CCFBF1",
   },
   heroContainer: {
     flex: 1,

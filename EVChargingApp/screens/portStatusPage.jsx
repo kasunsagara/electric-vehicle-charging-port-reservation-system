@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, FlatList, StyleSheet, Alert } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+  StyleSheet,
+  Picker,
+} from "react-native";
 import axios from "axios";
-import * as Location from "expo-location";
+import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
-import { Picker } from "@react-native-picker/picker";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"; // web-only
+import "leaflet/dist/leaflet.css";
+import 'leaflet-defaulticon-compatibility';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 
-// Distance calculator
+
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -20,7 +31,7 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-export default function PortStatusPage({ navigation }) {
+export default function PortStatusPage() {
   const today = new Date().toISOString().split("T")[0];
   const [userLocation, setUserLocation] = useState({ lat: 8.6541, lng: 81.2139 });
   const [ports, setPorts] = useState([]);
@@ -28,33 +39,28 @@ export default function PortStatusPage({ navigation }) {
   const [view, setView] = useState("list");
   const [selectedDate, setSelectedDate] = useState(today);
   const [selectedTime, setSelectedTime] = useState("");
+  const [manualLocation, setManualLocation] = useState("");
+  const navigation = useNavigation();
 
-  // ✅ Detect user location
+  // Detect user location
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        Toast.show({ type: "error", text1: "Permission denied for location" });
-        return;
-      }
-      let location = await Location.getCurrentPositionAsync({});
-      setUserLocation({
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
-      });
-    })();
+    navigator.geolocation.getCurrentPosition(
+      (pos) =>
+        setUserLocation({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        }),
+      () => setUserLocation({ lat: 8.6541, lng: 81.2139 }),
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
   }, []);
 
-  // ✅ Fetch ports data
+  // Fetch ports
   useEffect(() => {
     if (selectedDate && selectedTime) {
       setLoading(true);
-
-      // replace with your PC IP if testing on real phone
-      const API_URL = `http://192.168.1.100:5000/api/ports?date=${selectedDate}&time=${selectedTime}`;
-
       axios
-        .get(API_URL)
+        .get(`http://localhost:5000/api/ports?date=${selectedDate}&time=${selectedTime}`)
         .then((res) => {
           const data = Array.isArray(res.data) ? res.data : res.data.data;
           const portsWithDistance = data.map((port) => ({
@@ -69,149 +75,237 @@ export default function PortStatusPage({ navigation }) {
           portsWithDistance.sort((a, b) => a.distance - b.distance);
           setPorts(portsWithDistance);
         })
-        .catch((err) => {
-          console.error("Error fetching ports:", err);
-          Toast.show({ type: "error", text1: "Error fetching port data!" });
+        .catch(() => {
+          Toast.show({
+            type: "error",
+            text1: "Error fetching port data!",
+          });
         })
         .finally(() => setLoading(false));
     }
   }, [userLocation, selectedDate, selectedTime]);
 
-  // ✅ Booking handler
+  // Booking handler
   const handleBooking = (portId, location, status) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      Toast.show({
+        type: "error",
+        text1: "You must log in to book a charging port!",
+      });
+      navigation.navigate("Login");
+      return;
+    }
     if (status === "available" && selectedDate && selectedTime) {
-      Alert.alert("Booking", `Booking port ${portId} at ${location}`);
-      // navigation.navigate("BookingPage", { portId, selectedDate, selectedTime, location });
+      const encodedLocation = encodeURIComponent(location);
+      navigation.navigate("PortBooking", {
+        portId,
+        date: selectedDate,
+        bookingTime: selectedTime,
+        location: encodedLocation,
+      });
     } else {
-      Toast.show({ type: "error", text1: "Please select date and time first." });
+      Toast.show({
+        type: "error",
+        text1: "Please select date and time slot first.",
+      });
+    }
+  };
+
+  // Manual location search
+  const handleManualLocationSearch = async () => {
+    if (!manualLocation) {
+      Toast.show({ type: "error", text1: "Please enter a location name!" });
+      return;
+    }
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          manualLocation
+        )}`
+      );
+      const data = await res.json();
+      if (data && data.length > 0) {
+        const { lat, lon } = data[0];
+        setUserLocation({ lat: parseFloat(lat), lng: parseFloat(lon) });
+        Toast.show({ type: "success", text1: `Location set to ${manualLocation}` });
+      } else {
+        Toast.show({ type: "error", text1: "Location not found!" });
+      }
+    } catch {
+      Toast.show({ type: "error", text1: "Failed to fetch location!" });
     }
   };
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Charging Port Status</Text>
-        <TouchableOpacity style={styles.homeBtn} onPress={() => navigation.navigate("Home")}>
-          <Text style={styles.homeBtnText}>Home</Text>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")}>
+          <Text style={styles.buttonText}>Home</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Date input */}
-      <TextInput
-        style={styles.input}
-        placeholder="YYYY-MM-DD"
-        value={selectedDate}
-        onChangeText={setSelectedDate}
-      />
-
-      {/* Time dropdown */}
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={selectedTime}
-          onValueChange={(itemValue) => setSelectedTime(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="Select Time" value="" />
-          <Picker.Item label="08:00 AM" value="08:00" />
-          <Picker.Item label="01:00 PM" value="13:00" />
-          <Picker.Item label="06:00 PM" value="18:00" />
-        </Picker>
+      <View style={styles.manualLocation}>
+        <TextInput
+          placeholder="Enter manual location"
+          value={manualLocation}
+          onChangeText={setManualLocation}
+          style={styles.input}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleManualLocationSearch}>
+          <Text style={styles.buttonText}>Set Location</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* Toggle buttons */}
-      <View style={styles.toggleRow}>
+      <View style={styles.toggleView}>
         <TouchableOpacity
-          style={[styles.toggleBtn, view === "list" && styles.activeBtn]}
+          style={[styles.toggleButton, view === "list" && styles.activeToggle]}
           onPress={() => setView("list")}
         >
           <Text>List View</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.toggleBtn, view === "map" && styles.activeBtn]}
+          style={[styles.toggleButton, view === "map" && styles.activeToggle]}
           onPress={() => setView("map")}
         >
           <Text>Map View</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Loading spinner */}
+      <View style={styles.dateTime}>
+        <TextInput style={styles.input} value={selectedDate} onChangeText={setSelectedDate} />
+        <Picker
+          selectedValue={selectedTime}
+          onValueChange={(itemValue) => setSelectedTime(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="Select Time" value="" />
+          <Picker.Item label="08:00" value="08:00" />
+          <Picker.Item label="13:00" value="13:00" />
+          <Picker.Item label="18:00" value="18:00" />
+        </Picker>
+      </View>
+
       {loading ? (
-        <ActivityIndicator size="large" color="teal" style={{ marginTop: 20 }} />
+        <ActivityIndicator size="large" color="#059669" style={{ marginTop: 50 }} />
       ) : (
         <>
-          {view === "list" ? (
-            <FlatList
-              data={ports}
-              keyExtractor={(item) => item._id}
-              renderItem={({ item }) => (
-                <View style={styles.portRow}>
-                  <Text style={styles.portText}>
-                    {item.portId} - {item.location} ({item.distance.toFixed(1)} km)
-                  </Text>
-                  <TouchableOpacity
-                    style={[
-                      styles.bookBtn,
-                      item.status !== "available" && styles.disabledBtn,
-                    ]}
-                    disabled={item.status !== "available"}
-                    onPress={() => handleBooking(item.portId, item.location, item.status)}
-                  >
-                    <Text style={styles.bookBtnText}>
-                      {item.status === "available" ? "Book Now" : "Unavailable"}
-                    </Text>
-                  </TouchableOpacity>
+          {view === "list" && (
+            <>
+              {!selectedDate || !selectedTime ? (
+                <View style={styles.alertYellow}>
+                  <Text>Please select date and time to view charging port details.</Text>
                 </View>
+              ) : ports.length === 0 ? (
+                <View style={styles.alertRed}>
+                  <Text>No ports available for the selected time.</Text>
+                </View>
+              ) : (
+                <ScrollView horizontal>
+                  <View style={styles.table}>
+                    <View style={styles.tableHeader}>
+                      <Text style={styles.th}>Port</Text>
+                      <Text style={styles.th}>Status</Text>
+                      <Text style={styles.th}>Location</Text>
+                      <Text style={styles.th}>Distance</Text>
+                      <Text style={styles.th}>Action</Text>
+                    </View>
+                    {ports.map((port) => (
+                      <View key={port._id} style={styles.tableRow}>
+                        <Text style={styles.td}>{port.portId}</Text>
+                        <Text style={styles.td}>
+                          {port.status === "available" ? "Available" : "Booked"}
+                        </Text>
+                        <Text style={styles.td}>{port.location}</Text>
+                        <Text style={styles.td}>{port.distance.toFixed(1)} km</Text>
+                        <TouchableOpacity
+                          disabled={port.status !== "available"}
+                          style={[
+                            styles.bookButton,
+                            port.status !== "available" && styles.disabledButton,
+                          ]}
+                          onPress={() => handleBooking(port.portId, port.location, port.status)}
+                        >
+                          <Text style={styles.bookButtonText}>Book Now</Text>
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
               )}
-            />
-          ) : (
-            <MapView
-              style={styles.map}
-              initialRegion={{
-                latitude: userLocation.lat,
-                longitude: userLocation.lng,
-                latitudeDelta: 0.1,
-                longitudeDelta: 0.1,
-              }}
-            >
-              <Marker coordinate={{ latitude: userLocation.lat, longitude: userLocation.lng }} title="You are here" />
-              {ports.map((port) => (
-                <Marker
-                  key={port._id}
-                  coordinate={{
-                    latitude: port.coordinates.lat,
-                    longitude: port.coordinates.lng,
-                  }}
-                  title={`Port ${port.portId}`}
-                  description={`${port.location} - ${port.status}`}
+            </>
+          )}
+
+          {view === "map" && (
+            <View style={{ height: 500, marginVertical: 10 }}>
+              <MapContainer
+                center={[userLocation.lat, userLocation.lng]}
+                zoom={11}
+                style={{ height: "100%", width: "100%" }}
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution="&copy; OpenStreetMap contributors"
                 />
-              ))}
-            </MapView>
+                <Marker position={[userLocation.lat, userLocation.lng]}>
+                  <Popup>You are here</Popup>
+                </Marker>
+                {ports.map((port) => (
+                  <Marker
+                    key={port._id}
+                    position={[port.coordinates.lat, port.coordinates.lng]}
+                  >
+                    <Popup>
+                      <Text>Port {port.portId}</Text>
+                      <Text>{port.location}</Text>
+                      <Text>Distance: {port.distance.toFixed(2)} km</Text>
+                      <Text>Status: {port.status}</Text>
+                      <TouchableOpacity
+                        disabled={port.status !== "available"}
+                        onPress={() => handleBooking(port.portId, port.location, port.status)}
+                        style={[
+                          styles.bookButton,
+                          port.status !== "available" && styles.disabledButton,
+                        ]}
+                      >
+                        <Text style={styles.bookButtonText}>Book Now</Text>
+                      </TouchableOpacity>
+                    </Popup>
+                  </Marker>
+                ))}
+              </MapContainer>
+            </View>
           )}
         </>
       )}
 
       <Toast />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: "#E6F4EA" },
-  header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 12 },
-  title: { fontSize: 20, fontWeight: "bold" },
-  homeBtn: { backgroundColor: "teal", padding: 8, borderRadius: 6 },
-  homeBtnText: { color: "#fff", fontWeight: "bold" },
-  input: { borderWidth: 1, borderColor: "#CFCFCF", padding: 8, borderRadius: 6, backgroundColor: "#fff", marginBottom: 8 },
-  pickerContainer: { borderWidth: 1, borderColor: "#CFCFCF", borderRadius: 6, backgroundColor: "#fff", marginBottom: 8 },
-  picker: { height: 50, width: "100%" },
-  toggleRow: { flexDirection: "row", justifyContent: "space-around", marginVertical: 10 },
-  toggleBtn: { padding: 10, backgroundColor: "#ddd", borderRadius: 6 },
-  activeBtn: { backgroundColor: "#aaf" },
-  portRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 12, backgroundColor: "#fff", marginBottom: 6, borderRadius: 6 },
-  portText: { fontSize: 14, flex: 1 },
-  bookBtn: { backgroundColor: "orange", padding: 8, borderRadius: 6 },
-  bookBtnText: { color: "#fff", fontWeight: "bold" },
-  disabledBtn: { backgroundColor: "gray" },
-  map: { flex: 1, marginTop: 10, borderRadius: 8 },
+  container: { flex: 1, padding: 16, backgroundColor: "#CCFBF1" },
+  header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 16 },
+  title: { fontSize: 24, fontWeight: "bold" },
+  button: { backgroundColor: "#059669", padding: 10, borderRadius: 6 },
+  buttonText: { color: "white", fontWeight: "bold" },
+  manualLocation: { flexDirection: "row", marginBottom: 16 },
+  input: { flex: 1, padding: 8, borderRadius: 6, backgroundColor: "white", marginRight: 8 },
+  toggleView: { flexDirection: "row", marginBottom: 16 },
+  toggleButton: { flexDirection: "row", alignItems: "center", padding: 10, borderRadius: 6, marginRight: 8, backgroundColor: "white" },
+  activeToggle: { backgroundColor: "#A7F3D0", shadowColor: "#000", shadowOpacity: 0.2, shadowRadius: 4, shadowOffset: { width: 0, height: 2 } },
+  dateTime: { flexDirection: "row", marginBottom: 16, alignItems: "center" },
+  picker: { height: 40, width: 120, backgroundColor: "white", borderRadius: 6 },
+  alertYellow: { backgroundColor: "#FEF3C7", padding: 10, borderRadius: 6, marginBottom: 16 },
+  alertRed: { backgroundColor: "#FEE2E2", padding: 10, borderRadius: 6, marginBottom: 16 },
+  table: { minWidth: 600 },
+  tableHeader: { flexDirection: "row", backgroundColor: "#D1D5DB", padding: 8 },
+  tableRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#E5E7EB", padding: 8, alignItems: "center" },
+  th: { flex: 1, fontWeight: "bold" },
+  td: { flex: 1 },
+  bookButton: { backgroundColor: "#F97316", padding: 6, borderRadius: 6 },
+  bookButtonText: { color: "white", fontWeight: "bold" },
+  disabledButton: { backgroundColor: "#9CA3AF" },
 });

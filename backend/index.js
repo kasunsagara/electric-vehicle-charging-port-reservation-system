@@ -69,67 +69,6 @@ app.listen(5000, () => {
 
 
 
-/*
-import express from 'express';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import userRouter from './routes/userRouter.js';
-import portRouter from './routes/portRouter.js';
-import bookingRouter from './routes/bookingRouter.js';
-
-dotenv.config();
-
-const app = express();
-
-app.use(cors({
-origin: "http://localhost:5173",
-credentials: true
-}));
-
-app.use(bodyParser.json());
-
-const mongoUrl = process.env.MONGO_DB_URI;
-
-mongoose.connect(mongoUrl, {})
-const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log("Database connected");
-});
-
-app.use(
-  (req, res, next) => {
-
-    const token = req.header("Authorization")?.replace("Bearer ", "");
-    console.log(token);
-
-    if (token != null) {
-      jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
-
-        if (!error) {
-          req.user = decoded;
-        }
-
-      });
-    }
-
-    next();
-
-  });
-
-app.use("/api/users", userRouter);
-app.use("/api/ports", portRouter);
-app.use("/api/bookings", bookingRouter);
-
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
-});
-*/
-
-
-
 /* 
    {
     "email": "kasunsagara689@gmail.com",
