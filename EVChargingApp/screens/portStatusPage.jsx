@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  ActivityIndicator,
-  StyleSheet,
-  Picker,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, StyleSheet, Picker } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
@@ -296,7 +287,7 @@ const styles = StyleSheet.create({
   toggleView: { flexDirection: "row", marginBottom: 16 },
   toggleButton: { flexDirection: "row", alignItems: "center", padding: 10, borderRadius: 6, marginRight: 8, backgroundColor: "white" },
   activeToggle: { backgroundColor: "#A7F3D0", shadowColor: "#000", shadowOpacity: 0.2, shadowRadius: 4, shadowOffset: { width: 0, height: 2 } },
-  dateTime: { flexDirection: "row", marginBottom: 16, alignItems: "center" },
+  dateTime: { flexDirection: "row", marginBottom: 16, alignItems: "center", width: '90%' },
   picker: { height: 40, width: 120, backgroundColor: "white", borderRadius: 6 },
   alertYellow: { backgroundColor: "#FEF3C7", padding: 10, borderRadius: 6, marginBottom: 16 },
   alertRed: { backgroundColor: "#FEE2E2", padding: 10, borderRadius: 6, marginBottom: 16 },

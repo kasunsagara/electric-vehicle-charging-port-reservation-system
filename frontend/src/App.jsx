@@ -4,7 +4,7 @@ import HomePage from './pages/homePage.jsx';
 import SignUpPage from './pages/signupPage.jsx';
 import LoginPage from './pages/loginPage.jsx';
 import MyAccountPage from './pages/myAccountPage.jsx';
-import MyBookingsPage from './pages/myBookingPage.jsx';
+import MyBookingsPage from './pages/myBookingsPage.jsx';
 import AdminHomePage from './pages/adminHomePage.jsx';
 import PortStatusPage from './pages/portStatusPage.jsx';
 import PortBookingPage from './pages/portBookingPage.jsx';
