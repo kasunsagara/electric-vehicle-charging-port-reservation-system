@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import Toast from "react-native-toast-message";
+import { UserContext } from "../context/userContext"; // ✅ import
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ export default function SignUpPage() {
   });
 
   const navigation = useNavigation();
+  const { login } = useContext(UserContext); // ✅ useContext
 
   const handleChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
@@ -26,8 +28,13 @@ export default function SignUpPage() {
       });
 
       if (res.status === 201 || res.status === 200) {
+        // ✅ Save user in context
+        login(res.data.user, res.data.token);
+
         Toast.show({ type: "success", text1: "Signup successful 🎉" });
-        navigation.navigate("Login");
+
+        // Redirect to Home or PortStatus
+        navigation.navigate("PortStatus");
       }
     } catch (error) {
       console.error("Signup Error:", error);
@@ -113,7 +120,7 @@ export default function SignUpPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#CCFBF1", // green-100
+    backgroundColor: "#CCFBF1",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 16,

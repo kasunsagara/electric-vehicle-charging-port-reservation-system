@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import Toast from "react-native-toast-message";
+import { UserContext } from "../context/userContext"; // ✅ import
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigation = useNavigation();
+  const { login } = useContext(UserContext); // ✅ useContext
 
   const handleChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
@@ -21,6 +23,9 @@ export default function LoginPage() {
       );
 
       if (res.status === 200) {
+        // ✅ Save user in context
+        login(res.data.user, res.data.token);
+
         Toast.show({ type: "success", text1: "Login successful 🎉" });
 
         // Redirect based on role
