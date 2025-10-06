@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
@@ -56,10 +56,7 @@ export default function MyBookingsPage() {
                   <Text style={styles.th}>Vehicle</Text>
                   <Text style={styles.th}>Charger</Text>
                   <Text style={styles.th}>Date & Time</Text>
-                  <Text style={styles.th}>Battery (kWh)</Text>
-                  <Text style={styles.th}>Charge Time</Text>
-                  <Text style={styles.th}>Cost (Rs.)</Text>
-                  <Text style={styles.th}>Action</Text>
+                  <Text style={styles.th}>Estimated Info</Text>
                 </View>
 
                 {/* ===== Table Rows ===== */}
@@ -80,16 +77,12 @@ export default function MyBookingsPage() {
                       <Text>{booking.bookingTime}</Text>
                     </View>
 
-                    <Text style={styles.td}>{booking.estimatedBatteryCapacity || "-"}</Text>
-                    <Text style={styles.td}>{booking.estimatedChargingTime || "-"}</Text>
-                    <Text style={styles.td}>{booking.estimatedCost || "-"}</Text>
-
-                    <TouchableOpacity
-                      style={styles.bookButton}
-                      onPress={() => Toast.show({ type: "info", text1: "Coming soon: View details" })}
-                    >
-                      <Text style={styles.bookButtonText}>Details</Text>
-                    </TouchableOpacity>
+                    {/* === Combined Estimated Info === */}
+                    <View style={[styles.td, { flexDirection: "column" }]}>
+                      <Text>Battery: {booking.estimatedBatteryCapacity || "-"}</Text>
+                      <Text>Time: {booking.estimatedChargingTime || "-"}</Text>
+                      <Text>Cost: Rs. {booking.estimatedCost || "-"}</Text>
+                    </View>
                   </View>
                 ))}
               </View>
@@ -121,7 +114,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: 16,
   },
-  table: { minWidth: 900 },
+  table: { minWidth: 800 },
   tableHeader: {
     flexDirection: "row",
     backgroundColor: "#D1D5DB", // gray-300
@@ -132,7 +125,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#E5E7EB",
     padding: 8,
-    alignItems: "center",
+    alignItems: "flex-start",
     backgroundColor: "#fff",
   },
   th: {
@@ -141,15 +134,5 @@ const styles = StyleSheet.create({
   },
   td: {
     flex: 1,
-  },
-  bookButton: {
-    backgroundColor: "#F97316",
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 6,
-  },
-  bookButtonText: {
-    color: "white",
-    fontWeight: "bold",
   },
 });

@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
   alertRed: { backgroundColor: "#FEE2E2", padding: 10, borderRadius: 6, marginBottom: 16 },
   table: { minWidth: 600 },
   tableHeader: { flexDirection: "row", backgroundColor: "#D1D5DB", padding: 8 },
-  tableRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#E5E7EB", padding: 8, alignItems: "center" },
+  tableRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#E5E7EB", padding: 8, alignItems: "center", backgroundColor: "#fff" },
   th: { flex: 1, fontWeight: "bold" },
   td: { flex: 1 },
   bookButton: { backgroundColor: "#F97316", padding: 6, borderRadius: 6 },
