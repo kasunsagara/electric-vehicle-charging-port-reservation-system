@@ -2,16 +2,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { 
-  FiCalendar, 
-  FiClock, 
-  FiBattery, 
-  FiDollarSign, 
-  FiMapPin, 
-  FiRefreshCw, 
-  FiPackage,
-  FiCpu
-} from "react-icons/fi";
+import { FiCalendar,  FiClock, FiBattery, FiDollarSign, FiMapPin, FiPackage, FiCpu} from "react-icons/fi";
+import { FaCar, FaMotorcycle, FaShuttleVan, FaHashtag } from 'react-icons/fa';
 
 export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
@@ -42,32 +34,19 @@ export default function MyBookingsPage() {
     fetchBookings();
   }, []);
 
-  const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'confirmed':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800 border-red-200';
-      case 'completed':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
+
 
   // Get appropriate vehicle icon based on vehicle type
   const getVehicleIcon = (vehicleType) => {
     switch (vehicleType?.toLowerCase()) {
       case 'car':
-        return '🚗';
+        return <FaCar className="text-blue-600" />;
       case 'bike':
-        return '🏍️';
+        return <FaMotorcycle className="text-blue-600" />;
       case 'van':
-        return '🚐';
+        return <FaShuttleVan className="text-blue-600" />;
       default:
-        return '🚗';
+        return <FaCar className="text-blue-600" />;
     }
   };
 
@@ -85,16 +64,6 @@ export default function MyBookingsPage() {
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             View and manage all your charging port reservations in one place
           </p>
-          
-          {/* Refresh Button */}
-          <button
-            onClick={fetchBookings}
-            disabled={loading}
-            className="mt-4 flex items-center space-x-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition duration-200 shadow-lg hover:shadow-xl border border-green-200 mx-auto"
-          >
-            <FiRefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
-            <span>{loading ? 'Refreshing...' : 'Refresh Bookings'}</span>
-          </button>
         </div>
 
         {loading ? (
@@ -157,22 +126,17 @@ export default function MyBookingsPage() {
                         key={booking._id} 
                         className="hover:bg-green-50 transition duration-150 group"
                       >
-                        {/* Booking ID & Status */}
+                        {/* Booking ID */}
                         <td className="px-6 py-6">
                           <div className="flex flex-col space-y-2">
                             <div className="flex items-center space-x-2">
-                              <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
-                                <span className="text-white font-bold text-xs">B</span>
+                              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <FaHashtag className="w-5 h-5 text-green-600" />
                               </div>
                               <div>
                                 <span className="font-bold text-gray-800 text-lg">
-                                  #{booking.bookingId}
+                                  {booking.bookingId}
                                 </span>
-                                {booking.status && (
-                                  <span className={`ml-2 px-2 py-1 rounded-full text-xs font-semibold border ${getStatusColor(booking.status)}`}>
-                                    {booking.status}
-                                  </span>
-                                )}
                               </div>
                             </div>
                           </div>
@@ -181,7 +145,7 @@ export default function MyBookingsPage() {
                         {/* Vehicle Information */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-lg">
+                            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-xl">
                               {getVehicleIcon(booking.vehicleType)}
                             </div>
                             <div className="flex flex-col">
@@ -203,9 +167,8 @@ export default function MyBookingsPage() {
                             </div>
                             <div className="flex flex-col">
                               <span className="font-bold text-gray-800 text-lg">
-                                #{booking.portId}
+                                {booking.portId}
                               </span>
-                              <span className="text-xs text-gray-500">Port ID</span>
                             </div>
                           </div>
                         </td>
@@ -285,34 +248,6 @@ export default function MyBookingsPage() {
                 </table>
               </div>
             )}
-          </div>
-        )}
-
-        {/* Stats Summary */}
-        {bookings.length > 0 && (
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-green-100 text-center">
-              <div className="text-2xl font-bold text-gray-800 mb-2">{bookings.length}</div>
-              <div className="text-gray-600">Total Bookings</div>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-green-100 text-center">
-              <div className="text-2xl font-bold text-green-600 mb-2">
-                {bookings.filter(b => b.status?.toLowerCase() === 'confirmed').length}
-              </div>
-              <div className="text-gray-600">Confirmed</div>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-green-100 text-center">
-              <div className="text-2xl font-bold text-blue-600 mb-2">
-                {new Set(bookings.map(b => b.portId)).size}
-              </div>
-              <div className="text-gray-600">Unique Ports</div>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-green-100 text-center">
-              <div className="text-2xl font-bold text-orange-600 mb-2">
-                Rs. {bookings.reduce((total, booking) => total + (parseFloat(booking.estimatedCost) || 0), 0)}
-              </div>
-              <div className="text-gray-600">Total Estimated Cost</div>
-            </div>
           </div>
         )}
       </div>
