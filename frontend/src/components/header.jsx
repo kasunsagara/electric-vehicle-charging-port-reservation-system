@@ -47,7 +47,7 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo Section */}
         <div className="flex items-center space-x-2">
-          <FaBolt className="text-2xl text-yellow-300 animate-pulse" />
+          <FaBolt className="text-2xl text-yellow-300" />
           <h1 className="text-2xl font-bold tracking-tight">ChargeNow</h1>
         </div>
 
