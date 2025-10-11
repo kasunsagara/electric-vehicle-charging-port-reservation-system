@@ -13,7 +13,7 @@ import AddAdminPage from "./admin/addAdminPage";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState(" ");
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -44,12 +44,8 @@ export default function AdminHomePage() {
         {/* Logo Section */}
         <div className="p-6 border-b border-green-500">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-              <FaChargingStation className="w-5 h-5 text-green-600" />
-            </div>
             <div>
               <h2 className="text-white text-xl font-bold">Admin Panel</h2>
-              <p className="text-green-200 text-xs">ChargeNow System</p>
             </div>
           </div>
         </div>
@@ -141,36 +137,6 @@ export default function AdminHomePage() {
 
       {/* Main Content Area */}
       <div className="flex-1 h-screen overflow-hidden flex flex-col">
-        {/* Header */}
-        <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">
-                {activeTab === "dashboard" && "Dashboard"}
-                {activeTab === "ports" && "Port Management"}
-                {activeTab === "users" && "User Management"}
-                {activeTab === "bookings" && "Booking Management"}
-                {activeTab === "home" && "Back to Home"}
-              </h1>
-              <p className="text-gray-600 text-sm mt-1">
-                {activeTab === "dashboard" && "Overview of system statistics and performance"}
-                {activeTab === "ports" && "Manage charging ports and their availability"}
-                {activeTab === "users" && "View and manage system users"}
-                {activeTab === "bookings" && "Monitor and manage all bookings"}
-                {activeTab === "home" && "Return to the main application"}
-              </p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <p className="text-sm text-gray-600">Welcome back,</p>
-                <p className="font-semibold text-gray-800">Admin</p>
-              </div>
-              <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">A</span>
-              </div>
-            </div>
-          </div>
-        </header>
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto bg-gradient-to-br from-green-50 to-emerald-100 p-6">
@@ -186,7 +152,7 @@ export default function AdminHomePage() {
                     <h1 className="text-5xl font-bold text-gray-800 mb-4">
                       Welcome, Admin!
                     </h1>
-                    <p className="text-xl text-gray-600 mb-8 max-w-2xl">
+                    <p className="text-lg text-gray-600 mb-8 max-w-2x">
                       This is your admin dashboard where you can manage ports, users, and view comprehensive reports for the ChargeNow EV charging system.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
