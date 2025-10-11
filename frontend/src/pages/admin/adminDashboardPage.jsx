@@ -66,57 +66,108 @@ export default function AdminDashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center py-20">
-        <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex justify-center items-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 text-lg">Loading dashboard data...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen p-6">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Admin Dashboard</h1>
+          <p className="text-gray-600">Overview of system statistics and performance</p>
+        </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-4 rounded shadow flex items-center gap-4">
-          <FaChargingStation className="text-4xl text-teal-500" />
-          <div>
-            <h2 className="text-xl font-bold">Total Ports</h2>
-            <p className="text-2xl">{totalPorts}</p>
+        {/* Summary Cards - Your original layout with enhanced styling */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {/* Total Ports Card */}
+          <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
+                <FaChargingStation className="text-3xl text-blue-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">Total Ports</h2>
+                <p className="text-3xl font-bold text-gray-800 mt-1">{totalPorts}</p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="bg-white p-4 rounded shadow flex items-center gap-4">
-          <FaUsers className="text-4xl text-teal-500" />
-          <div>
-            <h2 className="text-xl font-bold">Total Users</h2>
-            <p className="text-2xl">{totalUsers}</p>
-          </div>
-        </div>
-        <div className="bg-white p-4 rounded shadow flex items-center gap-4">
-          <FaCalendarCheck className="text-4xl text-teal-500" />
-          <div>
-            <h2 className="text-xl font-bold">Total Bookings</h2>
-            <p className="text-2xl">{totalBookings}</p>
-          </div>
-        </div>
-      </div>
 
-      {/* Bookings Over Time Chart */}
-      <div className="mt-10 bg-white p-4 rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Bookings Over Time</h2>
-        {chartData.length > 0 ? (
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={chartData}>
-              <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="count" stroke="#8884d8" />
-            </LineChart>
-          </ResponsiveContainer>
-        ) : (
-          <p>No booking data available</p>
-        )}
+          {/* Total Users Card */}
+          <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center">
+                <FaUsers className="text-3xl text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">Total Users</h2>
+                <p className="text-3xl font-bold text-gray-800 mt-1">{totalUsers}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Total Bookings Card */}
+          <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center">
+                <FaCalendarCheck className="text-3xl text-purple-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">Total Bookings</h2>
+                <p className="text-3xl font-bold text-gray-800 mt-1">{totalBookings}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bookings Over Time Chart - Your original chart with enhanced styling */}
+        <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
+          <h2 className="text-xl font-bold text-gray-800 mb-6">Bookings Over Time</h2>
+          {chartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={chartData}>
+                <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="date" 
+                  stroke="#6b7280"
+                  fontSize={12}
+                />
+                <YAxis 
+                  stroke="#6b7280"
+                  fontSize={12}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'white', 
+                    border: '1px solid #d1d5db',
+                    borderRadius: '0.5rem',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="count" 
+                  stroke="#10B981" 
+                  strokeWidth={3}
+                  dot={{ fill: '#10B981', strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, fill: '#059669' }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+              <FaCalendarCheck className="w-12 h-12 mb-4 text-gray-300" />
+              <p className="text-lg">No booking data available</p>
+              <p className="text-sm mt-2">Booking data will appear here once users start making reservations</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

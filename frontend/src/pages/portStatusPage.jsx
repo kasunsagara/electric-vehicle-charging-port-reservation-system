@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FiList, FiMap } from "react-icons/fi";
+import { FiList, FiMap, FiHome, FiNavigation, FiClock, FiCalendar, FiSearch } from "react-icons/fi";
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
@@ -21,7 +21,7 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 
 export default function PortStatusPage() {
   const today = new Date().toISOString().split("T")[0];
-  const [userLocation, setUserLocation] = useState({ lat: 8.6541, lng: 81.2139 }); // Default Trincomalee Campus location
+  const [userLocation, setUserLocation] = useState({ lat: 8.6541, lng: 81.2139 });
   const [ports, setPorts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState("list");
@@ -40,7 +40,6 @@ export default function PortStatusPage() {
         }),
       (err) => {
         console.error("Location error:", err);
-        // fallback location = Trincomalee Campus
         setUserLocation({ lat: 8.6541, lng: 81.2139 });
       },
       {
@@ -130,221 +129,318 @@ export default function PortStatusPage() {
   };
 
   return (
-    <div className="p-6 bg-teal-100 min-h-screen">
-      {/* Header with Home button */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Charging Port Status</h2>
-        <button
-          onClick={() => navigate("/")}
-          className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
-        >
-          Home
-        </button>
-      </div>
-
-      {/* Manual location search */}
-      <div className="flex flex-col md:flex-row items-center space-x-2 mb-4">
-        <input
-          type="text"
-          placeholder="Enter manual location"
-          value={manualLocation}
-          onChange={(e) => setManualLocation(e.target.value)}
-          className="px-3 py-2 rounded bg-white shadow w-72"
-        />
-        <button
-          onClick={handleManualLocationSearch}
-          className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
-        >
-          Set Location
-        </button>
-      </div>
-
-      {/* Top bar: View toggle left, Filters right */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-        {/* List/Map toggle */}
-        <div className="flex space-x-2 mb-4 md:mb-0">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-4 md:p-6">
+      {/* Header Section */}
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+          <div className="mb-4 md:mb-0">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+              Charging Ports
+            </h1>
+            <p className="text-gray-600">Find and book available charging stations near you</p>
+          </div>
           <button
-            onClick={() => setView("list")}
-            className={`flex items-center space-x-1 px-4 py-2 rounded ${
-              view === "list" ? "bg-teal-200 shadow" : "bg-white shadow"
-            }`}
+            onClick={() => navigate("/")}
+            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition duration-200 shadow-lg hover:shadow-xl"
           >
-            <FiList />
-            <span>List View</span>
-          </button>
-          <button
-            onClick={() => setView("map")}
-            className={`flex items-center space-x-1 px-4 py-2 rounded ${
-              view === "map" ? "bg-teal-200 shadow" : "bg-white shadow"
-            }`}
-          >
-            <FiMap />
-            <span>Map View</span>
+            <FiHome className="w-5 h-5" />
+            <span>Back to Home</span>
           </button>
         </div>
 
-        {/* Date & Time filters */}
-        <div className="flex space-x-2 justify-end">
-          <input
-            type="date"
-            value={selectedDate}
-            min={today}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            className="rounded px-3 py-2 bg-white shadow"
-          />
-          <select
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-            className="rounded px-3 py-2 bg-white shadow"
-          >
-            <option value="">Select Time</option>
-            <option value="08:00">08:00</option>
-            <option value="13:00">13:00</option>
-            <option value="18:00">18:00</option>
-          </select>
+        {/* Location Search Section */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-green-100">
+          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+            <div className="flex-1 w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                <FiNavigation className="w-4 h-4 inline mr-1" />
+                Search Location
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Enter city, address, or landmark..."
+                  value={manualLocation}
+                  onChange={(e) => setManualLocation(e.target.value)}
+                  className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                />
+                <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              </div>
+            </div>
+            <div className="flex space-x-4">
+              <button
+                onClick={handleManualLocationSearch}
+                className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition duration-200 shadow-lg hover:shadow-xl"
+              >
+                Set Location
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Spinner */}
-      {loading ? (
-        <div className="flex justify-center py-20">
-          <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
+        {/* Controls Section */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-green-100">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+            {/* View Toggle */}
+            <div className="flex space-x-2">
+              <button
+                onClick={() => setView("list")}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition duration-200 ${
+                  view === "list"
+                    ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                <FiList className="w-5 h-5" />
+                <span>List View</span>
+              </button>
+              <button
+                onClick={() => setView("map")}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition duration-200 ${
+                  view === "map"
+                    ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                <FiMap className="w-5 h-5" />
+                <span>Map View</span>
+              </button>
+            </div>
+
+            {/* Date & Time Filters */}
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FiCalendar className="w-4 h-4 inline mr-1" />
+                  Select Date
+                </label>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  min={today}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+                />
+              </div>
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FiClock className="w-4 h-4 inline mr-1" />
+                  Select Time
+                </label>
+                <select
+                  value={selectedTime}
+                  onChange={(e) => setSelectedTime(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+                >
+                  <option value="">Choose Time Slot</option>
+                  <option value="08:00">08:00 AM</option>
+                  <option value="13:00">01:00 PM</option>
+                  <option value="18:00">06:00 PM</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
-      ) : (
-        <>
-          {/* List View */}
-          {view === "list" && (
-            <>
-              {!selectedDate || !selectedTime ? (
-                <div className="bg-yellow-100 text-yellow-800 px-4 py-3 rounded mb-4">
-                  Please select date and time to view charging port details.
-                </div>
-              ) : ports.length === 0 ? (
-                <div className="bg-red-100 text-red-700 px-4 py-3 rounded mb-4">
-                  No ports available for the selected time.
-                </div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left bg-white rounded-lg shadow-md">
-                    <thead>
-                      <tr className="bg-gray-300 text-black uppercase text-sm font-semibold">
-                        <th className="px-6 py-4">Port</th>
-                        <th className="px-6 py-4">Status</th>
-                        <th className="px-6 py-4">Location</th>
-                        <th className="px-6 py-4">Distance</th>
-                        <th className="px-6 py-4">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {ports.map((port) => (
-                        <tr
-                          key={port._id}
-                          className="border-b hover:bg-gray-100 transition-colors"
-                        >
-                          <td className="px-6 py-4 font-semibold">
-                            {port.portId}
-                          </td>
-                          <td className="px-6 py-4">
-                            <span
-                              className={`flex items-center space-x-2 ${
-                                port.status === "available"
-                                  ? "text-green-600"
-                                  : "text-red-600"
-                              }`}
-                            >
-                              <span
-                                className={`h-3 w-3 rounded-full ${
+
+        {/* Loading Spinner */}
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600">Finding charging ports near you...</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* List View */}
+            {view === "list" && (
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-green-100">
+                {!selectedDate || !selectedTime ? (
+                  <div className="p-8 text-center">
+                    <div className="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <FiClock className="w-12 h-12 text-yellow-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">Select Date & Time</h3>
+                    <p className="text-gray-600 mb-4">Please choose a date and time slot to view available charging ports</p>
+                  </div>
+                ) : ports.length === 0 ? (
+                  <div className="p-8 text-center">
+                    <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <FiMap className="w-12 h-12 text-red-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">No Ports Available</h3>
+                    <p className="text-gray-600">No charging ports found for the selected time slot</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-gradient-to-r from-green-500 to-emerald-600 text-white">
+                          <th className="px-6 py-4 text-left font-semibold">Port ID</th>
+                          <th className="px-6 py-4 text-left font-semibold">Status</th>
+                          <th className="px-6 py-4 text-left font-semibold">Location</th>
+                          <th className="px-6 py-4 text-left font-semibold">Distance</th>
+                          <th className="px-6 py-4 text-left font-semibold">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {ports.map((port, index) => (
+                          <tr
+                            key={port._id}
+                            className={`border-b border-gray-100 transition duration-200 hover:bg-green-50 ${
+                              index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                            }`}
+                          >
+                            <td className="px-6 py-4">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                                  <span className="text-white font-bold text-sm">P{port.portId}</span>
+                                </div>
+                                <span className="font-semibold text-gray-800">Port {port.portId}</span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center space-x-2">
+                                <div
+                                  className={`w-3 h-3 rounded-full ${
+                                    port.status === "available"
+                                      ? "bg-green-500 animate-pulse"
+                                      : "bg-red-500"
+                                  }`}
+                                ></div>
+                                <span
+                                  className={`font-semibold capitalize ${
+                                    port.status === "available"
+                                      ? "text-green-600"
+                                      : "text-red-600"
+                                  }`}
+                                >
+                                  {port.status}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="max-w-xs">
+                                <p className="text-gray-800 font-medium">{port.location}</p>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center space-x-2">
+                                <FiNavigation className="w-4 h-4 text-gray-400" />
+                                <span className="font-semibold text-gray-700">
+                                  {port.distance.toFixed(1)} km
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <button
+                                disabled={port.status !== "available"}
+                                className={`px-6 py-2 rounded-xl font-semibold transition duration-200 ${
                                   port.status === "available"
-                                    ? "bg-green-500"
-                                    : "bg-red-500"
+                                    ? "bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 shadow-lg hover:shadow-xl transform hover:scale-105"
+                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                 }`}
-                              ></span>
-                              <span className="capitalize">
-                                {port.status}
-                              </span>
-                            </span>
-                          </td>
-                          <td className="px-6 py-4">{port.location}</td>
-                          <td className="px-6 py-4">
-                            {port.distance.toFixed(1)} km
-                          </td>
-                          <td className="px-6 py-4">
+                                onClick={() =>
+                                  handleBooking(port.portId, port.location, port.status)
+                                }
+                              >
+                                {port.status === "available" ? "Book Now" : "Unavailable"}
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Map View */}
+            {view === "map" && (
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-green-100">
+                <div className="p-4 border-b border-gray-200">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    Charging Ports Map View
+                  </h3>
+                  <p className="text-gray-600 text-sm">
+                    {ports.length} ports found near your location
+                  </p>
+                </div>
+                <div className="h-96 md:h-[500px] w-full">
+                  <MapContainer
+                    center={[userLocation.lat, userLocation.lng]}
+                    zoom={11}
+                    style={{ height: "100%", width: "100%" }}
+                    className="rounded-b-2xl"
+                  >
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution="&copy; OpenStreetMap contributors"
+                    />
+                    <Marker position={[userLocation.lat, userLocation.lng]}>
+                      <Popup>
+                        <div className="text-center">
+                          <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <FiNavigation className="w-4 h-4 text-white" />
+                          </div>
+                          <b>Your Location</b>
+                        </div>
+                      </Popup>
+                    </Marker>
+                    {ports.map((port) => (
+                      <Marker
+                        key={port._id}
+                        position={[port.coordinates.lat, port.coordinates.lng]}
+                      >
+                        <Popup>
+                          <div className="min-w-[200px]">
+                            <div className="flex items-center space-x-2 mb-3">
+                              <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                                <span className="text-white font-bold text-xs">P{port.portId}</span>
+                              </div>
+                              <div>
+                                <b className="text-gray-800">Port {port.portId}</b>
+                                <div className="flex items-center space-x-1">
+                                  <div
+                                    className={`w-2 h-2 rounded-full ${
+                                      port.status === "available" ? "bg-green-500" : "bg-red-500"
+                                    }`}
+                                  ></div>
+                                  <span className="text-sm text-gray-600 capitalize">
+                                    {port.status}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <p className="text-sm text-gray-700 mb-2">{port.location}</p>
+                            <p className="text-sm text-gray-600 mb-3">
+                              Distance: {port.distance.toFixed(2)} km
+                            </p>
                             <button
                               disabled={port.status !== "available"}
-                              className={`px-4 py-2 rounded text-white font-semibold transition-colors ${
+                              className={`w-full py-2 rounded-lg font-semibold text-sm transition duration-200 ${
                                 port.status === "available"
-                                  ? "bg-orange-500 hover:bg-orange-600"
-                                  : "bg-gray-400 cursor-not-allowed"
+                                  ? "bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600"
+                                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
                               }`}
                               onClick={() =>
-                                handleBooking(
-                                  port.portId,
-                                  port.location,
-                                  port.status
-                                )
+                                handleBooking(port.portId, port.location, port.status)
                               }
                             >
-                              Book Now
+                              {port.status === "available" ? "Book This Port" : "Currently Unavailable"}
                             </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                          </div>
+                        </Popup>
+                      </Marker>
+                    ))}
+                  </MapContainer>
                 </div>
-              )}
-            </>
-          )}
-
-          {/* Map View */}
-          {view === "map" && (
-            <MapContainer
-              center={[userLocation.lat, userLocation.lng]}
-              zoom={11}
-              style={{ height: "500px", width: "100%" }}
-              className="rounded-lg shadow"
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="&copy; OpenStreetMap contributors"
-              />
-              <Marker position={[userLocation.lat, userLocation.lng]}>
-                <Popup>You are here</Popup>
-              </Marker>
-              {ports.map((port) => (
-                <Marker
-                  key={port._id}
-                  position={[port.coordinates.lat, port.coordinates.lng]}
-                >
-                  <Popup>
-                    <b>Port {port.portId}</b>
-                    <br />
-                    {port.location}
-                    <br />
-                    Distance: {port.distance.toFixed(2)} km
-                    <br />
-                    Status: {port.status}
-                    <br />
-                    <button
-                      disabled={port.status !== "available"}
-                      className={`px-2 py-1 rounded text-white font-semibold ${
-                        port.status === "available"
-                          ? "bg-orange-500 hover:bg-orange-600"
-                          : "bg-gray-400 cursor-not-allowed"
-                      }`}
-                      onClick={() =>
-                        handleBooking(port.portId, port.location, port.status)
-                      }
-                    >
-                      Book Now
-                    </button>
-                  </Popup>
-                </Marker>
-              ))}
-            </MapContainer>
-          )}
-        </>
-      )}
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

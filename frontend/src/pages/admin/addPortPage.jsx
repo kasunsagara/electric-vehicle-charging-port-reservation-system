@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { FaChargingStation, FaMapMarkerAlt, FaPlus, FaArrowLeft } from "react-icons/fa";
 
 export default function AddPortPage() {
   const [portId, setPortId] = useState("");
@@ -10,11 +11,14 @@ export default function AddPortPage() {
   const [lng, setLng] = useState("");
   const [normalSpeed, setNormalSpeed] = useState("");
   const [fastSpeed, setFastSpeed] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    
     try {
       const newPort = {
         portId,
@@ -34,78 +38,186 @@ export default function AddPortPage() {
       navigate("/admin/ports");
     } catch (err) {
       console.error("Error adding port:", err.response?.data || err);
-      toast.error("Failed to add port");
+      toast.error(err.response?.data?.message || "Failed to add port");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 bg-white text-gray-800 p-6 rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">Add New Port</h2>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto">
+        {/* Header Section */}
+        <div className="mb-8">
+          <button
+            onClick={() => navigate("/admin/ports")}
+            className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-4 transition duration-200"
+          >
+            <FaArrowLeft className="w-4 h-4" />
+            <span className="font-medium">Back to Ports</span>
+          </button>
+          
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
+              <FaPlus className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800">Add New Port</h1>
+              <p className="text-gray-600 mt-1">Create a new charging station in the system</p>
+            </div>
+          </div>
+        </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <label className="font-medium">Port ID</label>
-        <input
-          type="text"
-          value={portId}
-          onChange={(e) => setPortId(e.target.value)}
-          className="w-full border p-2 rounded"
-          required
-        />
+        {/* Form Card */}
+        <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Port ID Section */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <FaChargingStation className="w-4 h-4 inline mr-2 text-green-600" />
+                Port ID
+              </label>
+              <input
+                type="text"
+                value={portId}
+                onChange={(e) => setPortId(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                placeholder="Enter unique port identifier"
+                required
+              />
+            </div>
 
-        <label className="font-medium">Location</label>
-        <input
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="w-full border p-2 rounded"
-          required
-        />
+            {/* Location Section */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <FaMapMarkerAlt className="w-4 h-4 inline mr-2 text-orange-500" />
+                Location
+              </label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                placeholder="Enter port location address"
+                required
+              />
+            </div>
 
-        <h3 className="text-[17px] font-semibold">Coordinates</h3>
-        <label className="font-medium">Latitude Value</label>
-        <input
-          type="number"
-          value={lat}
-          onChange={(e) => setLat(e.target.value)}
-          className="w-full border p-2 rounded"
-          required
-        />
+            {/* Coordinates Section */}
+            <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <FaMapMarkerAlt className="w-4 h-4 mr-2 text-blue-500" />
+                Coordinates
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Latitude
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    value={lat}
+                    onChange={(e) => setLat(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                    placeholder="e.g., 6.9271"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Longitude
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    value={lng}
+                    onChange={(e) => setLng(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                    placeholder="e.g., 79.8612"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
 
-        <label className="font-medium">Longitude Value</label>
-        <input
-          type="number"
-          value={lng}
-          onChange={(e) => setLng(e.target.value)}
-          className="w-full border p-2 rounded"
-          required
-        />
+            {/* Charger Options Section */}
+            <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <FaChargingStation className="w-4 h-4 mr-2 text-purple-500" />
+                Charger Options
+              </h3>
+              
+              {/* Normal Charger */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold mr-2">Normal</span>
+                  Charger Speed (kW)
+                </label>
+                <input
+                  type="number"
+                  value={normalSpeed}
+                  onChange={(e) => setNormalSpeed(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                  placeholder="e.g., 7.4"
+                  required
+                />
+                <p className="text-xs text-gray-500 mt-1">Typical speeds: 3.7kW - 22kW</p>
+              </div>
 
-        <h3 className="text-[17px] font-semibold">Charger Options</h3>
-        <label className="font-medium">Normal Charger Speed (kW)</label>
-        <input
-          type="number"
-          value={normalSpeed}
-          onChange={(e) => setNormalSpeed(e.target.value)}
-          className="w-full border p-2 rounded"
-          required
-        />
+              {/* Fast Charger */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-semibold mr-2">Fast</span>
+                  Charger Speed (kW)
+                </label>
+                <input
+                  type="number"
+                  value={fastSpeed}
+                  onChange={(e) => setFastSpeed(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                  placeholder="e.g., 50"
+                  required
+                />
+                <p className="text-xs text-gray-500 mt-1">Typical speeds: 50kW - 350kW</p>
+              </div>
+            </div>
 
-        <label className="font-medium">Fast Charger Speed (kW)</label>
-        <input
-          type="number"
-          value={fastSpeed}
-          onChange={(e) => setFastSpeed(e.target.value)}
-          className="w-full border p-2 rounded"
-          required
-        />
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                  Adding Port...
+                </div>
+              ) : (
+                <div className="flex items-center justify-center">
+                  <FaPlus className="w-4 h-4 mr-2" />
+                  Add Charging Port
+                </div>
+              )}
+            </button>
+          </form>
+        </div>
 
-        <button
-          type="submit"
-          className="w-full bg-teal-600 text-white py-2 rounded hover:bg-teal-700"
-        >
-          Add Port
-        </button>
-      </form>
+        {/* Help Section */}
+        <div className="mt-6 bg-blue-50 rounded-xl p-4 border border-blue-200">
+          <h4 className="font-semibold text-blue-800 mb-2 flex items-center">
+            <FaChargingStation className="w-4 h-4 mr-2" />
+            Quick Tips
+          </h4>
+          <ul className="text-sm text-blue-700 space-y-1">
+            <li>• Port ID should be unique (e.g., PORT_001, COLOMBO_01)</li>
+            <li>• Use exact coordinates for precise location mapping</li>
+            <li>• Normal chargers are suitable for overnight charging</li>
+            <li>• Fast chargers provide quick top-ups for busy locations</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

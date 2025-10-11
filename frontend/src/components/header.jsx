@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react"; 
 import { Link, useNavigate } from "react-router-dom";
 import { FaBolt } from "react-icons/fa";
 import { toast } from "react-hot-toast";
@@ -20,7 +20,7 @@ export default function Header() {
       await axios.post("http://localhost:5000/api/users/logout", {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
-      
+
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       setUser(null);
@@ -43,66 +43,79 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="flex justify-between mt-2 mr-4 items-center px-6 py-4">
-      <div className="flex items-center space-x-1">
-        <FaBolt className="text-teal-700 text-2xl" /> 
-        <h1 className="text-2xl font-semibold text-teal-700">ChargeNow</h1>
-      </div>
+    <header className="bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        {/* Logo Section */}
+        <div className="flex items-center space-x-2">
+          <FaBolt className="text-2xl text-yellow-300 animate-pulse" />
+          <h1 className="text-2xl font-bold tracking-tight">ChargeNow</h1>
+        </div>
 
-      <div className="flex space-x-4 items-center relative">
-        {!user ? (
-          <>
-            <Link
-              to="/login"
-              className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-teal-100 hover:text-teal-700 border-3 border-teal-700"
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-teal-100 hover:text-teal-700 border-3 border-teal-700"
-            >
-              Sign Up
-            </Link>
-          </>
-        ) : (
-          <>
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-teal-100 hover:text-teal-700 border-3 border-teal-700 flex items-center justify-between w-full group"
+        {/* Navigation Section */}
+        <div className="flex items-center space-x-4">
+          {!user ? (
+            <>
+              <Link 
+                to="/login" 
+                className="bg-white text-green-600 hover:bg-green-50 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
               >
-                Profile
+                Login
+              </Link>
+              <Link 
+                to="/signup" 
+                className="bg-yellow-400 text-gray-800 hover:bg-yellow-300 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+              >
+                Sign Up
+              </Link>
+            </>
+          ) : (
+            <div className="flex items-center space-x-4">
+              {/* Dropdown Menu */}
+              <div className="relative" ref={dropdownRef}>
+                <button 
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="bg-white text-green-600 hover:bg-green-50 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg flex items-center space-x-1"
+                >
+                  <span>Profile</span>
+                  <svg 
+                    className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-10 border border-gray-200">
+                    <Link 
+                      to="/myAccount" 
+                      onClick={() => setDropdownOpen(false)}
+                      className="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 transition duration-150 border-b border-gray-100"
+                    >
+                      My Account
+                    </Link>
+                    <Link 
+                      to="/myBookings" 
+                      onClick={() => setDropdownOpen(false)}
+                      className="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 transition duration-150"
+                    >
+                      My Bookings
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              <button 
+                onClick={handleLogout}
+                className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+              >
+                Logout
               </button>
-
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                  <Link
-                    to="/myAccount"
-                    className="block px-4 py-2 text-gray-800 font-bold hover:bg-teal-200"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    My Account
-                  </Link>
-                  <Link
-                    to="/myBookings"
-                    className="block px-4 py-2 text-gray-800 font-bold hover:bg-teal-200"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    My Bookings
-                  </Link>
-                </div>
-              )}
             </div>
-
-            <button
-              onClick={handleLogout}
-              className="bg-teal-700 text-xl font-medium text-white px-4 py-2 rounded-md hover:bg-teal-100 hover:text-teal-700 border-3 border-teal-700"
-            >
-              Logout
-            </button>
-          </>
-        )}
+          )}
+        </div>
       </div>
     </header>
   );

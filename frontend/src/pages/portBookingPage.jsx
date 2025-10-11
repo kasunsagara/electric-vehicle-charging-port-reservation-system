@@ -4,6 +4,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChargingEstimates from "../components/ChargingEstimates";
 import toast from "react-hot-toast";
+import { FiCalendar, FiClock, FiMapPin, FiBattery, FiDollarSign, FiUpload, FiCheckCircle } from "react-icons/fi";
 
 // Battery capacities per vehicle model (kWh)
 const batteryCapacityMap = {
@@ -136,138 +137,225 @@ export default function PortBookingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
-        <p>Loading port details...</p>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex justify-center items-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 text-lg">Loading port details...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-teal-100 flex justify-center items-start py-10 px-6">
-      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        {/* Booking Summary */}
-        <div className="bg-white text-gray-800 p-6 rounded-2xl shadow-sm h-[400px] overflow-y-auto">
-          <h2 className="text-2xl font-bold mb-4 pb-2 text-center">Booking Summary</h2>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="font-semibold">Port Id:</span>
-              <span className="font-medium">{formData.portId}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Location:</span>
-              <span className="font-medium">{formData.portLocation || port?.location}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Date:</span>
-              <span className="font-medium">{formData.bookingDate}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Time:</span>
-              <span className="font-medium">{finalbookingTime || formData.bookingTime}</span>
-            </div>
-            {realBookingId && (
-              <div className="mt-4 p-3 bg-white/20 text-center text-green-100">
-                Booking ID: {realBookingId}
-              </div>
-            )}
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+            Book Charging Port
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Complete your booking details and confirm your charging session
+          </p>
         </div>
 
-        {/* Booking Form */}
-        <div className="bg-white p-6 text-gray-800 rounded-2xl shadow-sm">
-          <h2 className="text-2xl font-bold mb-4 pb-2 text-center">Book Charging Port</h2>
-
-          <form onSubmit={handleCalculateEstimates} className="space-y-4">
-            <div>
-              <label className="font-semibold">Vehicle Type</label>
-              <select 
-                name="vehicleType" 
-                value={formData.vehicleType} 
-                onChange={handleChange} 
-                className="w-full border rounded px-3 py-2"
-              >
-                <option value="Car">Car</option>
-                <option value="Bike">Bike</option>
-                <option value="Van">Van</option>
-              </select>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Booking Summary Card */}
+          <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
+            <div className="flex items-center space-x-2 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                <FiCheckCircle className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Booking Summary</h2>
             </div>
 
-            <div>
-              <label className="font-semibold">Vehicle Model</label>
-              <select 
-                name="vehicleModel" 
-                value={formData.vehicleModel} 
-                onChange={handleChange} 
-                className="w-full border rounded px-3 py-2"
-                required
-              >
-                <option value="">Select Model</option>
-                {vehicleModels[formData.vehicleType].map(model => (
-                  <option key={model} value={model}>{model}</option>
-                ))}
-              </select>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl border border-green-200">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                    <span className="font-bold text-green-600">P{formData.portId}</span>
+                  </div>
+                  <span className="font-semibold text-gray-700">Port ID</span>
+                </div>
+                <span className="font-bold text-gray-800">#{formData.portId}</span>
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-blue-50 rounded-xl border border-blue-200">
+                <div className="flex items-center space-x-3">
+                  <FiMapPin className="w-5 h-5 text-blue-600" />
+                  <span className="font-semibold text-gray-700">Location</span>
+                </div>
+                <span className="font-medium text-gray-800 text-right max-w-xs">
+                  {formData.portLocation || port?.location}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl border border-purple-200">
+                <div className="flex items-center space-x-3">
+                  <FiCalendar className="w-5 h-5 text-purple-600" />
+                  <span className="font-semibold text-gray-700">Date</span>
+                </div>
+                <span className="font-medium text-gray-800">{formData.bookingDate}</span>
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-orange-50 rounded-xl border border-orange-200">
+                <div className="flex items-center space-x-3">
+                  <FiClock className="w-5 h-5 text-orange-600" />
+                  <span className="font-semibold text-gray-700">Time</span>
+                </div>
+                <span className="font-medium text-gray-800">
+                  {finalbookingTime || formData.bookingTime}
+                </span>
+              </div>
+
+              {realBookingId && (
+                <div className="mt-6 p-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl text-white text-center">
+                  <div className="flex items-center justify-center space-x-2 mb-2">
+                    <FiCheckCircle className="w-5 h-5" />
+                    <span className="font-semibold">Booking Confirmed!</span>
+                  </div>
+                  <p className="text-sm">Your Booking ID: <span className="font-bold">{realBookingId}</span></p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Booking Form Card */}
+          <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
+            <div className="flex items-center space-x-2 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                <FiBattery className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Booking Details</h2>
             </div>
 
-            <div>
-              <label className="font-semibold">Charger Type</label>
-              {port?.chargerOptions?.length > 0 ? (
+            <form onSubmit={handleCalculateEstimates} className="space-y-6">
+              {/* Vehicle Type */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Vehicle Type
+                </label>
                 <select 
-                  name="chargerType" 
-                  value={formData.chargerType} 
+                  name="vehicleType" 
+                  value={formData.vehicleType} 
                   onChange={handleChange} 
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 bg-white"
+                >
+                  <option value="Car">🚗 Car</option>
+                  <option value="Bike">🏍️ Bike</option>
+                  <option value="Van">🚐 Van</option>
+                </select>
+              </div>
+
+              {/* Vehicle Model */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Vehicle Model
+                </label>
+                <select 
+                  name="vehicleModel" 
+                  value={formData.vehicleModel} 
+                  onChange={handleChange} 
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 bg-white"
                   required
                 >
-                  {port.chargerOptions.map(option => (
-                    <option key={option.type} value={option.type}>
-                      {option.type} ({option.speed} kW)
-                    </option>
+                  <option value="">Select Vehicle Model</option>
+                  {vehicleModels[formData.vehicleType].map(model => (
+                    <option key={model} value={model}>{model}</option>
                   ))}
                 </select>
-              ) : <p>No charger options available</p>}
-            </div>
+              </div>
 
-            <div>
-              <label className="font-semibold">Car Photo (Optional)</label>
-              <div className="flex items-center border rounded px-3 py-2">
-                <label className="bg-gray-100 text-black px-3 py-1 rounded border border-black cursor-pointer hover:bg-gray-200">
-                  Choose File
+              {/* Charger Type */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Charger Type
+                </label>
+                {port?.chargerOptions?.length > 0 ? (
+                  <select 
+                    name="chargerType" 
+                    value={formData.chargerType} 
+                    onChange={handleChange} 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 bg-white"
+                    required
+                  >
+                    {port.chargerOptions.map(option => (
+                      <option key={option.type} value={option.type}>
+                        {option.type} ({option.speed} kW) - {option.voltage}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+                    No charger options available for this port
+                  </div>
+                )}
+              </div>
+
+              {/* Car Photo Upload */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Vehicle Photo (Optional)
+                </label>
+                <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 hover:border-green-500 transition duration-200">
                   <input 
                     type="file" 
                     name="carPhoto" 
                     accept="image/*" 
                     onChange={handleChange} 
                     className="hidden" 
+                    id="carPhoto"
                   />
-                </label>
-                <span className="flex-1 text-gray-600 truncate ml-2">
-                  {formData.carPhoto ? formData.carPhoto.name : "No file chosen"}
-                </span>
+                  <label htmlFor="carPhoto" className="cursor-pointer">
+                    <div className="text-center">
+                      <FiUpload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                      <p className="text-gray-600 mb-2">
+                        {formData.carPhoto ? formData.carPhoto.name : "Click to upload vehicle photo"}
+                      </p>
+                      <button 
+                        type="button"
+                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition duration-200"
+                      >
+                        Choose File
+                      </button>
+                    </div>
+                  </label>
+                </div>
               </div>
-            </div>
 
-            <button 
-              type="submit" 
-              className="mt-3 w-full bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">
-              Calculate Estimates
-            </button>
-          </form>
-
-          {showEstimates && (
-            <div className="mt-4">
-              <ChargingEstimates 
-                chargerType={formData.chargerType} 
-                vehicleModel={formData.vehicleModel} 
-                port={port} 
-              />
+              {/* Calculate Estimates Button */}
               <button 
-                onClick={handleConfirmBooking} 
-                className="mt-3 w-full bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">
-                Confirm Booking
+                type="submit" 
+                disabled={!formData.vehicleModel || !formData.chargerType}
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                Calculate Charging Estimates
               </button>
-            </div>
-          )}
+            </form>
+
+            {/* Estimates Section */}
+            {showEstimates && (
+              <div className="mt-6 p-6 bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200">
+                <div className="flex items-center space-x-2 mb-4">
+                  <FiDollarSign className="w-5 h-5 text-green-600" />
+                  <h3 className="text-lg font-semibold text-gray-800">Charging Estimates</h3>
+                </div>
+                <ChargingEstimates 
+                  chargerType={formData.chargerType} 
+                  vehicleModel={formData.vehicleModel} 
+                  port={port} 
+                />
+                
+                {/* Confirm Booking Button */}
+                <button 
+                  onClick={handleConfirmBooking} 
+                  className="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-4 rounded-xl font-semibold hover:from-orange-600 hover:to-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                >
+                  Confirm Booking & Proceed to Payment
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

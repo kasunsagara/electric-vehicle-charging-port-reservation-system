@@ -13,6 +13,7 @@ import AddAdminPage from "./admin/addAdminPage";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
+  const [activeTab, setActiveTab] = useState("dashboard");
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -37,80 +38,193 @@ export default function AdminHomePage() {
   };
 
   return (
-    <div className="w-full h-screen flex font-sans">
+    <div className="w-full h-screen flex font-sans bg-gray-50">
       {/* Sidebar */}
-      <div className="w-[20%] h-screen bg-teal-600 flex flex-col shadow-lg">
-        <h2 className="text-white text-[24px] font-bold p-6">Admin Panel</h2>
-        <nav className="flex flex-col h-full text-[17px] font-semibold">
+      <div className="w-64 h-screen bg-gradient-to-b from-green-600 to-emerald-700 flex flex-col shadow-xl border-r border-green-500">
+        {/* Logo Section */}
+        <div className="p-6 border-b border-green-500">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+              <FaChargingStation className="w-5 h-5 text-green-600" />
+            </div>
+            <div>
+              <h2 className="text-white text-xl font-bold">Admin Panel</h2>
+              <p className="text-green-200 text-xs">ChargeNow System</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Menu */}
+        <nav className="flex-1 flex flex-col p-4 space-y-2">
+          {/* Dashboard Link */}
           <Link
             to="/admin/dashboard"
-            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
+            onClick={() => setActiveTab("dashboard")}
+            className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+              activeTab === "dashboard"
+                ? "bg-white text-green-700 shadow-lg transform scale-105"
+                : "text-green-100 hover:bg-green-500 hover:text-white hover:shadow-md"
+            }`}
           >
-            <FaTachometerAlt /> Dashboard
+            <FaTachometerAlt className={`w-5 h-5 ${activeTab === "dashboard" ? 'text-green-600' : ''}`} />
+            <span className="font-semibold">Dashboard</span>
           </Link>
 
+          {/* Ports Link */}
           <Link
             to="/admin/ports"
-            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
+            onClick={() => setActiveTab("ports")}
+            className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+              activeTab === "ports"
+                ? "bg-white text-green-700 shadow-lg transform scale-105"
+                : "text-green-100 hover:bg-green-500 hover:text-white hover:shadow-md"
+            }`}
           >
-            <FaChargingStation /> Ports
+            <FaChargingStation className={`w-5 h-5 ${activeTab === "ports" ? 'text-green-600' : ''}`} />
+            <span className="font-semibold">Ports</span>
           </Link>
 
+          {/* Users Link */}
           <Link
             to="/admin/users"
-            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
+            onClick={() => setActiveTab("users")}
+            className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+              activeTab === "users"
+                ? "bg-white text-green-700 shadow-lg transform scale-105"
+                : "text-green-100 hover:bg-green-500 hover:text-white hover:shadow-md"
+            }`}
           >
-            <FaUsers /> Users
+            <FaUsers className={`w-5 h-5 ${activeTab === "users" ? 'text-green-600' : ''}`} />
+            <span className="font-semibold">Users</span>
           </Link>
 
+          {/* Bookings Link */}
           <Link
             to="/admin/bookings"
-            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
+            onClick={() => setActiveTab("bookings")}
+            className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+              activeTab === "bookings"
+                ? "bg-white text-green-700 shadow-lg transform scale-105"
+                : "text-green-100 hover:bg-green-500 hover:text-white hover:shadow-md"
+            }`}
           >
-            <FaCalendarCheck /> Bookings
+            <FaCalendarCheck className={`w-5 h-5 ${activeTab === "bookings" ? 'text-green-600' : ''}`} />
+            <span className="font-semibold">Bookings</span>
           </Link>
 
+          {/* Home Link */}
           <Link
             to="/"
-            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
+            onClick={() => setActiveTab("home")}
+            className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+              activeTab === "home"
+                ? "bg-white text-green-700 shadow-lg transform scale-105"
+                : "text-green-100 hover:bg-green-500 hover:text-white hover:shadow-md"
+            }`}
           >
-            <FaHome /> Home
+            <FaHome className={`w-5 h-5 ${activeTab === "home" ? 'text-green-600' : ''}`} />
+            <span className="font-semibold">Home</span>
           </Link>
+        </nav>
 
-          {/* Logout button at bottom */}
+        {/* Logout Section */}
+        <div className="p-4 border-t border-green-500">
           <button
             onClick={handleLogout}
-            className="text-white px-6 py-3 hover:bg-teal-700 transition rounded-r-full flex items-center gap-3"
+            className="w-full flex items-center space-x-3 px-4 py-3 text-green-100 hover:bg-red-500 hover:text-white rounded-xl transition-all duration-200 font-semibold hover:shadow-md"
           >
-            <FaSignOutAlt /> Logout
+            <FaSignOutAlt className="w-5 h-5" />
+            <span>Logout</span>
           </button>
-        </nav>
+        </div>
       </div>
 
-      {/* Main Content */}
-      <div className="w-[80%] h-screen bg-teal-100 p-8 overflow-y-auto">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <div className="max-w-4xl mx-auto flex flex-col items-center mt-50">
-                <h1 className="text-[54px] font-bold text-teal-700 mb-6">
-                  Welcome, Admin!
-                </h1>
-                <p className="text-[18px] text-gray-600">
-                  This is your admin dashboard where you can manage ports, manage users and view reports.
-                </p>
+      {/* Main Content Area */}
+      <div className="flex-1 h-screen overflow-hidden flex flex-col">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-800">
+                {activeTab === "dashboard" && "Dashboard"}
+                {activeTab === "ports" && "Port Management"}
+                {activeTab === "users" && "User Management"}
+                {activeTab === "bookings" && "Booking Management"}
+                {activeTab === "home" && "Back to Home"}
+              </h1>
+              <p className="text-gray-600 text-sm mt-1">
+                {activeTab === "dashboard" && "Overview of system statistics and performance"}
+                {activeTab === "ports" && "Manage charging ports and their availability"}
+                {activeTab === "users" && "View and manage system users"}
+                {activeTab === "bookings" && "Monitor and manage all bookings"}
+                {activeTab === "home" && "Return to the main application"}
+              </p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <p className="text-sm text-gray-600">Welcome back,</p>
+                <p className="font-semibold text-gray-800">Admin</p>
               </div>
-            }
-          />
-          <Route path="/dashboard" element={<AdminDashboardPage />} />
-          <Route path="/ports" element={<AdminPortsPage />} />
-          <Route path="/ports/addPort" element={<AddPortPage />} />
-          <Route path="/ports/updatePort" element={<UpdatePortPage />} />
-          <Route path="/users" element={<AdminUsersPage />} />          
-          <Route path="/bookings" element={<AdminBookingsPage />} />
-          <Route path="/users/addAdmin" element={<AddAdminPage />} />
-        </Routes>
+              <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-sm">A</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto bg-gradient-to-br from-green-50 to-emerald-100 p-6">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div className="max-w-4xl mx-auto flex flex-col items-center justify-center h-full">
+                  <div className="text-center">
+                    <div className="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                      <FaChargingStation className="w-12 h-12 text-white" />
+                    </div>
+                    <h1 className="text-5xl font-bold text-gray-800 mb-4">
+                      Welcome, Admin!
+                    </h1>
+                    <p className="text-xl text-gray-600 mb-8 max-w-2xl">
+                      This is your admin dashboard where you can manage ports, users, and view comprehensive reports for the ChargeNow EV charging system.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                      <div className="bg-white p-6 rounded-2xl shadow-lg border border-green-100 text-center">
+                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                          <FaChargingStation className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h3 className="font-semibold text-gray-800 mb-2">Port Management</h3>
+                        <p className="text-gray-600 text-sm">Manage charging stations and availability</p>
+                      </div>
+                      <div className="bg-white p-6 rounded-2xl shadow-lg border border-green-100 text-center">
+                        <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                          <FaUsers className="w-6 h-6 text-green-600" />
+                        </div>
+                        <h3 className="font-semibold text-gray-800 mb-2">User Management</h3>
+                        <p className="text-gray-600 text-sm">View and manage system users</p>
+                      </div>
+                      <div className="bg-white p-6 rounded-2xl shadow-lg border border-green-100 text-center">
+                        <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                          <FaCalendarCheck className="w-6 h-6 text-purple-600" />
+                        </div>
+                        <h3 className="font-semibold text-gray-800 mb-2">Booking Reports</h3>
+                        <p className="text-gray-600 text-sm">Monitor all charging sessions</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            />
+            <Route path="/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/ports" element={<AdminPortsPage />} />
+            <Route path="/ports/addPort" element={<AddPortPage />} />
+            <Route path="/ports/updatePort" element={<UpdatePortPage />} />
+            <Route path="/users" element={<AdminUsersPage />} />          
+            <Route path="/bookings" element={<AdminBookingsPage />} />
+            <Route path="/users/addAdmin" element={<AddAdminPage />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );
