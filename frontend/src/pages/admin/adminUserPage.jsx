@@ -161,7 +161,6 @@ export default function AdminUsersPage() {
                             </div>
                             <div>
                               <span className="font-bold text-gray-800 block">{user.name}</span>
-                              <span className="text-sm text-gray-500">ID: {user._id?.substring(0, 8)}...</span>
                             </div>
                           </div>
                         </td>
@@ -227,45 +226,6 @@ export default function AdminUsersPage() {
             )}
           </div>
         )}
-
-        {/* Stats Summary */}
-        {users.length > 0 && (
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-green-100 text-center">
-              <div className="text-2xl font-bold text-gray-800 mb-2">{users.length}</div>
-              <div className="text-gray-600">Total Users</div>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-green-100 text-center">
-              <div className="text-2xl font-bold text-red-600 mb-2">
-                {users.filter(user => user.role?.toLowerCase() === 'admin').length}
-              </div>
-              <div className="text-gray-600">Admin Users</div>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-green-100 text-center">
-              <div className="text-2xl font-bold text-green-600 mb-2">
-                {users.filter(user => user.role?.toLowerCase() === 'customer').length}
-              </div>
-              <div className="text-gray-600">Customers</div>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-green-100 text-center">
-              <div className="text-2xl font-bold text-blue-600 mb-2">
-                {users.filter(user => user.phone && user.phone.trim() !== '').length}
-              </div>
-              <div className="text-gray-600">With Phone</div>
-            </div>
-          </div>
-        )}
-
-        {/* Protected User Notice */}
-        <div className="mt-6 bg-yellow-50 rounded-xl p-4 border border-yellow-200">
-          <div className="flex items-center space-x-2">
-            <FaLock className="w-4 h-4 text-yellow-600" />
-            <span className="font-semibold text-yellow-800">Protected User</span>
-          </div>
-          <p className="text-sm text-yellow-700 mt-1">
-            The user with email "kasunsagara689@gmail.com" is protected and cannot be deleted for system security reasons.
-          </p>
-        </div>
       </div>
     </div>
   );

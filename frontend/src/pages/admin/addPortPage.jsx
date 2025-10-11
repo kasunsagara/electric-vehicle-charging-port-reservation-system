@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FaChargingStation, FaMapMarkerAlt, FaPlus, FaArrowLeft } from "react-icons/fa";
+import { FaChargingStation, FaMapMarkerAlt, FaPlus } from "react-icons/fa";
 
 export default function AddPortPage() {
   const [portId, setPortId] = useState("");
@@ -48,15 +48,7 @@ export default function AddPortPage() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         {/* Header Section */}
-        <div className="mb-8">
-          <button
-            onClick={() => navigate("/admin/ports")}
-            className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-4 transition duration-200"
-          >
-            <FaArrowLeft className="w-4 h-4" />
-            <span className="font-medium">Back to Ports</span>
-          </button>
-          
+        <div className="mb-8">       
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
               <FaPlus className="w-6 h-6 text-white" />
@@ -159,10 +151,9 @@ export default function AddPortPage() {
                   value={normalSpeed}
                   onChange={(e) => setNormalSpeed(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
-                  placeholder="e.g., 7.4"
+                  placeholder="e.g., 10"
                   required
                 />
-                <p className="text-xs text-gray-500 mt-1">Typical speeds: 3.7kW - 22kW</p>
               </div>
 
               {/* Fast Charger */}
@@ -176,10 +167,9 @@ export default function AddPortPage() {
                   value={fastSpeed}
                   onChange={(e) => setFastSpeed(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
-                  placeholder="e.g., 50"
+                  placeholder="e.g., 40"
                   required
                 />
-                <p className="text-xs text-gray-500 mt-1">Typical speeds: 50kW - 350kW</p>
               </div>
             </div>
 
@@ -196,26 +186,11 @@ export default function AddPortPage() {
                 </div>
               ) : (
                 <div className="flex items-center justify-center">
-                  <FaPlus className="w-4 h-4 mr-2" />
                   Add Charging Port
                 </div>
               )}
             </button>
           </form>
-        </div>
-
-        {/* Help Section */}
-        <div className="mt-6 bg-blue-50 rounded-xl p-4 border border-blue-200">
-          <h4 className="font-semibold text-blue-800 mb-2 flex items-center">
-            <FaChargingStation className="w-4 h-4 mr-2" />
-            Quick Tips
-          </h4>
-          <ul className="text-sm text-blue-700 space-y-1">
-            <li>• Port ID should be unique (e.g., PORT_001, COLOMBO_01)</li>
-            <li>• Use exact coordinates for precise location mapping</li>
-            <li>• Normal chargers are suitable for overnight charging</li>
-            <li>• Fast chargers provide quick top-ups for busy locations</li>
-          </ul>
         </div>
       </div>
     </div>

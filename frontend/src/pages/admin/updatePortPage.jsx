@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaChargingStation, FaMapMarkerAlt, FaSave, FaArrowLeft, FaEdit } from "react-icons/fa";
+import { FaChargingStation, FaMapMarkerAlt, FaArrowLeft, FaEdit } from "react-icons/fa";
 
 export default function UpdatePortPage() {
   const loc = useLocation();
@@ -73,14 +73,6 @@ export default function UpdatePortPage() {
       <div className="max-w-2xl mx-auto">
         {/* Header Section */}
         <div className="mb-8">
-          <button
-            onClick={() => navigate("/admin/ports")}
-            className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-4 transition duration-200"
-          >
-            <FaArrowLeft className="w-4 h-4" />
-            <span className="font-medium">Back to Ports</span>
-          </button>
-          
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
               <FaEdit className="w-6 h-6 text-white" />
@@ -94,11 +86,6 @@ export default function UpdatePortPage() {
 
         {/* Form Card */}
         <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-          {/* Current Port Info */}
-          <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
-            <h3 className="font-semibold text-blue-800 mb-2">Editing Port: <span className="font-bold">#{port.portId}</span></h3>
-            <p className="text-sm text-blue-700">Original Location: {port.location}</p>
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Port ID Section */}
@@ -192,7 +179,6 @@ export default function UpdatePortPage() {
                   placeholder="e.g., 7.4"
                   required
                 />
-                <p className="text-xs text-gray-500 mt-1">Typical speeds: 3.7kW - 22kW</p>
               </div>
 
               {/* Fast Charger */}
@@ -209,7 +195,6 @@ export default function UpdatePortPage() {
                   placeholder="e.g., 50"
                   required
                 />
-                <p className="text-xs text-gray-500 mt-1">Typical speeds: 50kW - 350kW</p>
               </div>
             </div>
 
@@ -226,42 +211,11 @@ export default function UpdatePortPage() {
                 </div>
               ) : (
                 <div className="flex items-center justify-center">
-                  <FaSave className="w-4 h-4 mr-2" />
                   Update Charging Port
                 </div>
               )}
             </button>
           </form>
-        </div>
-
-        {/* Current Port Details */}
-        <div className="mt-6 bg-green-50 rounded-xl p-4 border border-green-200">
-          <h4 className="font-semibold text-green-800 mb-3 flex items-center">
-            <FaChargingStation className="w-4 h-4 mr-2" />
-            Current Port Details
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="font-medium text-gray-700">Port ID:</span>
-              <span className="ml-2 text-gray-600">#{port.portId}</span>
-            </div>
-            <div>
-              <span className="font-medium text-gray-700">Location:</span>
-              <span className="ml-2 text-gray-600">{port.location}</span>
-            </div>
-            <div>
-              <span className="font-medium text-gray-700">Coordinates:</span>
-              <span className="ml-2 text-gray-600">
-                {port.coordinates?.lat}, {port.coordinates?.lng}
-              </span>
-            </div>
-            <div>
-              <span className="font-medium text-gray-700">Chargers:</span>
-              <span className="ml-2 text-gray-600">
-                {port.chargerOptions?.map(opt => `${opt.type} (${opt.speed}kW)`).join(', ')}
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
