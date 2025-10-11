@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaBolt } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { FaChevronDown } from 'react-icons/fa';
 
 export default function Header() {
   const [user, setUser] = useState(null);
@@ -77,14 +78,9 @@ export default function Header() {
                   className="bg-white text-green-600 hover:bg-green-50 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg flex items-center space-x-1"
                 >
                   <span>Profile</span>
-                  <svg 
-                    className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+                    <FaChevronDown 
+                      className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} 
+                    />
                 </button>
 
                 {dropdownOpen && (

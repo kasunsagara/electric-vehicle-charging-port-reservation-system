@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { FiUser, FiMail, FiPhone, FiShield, FiEdit, FiHome, FiList } from "react-icons/fi";
+import { FiUser, FiMail, FiPhone, FiHome, FiList } from "react-icons/fi";
+import { FaCrown, FaUser, FaUserTie } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
 export default function MyAccountPage() {
@@ -37,25 +38,14 @@ export default function MyAccountPage() {
     fetchUser();
   }, []);
 
-  const getRoleColor = (role) => {
-    switch (role?.toLowerCase()) {
-      case 'admin':
-        return 'bg-red-100 text-red-800 border-red-200';
-      case 'customer':
-        return 'bg-green-100 text-green-800 border-green-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
   const getRoleIcon = (role) => {
     switch (role?.toLowerCase()) {
       case 'admin':
-        return '👑';
+        return <FaCrown className="text-red-600" />;
       case 'customer':
-        return '👤';
+        return <FaUser className="text-red-600" />;
       default:
-        return '👤';
+        return <FaUserTie className="text-red-600" />;
     }
   };
 
@@ -110,10 +100,6 @@ export default function MyAccountPage() {
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-800">Profile Information</h2>
-                <button className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition duration-200">
-                  <FiEdit className="w-4 h-4" />
-                  <span>Edit Profile</span>
-                </button>
               </div>
 
               <div className="space-y-6">
@@ -159,9 +145,6 @@ export default function MyAccountPage() {
                     <label className="block text-sm font-medium text-gray-600 mb-1">Account Role</label>
                     <div className="flex items-center space-x-3">
                       <p className="text-lg font-semibold text-gray-800 capitalize">{user.role}</p>
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold border ${getRoleColor(user.role)}`}>
-                        {user.role}
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -171,32 +154,6 @@ export default function MyAccountPage() {
 
           {/* Sidebar Cards */}
           <div className="space-y-6">
-            {/* Account Status Card */}
-            <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                  <FiShield className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-800">Account Status</h3>
-              </div>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Status</span>
-                  <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
-                    Active
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Member Since</span>
-                  <span className="text-gray-800 font-medium">2024</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Last Login</span>
-                  <span className="text-gray-800 font-medium">Recently</span>
-                </div>
-              </div>
-            </div>
-
             {/* Quick Actions Card */}
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
@@ -220,25 +177,6 @@ export default function MyAccountPage() {
                   </div>
                   <span>Find Charging Ports</span>
                 </button>
-              </div>
-            </div>
-
-            {/* Statistics Card */}
-            <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Account Statistics</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                  <span className="text-gray-600">Total Bookings</span>
-                  <span className="font-bold text-gray-800">12</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                  <span className="text-gray-600">Active Sessions</span>
-                  <span className="font-bold text-green-600">1</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                  <span className="text-gray-600">Ports Used</span>
-                  <span className="font-bold text-blue-600">5</span>
-                </div>
               </div>
             </div>
           </div>
