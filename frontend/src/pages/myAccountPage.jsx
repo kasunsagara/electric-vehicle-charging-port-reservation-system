@@ -89,14 +89,14 @@ export default function MyAccountPage() {
             </div>
             <div>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-800">My Account</h1>
-              <p className="text-gray-600 mt-2">Manage your profile and preferences</p>
+              <p className="text-gray-600 mt-2">View your profile and preferences</p>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Profile Card */}
-          <div className="lg:col-span-2">
+        <div className="flex justify-center">
+          {/* Main Profile Card - Centered */}
+          <div className="w-full max-w-2xl">
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-800">Profile Information</h2>
@@ -148,35 +148,6 @@ export default function MyAccountPage() {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Sidebar Cards */}
-          <div className="space-y-6">
-            {/* Quick Actions Card */}
-            <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
-              <div className="space-y-3">
-                <button 
-                  onClick={() => navigate('/myBookings')}
-                  className="w-full flex items-center space-x-3 p-3 bg-green-50 text-green-700 rounded-xl font-medium hover:bg-green-100 transition duration-200 border border-green-200"
-                >
-                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                    <FiList className="w-4 h-4" />
-                  </div>
-                  <span>View My Bookings</span>
-                </button>
-                
-                <button 
-                  onClick={() => navigate('/port-status')}
-                  className="w-full flex items-center space-x-3 p-3 bg-blue-50 text-blue-700 rounded-xl font-medium hover:bg-blue-100 transition duration-200 border border-blue-200"
-                >
-                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <FiHome className="w-4 h-4" />
-                  </div>
-                  <span>Find Charging Ports</span>
-                </button>
               </div>
             </div>
           </div>

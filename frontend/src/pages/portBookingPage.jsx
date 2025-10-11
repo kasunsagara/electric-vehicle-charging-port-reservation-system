@@ -5,6 +5,7 @@ import axios from "axios";
 import ChargingEstimates from "../components/ChargingEstimates";
 import toast from "react-hot-toast";
 import { FiCalendar, FiClock, FiMapPin, FiBattery, FiDollarSign, FiUpload, FiCheckCircle } from "react-icons/fi";
+import { FaPlug } from "react-icons/fa";
 
 // Battery capacities per vehicle model (kWh)
 const batteryCapacityMap = {
@@ -172,9 +173,7 @@ export default function PortBookingPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl border border-green-200">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <span className="font-bold text-green-600">P{formData.portId}</span>
-                  </div>
+                  <FaPlug className="w-5 h-5 text-green-600" />
                   <span className="font-semibold text-gray-700">Port ID</span>
                 </div>
                 <span className="font-bold text-gray-800">#{formData.portId}</span>
@@ -241,9 +240,9 @@ export default function PortBookingPage() {
                   onChange={handleChange} 
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 bg-white"
                 >
-                  <option value="Car">🚗 Car</option>
-                  <option value="Bike">🏍️ Bike</option>
-                  <option value="Van">🚐 Van</option>
+                  <option value="Car">Car</option>
+                  <option value="Bike">Bike</option>
+                  <option value="Van">Van</option>
                 </select>
               </div>
 
@@ -281,7 +280,7 @@ export default function PortBookingPage() {
                   >
                     {port.chargerOptions.map(option => (
                       <option key={option.type} value={option.type}>
-                        {option.type} ({option.speed} kW) - {option.voltage}
+                        {option.type} ({option.speed} kW)
                       </option>
                     ))}
                   </select>
@@ -335,11 +334,7 @@ export default function PortBookingPage() {
 
             {/* Estimates Section */}
             {showEstimates && (
-              <div className="mt-6 p-6 bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl border border-green-200">
-                <div className="flex items-center space-x-2 mb-4">
-                  <FiDollarSign className="w-5 h-5 text-green-600" />
-                  <h3 className="text-lg font-semibold text-gray-800">Charging Estimates</h3>
-                </div>
+              <div>
                 <ChargingEstimates 
                   chargerType={formData.chargerType} 
                   vehicleModel={formData.vehicleModel} 
@@ -351,7 +346,7 @@ export default function PortBookingPage() {
                   onClick={handleConfirmBooking} 
                   className="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-4 rounded-xl font-semibold hover:from-orange-600 hover:to-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
-                  Confirm Booking & Proceed to Payment
+                  Confirm Booking
                 </button>
               </div>
             )}

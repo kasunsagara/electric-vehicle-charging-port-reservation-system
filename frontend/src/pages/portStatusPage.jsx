@@ -4,7 +4,8 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FiList, FiMap, FiHome, FiNavigation, FiClock, FiCalendar, FiSearch } from "react-icons/fi";
+import { FiList, FiMap, FiHome, FiNavigation, FiClock, FiCalendar, FiSearch, FiMapPin } from "react-icons/fi";
+import { FaPlug } from "react-icons/fa";
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
@@ -159,7 +160,7 @@ export default function PortStatusPage() {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Enter city, address, or landmark..."
+                  placeholder="Enter your location"
                   value={manualLocation}
                   onChange={(e) => setManualLocation(e.target.value)}
                   className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
@@ -293,10 +294,10 @@ export default function PortStatusPage() {
                           >
                             <td className="px-6 py-4">
                               <div className="flex items-center space-x-3">
-                                <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
-                                  <span className="text-white font-bold text-sm">P{port.portId}</span>
+                                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                  <FaPlug className="w-5 h-5 text-orange-600" />
                                 </div>
-                                <span className="font-semibold text-gray-800">Port {port.portId}</span>
+                                <span className="font-semibold text-gray-800">{port.portId}</span>
                               </div>
                             </td>
                             <td className="px-6 py-4">
@@ -304,7 +305,7 @@ export default function PortStatusPage() {
                                 <div
                                   className={`w-3 h-3 rounded-full ${
                                     port.status === "available"
-                                      ? "bg-green-500 animate-pulse"
+                                      ? "bg-green-500"
                                       : "bg-red-500"
                                   }`}
                                 ></div>
@@ -320,13 +321,18 @@ export default function PortStatusPage() {
                               </div>
                             </td>
                             <td className="px-6 py-4">
-                              <div className="max-w-xs">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                  <FiMapPin className="w-5 h-5 text-green-600" />
+                                </div>
                                 <p className="text-gray-800 font-medium">{port.location}</p>
                               </div>
                             </td>
                             <td className="px-6 py-4">
-                              <div className="flex items-center space-x-2">
-                                <FiNavigation className="w-4 h-4 text-gray-400" />
+                              <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                  <FiNavigation className="w-5 h-5 text-blue-600" />
+                                </div>
                                 <span className="font-semibold text-gray-700">
                                   {port.distance.toFixed(1)} km
                                 </span>
@@ -396,9 +402,6 @@ export default function PortStatusPage() {
                         <Popup>
                           <div className="min-w-[200px]">
                             <div className="flex items-center space-x-2 mb-3">
-                              <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
-                                <span className="text-white font-bold text-xs">P{port.portId}</span>
-                              </div>
                               <div>
                                 <b className="text-gray-800">Port {port.portId}</b>
                                 <div className="flex items-center space-x-1">
@@ -428,7 +431,7 @@ export default function PortStatusPage() {
                                 handleBooking(port.portId, port.location, port.status)
                               }
                             >
-                              {port.status === "available" ? "Book This Port" : "Currently Unavailable"}
+                              {port.status === "available" ? "Book Now" : "Unavailable"}
                             </button>
                           </div>
                         </Popup>

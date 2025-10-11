@@ -2,8 +2,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { FiCalendar,  FiClock, FiBattery, FiDollarSign, FiMapPin, FiPackage, FiCpu} from "react-icons/fi";
-import { FaCar, FaMotorcycle, FaShuttleVan, FaHashtag } from 'react-icons/fa';
+import { FiCalendar,  FiClock, FiBattery, FiDollarSign, FiPackage, FiCpu} from "react-icons/fi";
+import { FaCar, FaMotorcycle, FaShuttleVan, FaHashtag, FaPlug } from 'react-icons/fa';
 
 export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
@@ -163,7 +163,7 @@ export default function MyBookingsPage() {
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                              <FiMapPin className="w-5 h-5 text-orange-600" />
+                              <FaPlug className="w-5 h-5 text-orange-600" />
                             </div>
                             <div className="flex flex-col">
                               <span className="font-bold text-gray-800 text-lg">
@@ -183,7 +183,6 @@ export default function MyBookingsPage() {
                               <span className="font-semibold text-gray-800">
                                 {booking.chargerType || "Standard"}
                               </span>
-                              <span className="text-xs text-gray-500">Charger Type</span>
                             </div>
                           </div>
                         </td>
