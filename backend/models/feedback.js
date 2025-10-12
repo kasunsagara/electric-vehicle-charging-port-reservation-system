@@ -5,12 +5,12 @@ const contactSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  comment: {
+  message: {
     type: String,
     required: true
   },
 });
 
-const Contact = mongoose.model('Contact', contactSchema);
+const Feedback = mongoose.model('Feedback', contactSchema);
 
-export default Contact;
+export default Feedback;
