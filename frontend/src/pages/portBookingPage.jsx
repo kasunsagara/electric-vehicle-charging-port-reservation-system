@@ -176,7 +176,7 @@ export default function PortBookingPage() {
                   <FaPlug className="w-5 h-5 text-green-600" />
                   <span className="font-semibold text-gray-700">Port ID</span>
                 </div>
-                <span className="font-bold text-gray-800">#{formData.portId}</span>
+                <span className="font-bold text-gray-800">{formData.portId}</span>
               </div>
 
               <div className="flex items-center justify-between p-4 bg-blue-50 rounded-xl border border-blue-200">

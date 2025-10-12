@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FaUserShield, FaUser, FaEnvelope, FaLock, FaPhone, FaArrowLeft } from "react-icons/fa";
+import { FaUserPlus, FaUser, FaEnvelope, FaLock, FaPhone } from "react-icons/fa";
 
 export default function AddAdminPage() {
   const [name, setName] = useState("");
@@ -46,7 +46,7 @@ export default function AddAdminPage() {
         <div className="mb-8">   
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
-              <FaUserShield className="w-6 h-6 text-white" />
+              <FaUserPlus className="w-6 h-6 text-white" />
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-800">Add New Admin</h1>

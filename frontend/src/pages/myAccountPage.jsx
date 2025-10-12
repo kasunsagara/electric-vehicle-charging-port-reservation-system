@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FiUser, FiMail, FiPhone, FiHome, FiList } from "react-icons/fi";
-import { FaCrown, FaUser, FaUserTie } from 'react-icons/fa';
+import { FaUserShield, FaUser, FaUserTie } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
 export default function MyAccountPage() {
@@ -41,7 +41,7 @@ export default function MyAccountPage() {
   const getRoleIcon = (role) => {
     switch (role?.toLowerCase()) {
       case 'admin':
-        return <FaCrown className="text-red-600" />;
+        return <FaUserShield className="text-red-600" />;
       case 'customer':
         return <FaUser className="text-red-600" />;
       default:

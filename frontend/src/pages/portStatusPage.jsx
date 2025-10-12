@@ -369,9 +369,6 @@ export default function PortStatusPage() {
                   <h3 className="text-lg font-semibold text-gray-800">
                     Charging Ports Map View
                   </h3>
-                  <p className="text-gray-600 text-sm">
-                    {ports.length} ports found near your location
-                  </p>
                 </div>
                 <div className="h-96 md:h-[500px] w-full">
                   <MapContainer
