@@ -57,6 +57,12 @@ export default function Header() {
           {!user ? (
             <>
               <Link 
+                to="/contact" 
+                className="bg-emerald-400 text-gray-800 hover:bg-emerald-300 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+              >
+                Contact
+              </Link>
+              <Link 
                 to="/login" 
                 className="bg-white text-green-600 hover:bg-green-50 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
               >
@@ -71,6 +77,14 @@ export default function Header() {
             </>
           ) : (
             <div className="flex items-center space-x-4">
+              {/* Contact Link for logged in users */}
+              <Link 
+                to="/contact" 
+                className="bg-emerald-400 text-gray-800 hover:bg-emerald-300 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+              >
+                Contact
+              </Link>
+
               {/* Dropdown Menu */}
               <div className="relative" ref={dropdownRef}>
                 <button 
