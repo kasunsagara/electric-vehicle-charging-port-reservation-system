@@ -89,7 +89,7 @@ export default function MyAccountPage() {
             </div>
             <div>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-800">My Account</h1>
-              <p className="text-gray-600 mt-2">View your profile and preferences</p>
+              <p className="text-gray-600 mt-2">View your profile Information</p>
             </div>
           </div>
         </div>
@@ -97,11 +97,7 @@ export default function MyAccountPage() {
         <div className="flex justify-center">
           {/* Main Profile Card - Centered */}
           <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Profile Information</h2>
-              </div>
-
+            <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-8">
               <div className="space-y-6">
                 {/* Name Field */}
                 <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-xl border border-green-200">

@@ -4,7 +4,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChargingEstimates from "../components/ChargingEstimates";
 import toast from "react-hot-toast";
-import { FiCalendar, FiClock, FiMapPin, FiBattery, FiDollarSign, FiUpload, FiCheckCircle } from "react-icons/fi";
+import { FiCalendar, FiClock, FiMapPin, FiBattery, FiUpload, FiCheckCircle } from "react-icons/fi";
 import { FaPlug } from "react-icons/fa";
 
 // Battery capacities per vehicle model (kWh)
