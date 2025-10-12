@@ -3,9 +3,9 @@ import { submitFeedbackForm, getAllFeedbacks, deleteFeedback } from '../controll
 
 const feedbackRouter = express.Router();
 
-feedbackRouter.post("/submit", submitFeedbackForm);
-feedbackRouter.get("/all", getAllFeedbacks);
-feedbackRouter.delete("/:name", deleteFeedback);
+feedbackRouter.post("/", submitFeedbackForm);
+feedbackRouter.get("/", getAllFeedbacks);
+feedbackRouter.delete("/:id", deleteFeedback);
 
 
 export default feedbackRouter;

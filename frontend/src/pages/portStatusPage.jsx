@@ -294,8 +294,8 @@ export default function PortStatusPage() {
                           >
                             <td className="px-6 py-4">
                               <div className="flex items-center space-x-3">
-                                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                                  <FaPlug className="w-5 h-5 text-orange-600" />
+                                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                                  <FaPlug className="w-3 h-3 text-orange-600" />
                                 </div>
                                 <span className="font-semibold text-gray-800">{port.portId}</span>
                               </div>
@@ -322,16 +322,16 @@ export default function PortStatusPage() {
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex items-center space-x-3">
-                                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                                  <FiMapPin className="w-5 h-5 text-green-600" />
+                                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                  <FiMapPin className="w-3 h-3 text-green-600" />
                                 </div>
                                 <p className="text-gray-800 font-medium">{port.location}</p>
                               </div>
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex items-center space-x-3">
-                                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                  <FiNavigation className="w-5 h-5 text-blue-600" />
+                                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                  <FiNavigation className="w-3 h-3 text-blue-600" />
                                 </div>
                                 <span className="font-semibold text-gray-700">
                                   {port.distance.toFixed(1)} km

@@ -138,8 +138,8 @@ export default function AdminPortsPage() {
                         {/* Port ID */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                              <FaPlug className="w-5 h-5 text-orange-600" />
+                            <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                              <FaPlug className="w-3 h-3 text-orange-600" />
                             </div>
                             <div>
                               <span className="font-bold text-gray-800 text-lg">{port.portId}</span>
@@ -150,8 +150,8 @@ export default function AdminPortsPage() {
                         {/* Location */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
-                            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                              <FiMapPin className="w-5 h-5 text-green-600" />
+                            <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                              <FiMapPin className="w-3 h-3 text-green-600" />
                             </div>
                             <span className="text-gray-800 font-medium max-w-xs">{port.location}</span>
                           </div>

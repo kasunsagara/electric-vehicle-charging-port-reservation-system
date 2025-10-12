@@ -74,7 +74,7 @@ export default function AdminUsersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-6">
+    <div className="min-h-screen p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="mb-8">
@@ -154,7 +154,7 @@ export default function AdminUsersPage() {
                         {/* User Details */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
                               <span className="text-white font-bold text-sm">
                                 {user.name?.charAt(0)?.toUpperCase() || 'U'}
                               </span>
@@ -214,7 +214,7 @@ export default function AdminUsersPage() {
                               className="flex items-center space-x-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition duration-200 shadow-sm hover:shadow-md"
                             >
                               <FaTrash className="w-3 h-3" />
-                              <span>Delete User</span>
+                              <span>Delete</span>
                             </button>
                           )}
                         </td>

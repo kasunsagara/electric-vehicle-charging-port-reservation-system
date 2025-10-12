@@ -35,13 +35,13 @@ export async function getAllFeedbacks(req, res) {
 
 export async function deleteFeedback(req, res) {
   try {
-    const { name } = req.params;  // Access name from URL params
+    const { id } = req.params;  // ID එක ගන්න
 
-    const deleted = await Feedback.deleteOne({ name: name });
+    const deleted = await Feedback.findByIdAndDelete(id);
 
-    if (deleted.deletedCount === 0) {
+    if (!deleted) {
       return res.status(404).json({
-        message: 'Feedback with the specified name not found',
+        message: 'Feedback not found',
       });
     }
 

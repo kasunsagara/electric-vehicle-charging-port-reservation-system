@@ -62,7 +62,7 @@ app.use(
 app.use("/api/users", userRouter);
 app.use("/api/ports", portRouter);
 app.use("/api/bookings", bookingRouter);
-app.use("/api/feedback", feedbackRouter);
+app.use("/api/feedbacks", feedbackRouter);
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

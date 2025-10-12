@@ -2,14 +2,15 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { FaTachometerAlt, FaChargingStation, FaUsers, FaCalendarCheck, FaHome, FaSignOutAlt } from "react-icons/fa";
+import { FaTachometerAlt, FaChargingStation, FaUsers, FaCalendarCheck, FaComments, FaHome, FaSignOutAlt } from "react-icons/fa";
 import AdminDashboardPage from "./admin/adminDashboardPage";
 import AdminPortsPage from "./admin/adminPortsPage";
 import AddPortPage from "./admin/addPortPage";
 import UpdatePortPage from "./admin/updatePortPage";
-import AdminBookingsPage from "./admin/adminBookingsPage";
 import AdminUsersPage from "./admin/adminUserPage";
 import AddAdminPage from "./admin/addAdminPage";
+import AdminBookingsPage from "./admin/adminBookingsPage";
+import AdminFeedbackPage from "./admin/adminFeedbackPage";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -38,7 +39,7 @@ export default function AdminHomePage() {
   };
 
   return (
-    <div className="w-full h-screen flex font-sans bg-gray-50">
+    <div className="w-full h-screen flex font-sans bg-gradient-to-br from-green-50 to-emerald-100">
       {/* Sidebar */}
       <div className="w-64 h-screen bg-gradient-to-b from-green-600 to-emerald-700 flex flex-col shadow-xl border-r border-green-500">
         {/* Logo Section */}
@@ -108,6 +109,20 @@ export default function AdminHomePage() {
             <span className="font-semibold">Bookings</span>
           </Link>
 
+          {/* Feedback Link */}
+          <Link
+            to="/admin/feedbacks"
+            onClick={() => setActiveTab("feedbacks")}
+            className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+              activeTab === "feedbacks"
+                ? "bg-white text-green-700 shadow-lg transform scale-105"
+                : "text-green-100 hover:bg-green-500 hover:text-white hover:shadow-md"
+            }`}
+          >
+            <FaComments className={`w-5 h-5 ${activeTab === "feedbacks" ? 'text-green-600' : ''}`} />
+            <span className="font-semibold">Feedbacks</span>
+          </Link>
+
           {/* Home Link */}
           <Link
             to="/"
@@ -157,8 +172,8 @@ export default function AdminHomePage() {
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
                       <div className="bg-white p-6 rounded-2xl shadow-lg border border-green-100 text-center">
-                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                          <FaChargingStation className="w-6 h-6 text-blue-600" />
+                        <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                          <FaChargingStation className="w-6 h-6 text-green-600" />
                         </div>
                         <h3 className="font-semibold text-gray-800 mb-2">Port Management</h3>
                         <p className="text-gray-600 text-sm">Manage charging stations and availability</p>
@@ -171,8 +186,8 @@ export default function AdminHomePage() {
                         <p className="text-gray-600 text-sm">View and manage system users</p>
                       </div>
                       <div className="bg-white p-6 rounded-2xl shadow-lg border border-green-100 text-center">
-                        <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                          <FaCalendarCheck className="w-6 h-6 text-purple-600" />
+                        <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                          <FaCalendarCheck className="w-6 h-6 text-green-600" />
                         </div>
                         <h3 className="font-semibold text-gray-800 mb-2">Booking Reports</h3>
                         <p className="text-gray-600 text-sm">Monitor all charging sessions</p>
@@ -186,9 +201,10 @@ export default function AdminHomePage() {
             <Route path="/ports" element={<AdminPortsPage />} />
             <Route path="/ports/addPort" element={<AddPortPage />} />
             <Route path="/ports/updatePort" element={<UpdatePortPage />} />
-            <Route path="/users" element={<AdminUsersPage />} />          
+            <Route path="/users" element={<AdminUsersPage />} />
+            <Route path="/users/addAdmin" element={<AddAdminPage />} />                      
             <Route path="/bookings" element={<AdminBookingsPage />} />
-            <Route path="/users/addAdmin" element={<AddAdminPage />} />
+            <Route path="/feedbacks" element={<AdminFeedbackPage />} />
           </Routes>
         </div>
       </div>

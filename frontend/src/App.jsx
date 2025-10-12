@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/homePage.jsx';
 import SignUpPage from './pages/signupPage.jsx';
 import LoginPage from './pages/loginPage.jsx';
+import ContactPage from './pages/contactPage.jsx';
 import MyAccountPage from './pages/myAccountPage.jsx';
 import MyBookingsPage from './pages/myBookingsPage.jsx';
 import AdminHomePage from './pages/adminHomePage.jsx';
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/myAccount" element={<MyAccountPage />} />
             <Route path="/myBookings" element={<MyBookingsPage />} />
             <Route path="/port-status" element={<PortStatusPage />} />
