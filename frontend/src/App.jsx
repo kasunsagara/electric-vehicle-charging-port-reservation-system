@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import HomePage from './pages/homePage.jsx';
 import SignUpPage from './pages/signupPage.jsx';
 import LoginPage from './pages/loginPage.jsx';
@@ -9,9 +10,6 @@ import MyBookingsPage from './pages/myBookingsPage.jsx';
 import AdminHomePage from './pages/adminHomePage.jsx';
 import PortStatusPage from './pages/portStatusPage.jsx';
 import PortBookingPage from './pages/portBookingPage.jsx';
-
-
-import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
