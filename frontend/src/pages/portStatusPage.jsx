@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FiList, FiMap, FiHome, FiNavigation, FiClock, FiCalendar, FiSearch, FiMapPin } from "react-icons/fi";
+import { FiList, FiMap, FiHome, FiNavigation, FiClock, FiCalendar, FiSearch, FiMapPin, FiAlertTriangle } from "react-icons/fi";
 import { FaPlug } from "react-icons/fa";
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
@@ -267,7 +267,7 @@ export default function PortStatusPage() {
                 ) : ports.length === 0 ? (
                   <div className="p-8 text-center">
                     <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <FiMap className="w-12 h-12 text-red-600" />
+                      <FiAlertTriangle className="w-12 h-12 text-red-600" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-800 mb-2">No Ports Available</h3>
                     <p className="text-gray-600">No charging ports found for the selected time slot</p>
