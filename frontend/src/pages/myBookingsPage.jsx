@@ -7,7 +7,7 @@ import { FaCar, FaMotorcycle, FaShuttleVan, FaHashtag, FaPlug } from 'react-icon
 
 export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(false); a
+  const [loading, setLoading] = useState(false); 
 
   const fetchBookings = async () => {
     setLoading(true);
