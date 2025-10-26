@@ -189,7 +189,7 @@ export default function PortStatusPage() {
                 className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition duration-200 ${
                   view === "list"
                     ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    : "bg-gray-200 text-gray-600"
                 }`}
               >
                 <FiList className="w-5 h-5" />
@@ -200,7 +200,7 @@ export default function PortStatusPage() {
                 className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition duration-200 ${
                   view === "map"
                     ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    : "bg-gray-200 text-gray-600"
                 }`}
               >
                 <FiMap className="w-5 h-5" />
