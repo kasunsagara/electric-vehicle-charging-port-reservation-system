@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { FaHashtag, FaCalendarCheck, FaPlug, FaCar, FaMotorcycle, FaShuttleVan, FaBolt } from "react-icons/fa";
+import { FaHashtag, FaCalendarCheck, FaPlug, FaCar, FaMotorcycle, FaTruckPickup, FaShuttleVan, FaBolt } from "react-icons/fa";
 import { FiUser, FiCalendar,  FiClock, FiBattery, FiDollarSign } from "react-icons/fi";
 
 export default function AdminBookingsPage() {
@@ -40,10 +40,10 @@ export default function AdminBookingsPage() {
         return <FaCar className="w-3 h-3 text-blue-600" />;
       case 'bike':
         return <FaMotorcycle className="w-3 h-3 text-blue-600" />;
+      case 'threewheeler':
+        return <FaTruckPickup className="w-3 h-3 text-blue-600" />;        
       case 'van':
         return <FaShuttleVan className="w-3 h-3 text-blue-600" />;
-      default:
-        return <FaCar className="w-3 h-3 text-blue-600" />;
     }
   };  
 
