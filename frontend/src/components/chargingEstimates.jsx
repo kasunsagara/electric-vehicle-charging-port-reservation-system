@@ -5,15 +5,28 @@ import { FaCalculator } from "react-icons/fa";
 
 // Example battery capacities per vehicle model (kWh)
 const batteryCapacityMap = {
-  "Tata Nexon EV": 30,
+  // Cars
+  "Tata Nexon EV": 30.2,
+  "Tata Tigor EV": 26.2,
   "MG ZS EV": 44,
   "Hyundai Kona Electric": 39.2,
-  "BYD Atto 3": 50,
+  "BYD Atto 3": 49.8,
   "Nissan Leaf": 40,
-  "Revolt RV400": 3.24,
+
+  // Bikes
+  "Revolt RV400": 3.2,
   "Hero Electric Optima": 1.6,
-  "Ather 450X": 2.9,
   "Okinawa i-Praise": 2.0,
+  "TVS iQube": 3.4,
+  "Bajaj Chetak Electric": 3,
+  "Ola S1 Pro": 4,
+
+  // Three Wheelers
+  "NanoCar EV": 10.5,
+  "Micro Luxury EV": 12.8,
+  "VIdeo Tron EV": 9,
+
+  // Vans
   "Tata Winger EV": 26,
   "Mahindra eSupro": 25,
   "Piaggio Ape Electric": 8,

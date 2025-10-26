@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FiCalendar,  FiClock, FiBattery, FiDollarSign, FiPackage, FiCpu} from "react-icons/fi";
-import { FaCar, FaMotorcycle, FaShuttleVan, FaHashtag, FaPlug } from 'react-icons/fa';
+import { FaCar, FaMotorcycle, FaTruckPickup, FaShuttleVan, FaHashtag, FaPlug } from 'react-icons/fa';
 
 export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
@@ -34,8 +34,6 @@ export default function MyBookingsPage() {
     fetchBookings();
   }, []);
 
-
-
   // Get appropriate vehicle icon based on vehicle type
   const getVehicleIcon = (vehicleType) => {
     switch (vehicleType?.toLowerCase()) {
@@ -43,10 +41,10 @@ export default function MyBookingsPage() {
         return <FaCar className="w-3 h-3 text-blue-600" />;
       case 'bike':
         return <FaMotorcycle className="w-3 h-3 text-blue-600" />;
+      case 'threewheeler':
+        return <FaTruckPickup className="w-3 h-3 text-blue-600" />;
       case 'van':
         return <FaShuttleVan className="w-3 h-3 text-blue-600" />;
-      default:
-        return <FaCar className="w-3 h-3 text-blue-600" />;
     }
   };
 

@@ -9,15 +9,28 @@ import { FaPlug } from "react-icons/fa";
 
 // Battery capacities per vehicle model (kWh)
 const batteryCapacityMap = {
-  "Tata Nexon EV": 30,
+  // Cars
+  "Tata Nexon EV": 30.2,
+  "Tata Tigor EV": 26.2,
   "MG ZS EV": 44,
   "Hyundai Kona Electric": 39.2,
-  "BYD Atto 3": 50,
+  "BYD Atto 3": 49.8,
   "Nissan Leaf": 40,
-  "Revolt RV400": 3.24,
+
+  // Bikes
+  "Revolt RV400": 3.2,
   "Hero Electric Optima": 1.6,
-  "Ather 450X": 2.9,
   "Okinawa i-Praise": 2.0,
+  "TVS iQube": 3.4,
+  "Bajaj Chetak Electric": 3,
+  "Ola S1 Pro": 4,
+
+  // Three Wheelers
+  "NanoCar EV": 10.5,
+  "Micro Luxury EV": 12.8,
+  "VIdeo Tron EV": 9,
+
+  // Vans
   "Tata Winger EV": 26,
   "Mahindra eSupro": 25,
   "Piaggio Ape Electric": 8,
@@ -53,9 +66,10 @@ export default function PortBookingPage() {
   const [finalbookingTime, setFinalbookingTime] = useState(bookingTime || "");
 
   const vehicleModels = {
-    Car: ["Tata Nexon EV","MG ZS EV","Hyundai Kona Electric","BYD Atto 3","Nissan Leaf"],
-    Bike: ["Revolt RV400","Hero Electric Optima","Ather 450X","Okinawa i-Praise"],
-    Van: ["Tata Winger EV","Mahindra eSupro","Piaggio Ape Electric"]
+    Car: ["Tata Nexon EV", "Tata Tigor EV", "MG ZS EV", "Hyundai Kona Electric", "BYD Atto 3", "Nissan Leaf"],
+    Bike: ["Revolt RV400", "Hero Electric Optima", "Okinawa i-Praise", "TVS iQube", "Bajaj Chetak Electric", "Ola S1 Pro"],
+    ThreeWheeler: ["NanoCar EV", "Micro Luxury EV", "VIdeo Tron EV"],
+    Van: ["Tata Winger EV", "Mahindra eSupro", "Piaggio Ape Electric"]
   };
 
   // Fetch port details
@@ -242,6 +256,7 @@ export default function PortBookingPage() {
                 >
                   <option value="Car">Car</option>
                   <option value="Bike">Bike</option>
+                  <option value="ThreeWheeler">Three Wheeler</option>
                   <option value="Van">Van</option>
                 </select>
               </div>
