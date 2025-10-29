@@ -8,6 +8,7 @@ export default function AdminDashboardPage() {
   const [totalPorts, setTotalPorts] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalBookings, setTotalBookings] = useState(0);
+  const [totalFeedbacks, setTotalFeedbacks] = useState(0);
   const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +22,7 @@ export default function AdminDashboardPage() {
 
     const fetchData = async () => {
       try {
-        const [portsRes, usersRes, bookingsRes] = await Promise.all([
+        const [portsRes, usersRes, bookingsRes, feedbacksRes] = await Promise.all([
           axios.get("http://localhost:5000/api/ports", {
             headers: { Authorization: `Bearer ${token}` },
           }),
@@ -31,11 +32,15 @@ export default function AdminDashboardPage() {
           axios.get("http://localhost:5000/api/bookings", {
             headers: { Authorization: `Bearer ${token}` },
           }),
+          axios.get("http://localhost:5000/api/feedbacks", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
         ]);
 
         setTotalPorts(portsRes.data.data?.length || 0);
         setTotalUsers(usersRes.data.users?.length || 0);
         setTotalBookings(bookingsRes.data.bookings?.length || 0);
+        setTotalFeedbacks(feedbacksRes.data?.length || 0);
 
         // Group bookings by date for chart
         const bookings = bookingsRes.data.bookings || [];
@@ -94,7 +99,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Summary Cards - Your original layout with enhanced styling */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
           {/* Total Ports Card */}
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition duration-300">
             <div className="flex items-center gap-4">
@@ -130,6 +135,19 @@ export default function AdminDashboardPage() {
               <div>
                 <h2 className="text-xl font-bold text-gray-800">Total Bookings</h2>
                 <p className="text-3xl font-bold text-gray-800 mt-1">{totalBookings}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Total Feedbacks Card */}
+          <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center">
+                <FaTachometerAlt className="text-3xl text-yellow-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">Total Feedbacks</h2>
+                <p className="text-3xl font-bold text-gray-800 mt-1">{totalFeedbacks}</p>
               </div>
             </div>
           </div>
