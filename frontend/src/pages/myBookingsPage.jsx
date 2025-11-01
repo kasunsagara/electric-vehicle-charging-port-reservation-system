@@ -1,13 +1,14 @@
-// MyBookingsPage.jsx
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { FiCalendar,  FiClock, FiBattery, FiDollarSign, FiPackage, FiCpu} from "react-icons/fi";
+import { FiCalendar, FiClock, FiBattery, FiDollarSign, FiPackage, FiCpu, FiHome } from "react-icons/fi";
 import { FaCar, FaMotorcycle, FaTruckPickup, FaShuttleVan, FaHashtag, FaPlug } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 
 export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false); 
+  const navigate = useNavigate();
 
   const fetchBookings = async () => {
     setLoading(true);
@@ -52,7 +53,18 @@ export default function MyBookingsPage() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 relative">
+          {/* Back to Home Button */}
+          <div className="absolute top-0 right-0">
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition duration-200 shadow-lg hover:shadow-xl"
+            >
+              <FiHome className="w-5 h-5" />
+              <span>Back to Home</span>
+            </button>
+          </div>
+          
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
               <FiPackage className="w-6 h-6 text-white" />
@@ -86,7 +98,7 @@ export default function MyBookingsPage() {
                   You haven't made any charging port bookings yet. Start by exploring available ports and make your first reservation.
                 </p>
                 <button
-                  onClick={() => window.location.href = '/port-status'}
+                  onClick={() => navigate('/port-status')}
                   className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition duration-200 shadow-lg hover:shadow-xl"
                 >
                   Find Charging Ports
@@ -157,7 +169,7 @@ export default function MyBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Port ID - Separate Column */}
+                        {/* Port ID */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
@@ -171,7 +183,7 @@ export default function MyBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Charger Type - Separate Column */}
+                        {/* Charger Type */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">

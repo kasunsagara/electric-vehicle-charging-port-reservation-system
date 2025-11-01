@@ -35,7 +35,7 @@ export default function ContactPage() {
 
       console.log("Response:", response.data);
       
-      toast.success("Thank you for your feedback! We appreciate your input.");
+      toast.success("Thank you for your feedback");
       setMessages([...messages, formData]);
       setFormData({ 
         name: "", 

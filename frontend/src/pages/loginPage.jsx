@@ -24,7 +24,7 @@ export default function LoginPage() {
       );
 
       if (res.status === 200) {
-        toast.success("Login successful 🎉");
+        toast.success("Login successful");
 
         // Save token + user in localStorage
         localStorage.setItem("token", res.data.token);
@@ -40,9 +40,9 @@ export default function LoginPage() {
     } catch (error) {
       console.error(error);
       if (error.response) {
-        toast.error(error.response.data.message || "Login failed ❌");
+        toast.error(error.response.data.message || "Login failed");
       } else {
-        toast.error("Something went wrong! ❌");
+        toast.error("Something went wrong");
       }
     } finally {
       setIsLoading(false);

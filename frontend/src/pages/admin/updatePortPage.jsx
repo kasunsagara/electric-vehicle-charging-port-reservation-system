@@ -47,7 +47,7 @@ export default function UpdatePortPage() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      toast.success("Port updated successfully!");
+      toast.success("Port updated successfully");
       navigate("/admin/ports");
     } catch (err) {
       console.error("Error updating port:", err.response?.data || err);

@@ -34,7 +34,7 @@ export default function AddPortPage() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      toast.success("Port added successfully!");
+      toast.success("Port added successfully");
       navigate("/admin/ports");
     } catch (err) {
       console.error("Error adding port:", err.response?.data || err);

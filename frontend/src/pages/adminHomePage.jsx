@@ -30,11 +30,11 @@ export default function AdminHomePage() {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       setUser(null);
-      toast.success("Logged out successfully ✅");
+      toast.success("Logged out successfully");
       navigate("/");
     } catch (err) {
       console.error(err);
-      toast.error("Logout failed!");
+      toast.error("Logout failed");
     }
   };
 

@@ -19,13 +19,13 @@ export default function AddAdminPage() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.post(
+      await axios.post(
         import.meta.env.VITE_BACKEND_URL + "/api/users",
         { name, email, password, phone, role: "admin" },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      toast.success(res.data.message);
+      toast.success("Admin added successfully");
       navigate("/admin/users");
       setName("");
       setEmail("");

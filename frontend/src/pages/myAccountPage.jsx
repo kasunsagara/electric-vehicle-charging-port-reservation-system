@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { FiUser, FiMail, FiPhone, FiHome, FiList } from "react-icons/fi";
+import { FiUser, FiMail, FiPhone, FiHome } from "react-icons/fi";
 import { FaUserShield, FaUser, FaUserTie } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +22,7 @@ export default function MyAccountPage() {
         }
 
         const res = await axios.get(
-          import.meta.env.VITE_BACKEND_URL + `/api/users/${storedUser.email}`,
+          import.meta.env.VITE_BACKEND_URL + `/api/users/me?email=${storedUser.email}`,
         );
         setUser(res.data.user);
       } catch (error) {
@@ -81,6 +81,16 @@ export default function MyAccountPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        {/* Back to Home Button */}
+        <div className="flex justify-end mb-2">
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition duration-200 shadow-lg hover:shadow-xl"
+          >
+            <FiHome className="w-5 h-5" />
+            <span>Back to Home</span>
+          </button>
+        </div>
         {/* Header Section */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">

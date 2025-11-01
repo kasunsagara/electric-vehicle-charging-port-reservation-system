@@ -30,10 +30,6 @@ export default function AdminUsersPage() {
   }, []);
 
   const deleteUser = async (email) => {
-    if (!window.confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
-      return;
-    }
-
     try {
       const token = localStorage.getItem("token");
       const res = await axios.delete(

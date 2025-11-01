@@ -57,7 +57,7 @@ export default function PortStatusPage() {
       setLoading(true);
       axios
         .get(
-          import.meta.env.VITE_BACKEND_URL + `/api/ports?date=${selectedDate}&bookingTime=${selectedTime}`
+          import.meta.env.VITE_BACKEND_URL + `/api/ports?date=${selectedDate}&time=${selectedTime}`
         )
         .then((res) => {
           const data = Array.isArray(res.data) ? res.data : res.data.data;
@@ -75,7 +75,7 @@ export default function PortStatusPage() {
         })
         .catch((err) => {
           console.error("Error fetching ports:", err);
-          toast.error("Error fetching port data!");
+          toast.error("Error fetching port data");
         })
         .finally(() => setLoading(false));
     }
@@ -86,7 +86,7 @@ export default function PortStatusPage() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
-      toast.error("You must log in to book a charging port!");
+      toast.error("You must log in to book a charging port");
       navigate("/login");
       return;
     }
@@ -97,14 +97,14 @@ export default function PortStatusPage() {
         `/port-booking/${portId}?date=${selectedDate}&bookingTime=${selectedTime}&location=${encodedLocation}`
       );
     } else {
-      toast.error("Please select date and time slot first.");
+      toast.error("Please select date and time slot first");
     }
   };
 
   // ✅ Manual location search by name
   const handleManualLocationSearch = async () => {
     if (!manualLocation) {
-      toast.error("Please enter a location name!");
+      toast.error("Please enter a location name");
       return;
     }
 
@@ -125,7 +125,7 @@ export default function PortStatusPage() {
       }
     } catch (err) {
       console.error("Error fetching location:", err);
-      toast.error("Failed to fetch location!");
+      toast.error("Failed to fetch location");
     }
   };
 

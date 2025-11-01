@@ -31,14 +31,14 @@ export default function SignUpPage() {
       });
 
       if (res.status === 201 || res.status === 200) {
-        toast.success("Signup successful 🎉");
+        toast.success("Signup successful");
         navigate("/login");
       }
     } catch (error) {
       if (error.response) {
-        toast.error(error.response.data.message || "Signup failed ❌");
+        toast.error(error.response.data.message || "Signup failed");
       } else {
-        toast.error("Something went wrong! ❌");
+        toast.error("Something went wrong");
       }
       console.error("Signup Error:", error);
     } finally {

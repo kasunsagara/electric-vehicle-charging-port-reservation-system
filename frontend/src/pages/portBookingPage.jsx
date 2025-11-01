@@ -84,7 +84,7 @@ export default function PortBookingPage() {
       })
       .catch(err => {
         console.error(err);
-        toast.error("Failed to load port details!");
+        toast.error("Failed to load port details");
         setLoading(false);
       });
   }, [portId]);
@@ -114,7 +114,7 @@ export default function PortBookingPage() {
     try {
       const token = localStorage.getItem("token");
       if (!token) { 
-        toast.error("You must be logged in to book a port."); 
+        toast.error("You must be logged in to book a port"); 
         return; 
       }
 
@@ -132,21 +132,21 @@ export default function PortBookingPage() {
       data.append("estimatedChargingTime", chargingTime.toFixed(2));
       data.append("estimatedCost", estimatedCost.toFixed(0));
 
-      const res = await axios.post(import.meta.env.BACKEND_URL + "/api/bookings", data, {
+      const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/bookings", data, {
         headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` }
       });
 
       setRealBookingId(res.data.booking.bookingId);
       setFinalbookingTime(formData.bookingTime);
 
-      toast.success(`Booking confirmed! Your Booking ID: ${res.data.booking.bookingId}`);
+      toast.success(`Booking confirmed and Your Booking ID is ${res.data.booking.bookingId}`);
 
       navigate("/myBookings"); 
 
     } catch (error) {
       console.error(error);
-      if (error.response) toast.error(error.response.data.message || "Booking failed!");
-      else toast.error("Booking failed! Check console.");
+      if (error.response) toast.error(error.response.data.message || "Booking failed");
+      else toast.error("Booking failed");
     }
   };
 

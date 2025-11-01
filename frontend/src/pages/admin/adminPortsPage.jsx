@@ -32,10 +32,6 @@ export default function AdminPortsPage() {
   }, []);
 
   const deletePort = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this port?")) {
-      return;
-    }
-
     try {
       const token = localStorage.getItem("token");
       const res = await axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/ports/${id}`, {
