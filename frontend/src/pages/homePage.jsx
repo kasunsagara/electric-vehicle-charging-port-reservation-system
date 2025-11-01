@@ -15,10 +15,21 @@ export default function HomePage() {
 
   const fetchFeedbacks = async () => {
     try {
-      const response = await axios.get(import.meta.env.BACKEND_URL + "/api/feedbacks");
-      setFeedbacks(response.data);
+      const response = await axios.get(import.meta.env.VITE_API_URL + "/feedbacks");
+      console.log("Feedbacks response:", response.data);
+
+      // ✅ Safely set feedback array regardless of API structure
+      const data = response.data;
+      const feedbackArray = Array.isArray(data)
+        ? data
+        : Array.isArray(data.feedbacks)
+        ? data.feedbacks
+        : [];
+
+      setFeedbacks(feedbackArray);
     } catch (error) {
       console.error("Error fetching feedbacks:", error);
+      setFeedbacks([]); // fallback to empty array
     } finally {
       setLoading(false);
     }
@@ -26,14 +37,14 @@ export default function HomePage() {
 
   // Next slide function
   const nextSlide = () => {
-    setCurrentSlide((prev) => 
+    setCurrentSlide((prev) =>
       prev === feedbacks.length - 1 ? 0 : prev + 1
     );
   };
 
   // Previous slide function
   const prevSlide = () => {
-    setCurrentSlide((prev) => 
+    setCurrentSlide((prev) =>
       prev === 0 ? feedbacks.length - 1 : prev - 1
     );
   };
@@ -46,10 +57,8 @@ export default function HomePage() {
     }
   }, [feedbacks.length]);
 
-  // Function to go to specific slide
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-  };
+  // Go to specific slide
+  const goToSlide = (index) => setCurrentSlide(index);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex flex-col">
@@ -58,9 +67,7 @@ export default function HomePage() {
         <Header />
       </div>
 
-      {/* Add padding top to account for fixed header */}
-      <div className="pt-16"> {/* Adjust this value based on your header height */}
-        
+      <div className="pt-16">
         {/* Hero Section */}
         <main className="container mx-auto px-4 py-12 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
@@ -71,13 +78,13 @@ export default function HomePage() {
                 Reservation System
               </span>
             </h2>
-            
+
             {/* Description */}
             <p className="text-lg text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto">
               The future of electric vehicle charging is here with the ability to easily find, 
               book, and manage your EV charging sessions. Fast, reliable, and eco-friendly.
             </p>
-            
+
             {/* CTA Button */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link 
@@ -97,7 +104,6 @@ export default function HomePage() {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Fast Charging</h3>
                 <p className="text-gray-600">High-speed charging ports for quick power-ups</p>
               </div>
-
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
                   <FaShieldAlt className="w-6 h-6 text-green-600" />
@@ -105,7 +111,6 @@ export default function HomePage() {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Secure Booking</h3>
                 <p className="text-gray-600">Guaranteed slots with real-time availability</p>
               </div>
-
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
                   <FaClock className="w-6 h-6 text-green-600" />
@@ -117,7 +122,7 @@ export default function HomePage() {
           </div>
         </main>
 
-        {/* Customer Feedback Section - Slideshow */}
+        {/* Customer Feedback Section */}
         <div className="py-16 px-4">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
@@ -143,14 +148,11 @@ export default function HomePage() {
                     style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                   >
                     {feedbacks.map((feedback, index) => (
-                      <div
-                        key={index}
-                        className="w-full flex-shrink-0 px-8 py-12 md:px-16 md:py-16"
-                      >
+                      <div key={index} className="w-full flex-shrink-0 px-8 py-12 md:px-16 md:py-16">
                         <div className="max-w-2xl mx-auto text-center">
                           {/* Quote Icon */}
                           <FaQuoteLeft className="w-8 h-8 text-green-400 opacity-50 mx-auto mb-6" />
-                          
+
                           {/* Feedback Message */}
                           <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed italic">
                             "{feedback.message}"
@@ -240,7 +242,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Footer Section - Simple */}
+        {/* Footer */}
         <footer className="bg-gradient-to-r from-green-800 to-emerald-900 text-white py-6">
           <div className="container mx-auto px-4 text-center">
             <p className="text-green-200">
@@ -251,4 +253,4 @@ export default function HomePage() {
       </div>
     </div>
   );
-}            
+}
