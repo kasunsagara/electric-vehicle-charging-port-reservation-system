@@ -20,7 +20,7 @@ export default function AddAdminPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:5000/api/users",
+        import.meta.env.BACKEND_URL + "/api/users",
         { name, email, password, phone, role: "admin" },
         { headers: { Authorization: `Bearer ${token}` } }
       );

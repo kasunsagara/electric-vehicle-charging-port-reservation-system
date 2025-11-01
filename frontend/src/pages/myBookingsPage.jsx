@@ -12,7 +12,7 @@ export default function MyBookingsPage() {
   const fetchBookings = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/bookings", {
+      const res = await axios.get(import.meta.env.BACKEND_URL + "/api/bookings", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

@@ -20,7 +20,7 @@ export default function AdminHomePage() {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/users/logout",
+        import.meta.env.BACKEND_URL + "/api/users/logout",
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

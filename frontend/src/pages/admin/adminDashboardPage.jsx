@@ -23,16 +23,16 @@ export default function AdminDashboardPage() {
     const fetchData = async () => {
       try {
         const [portsRes, usersRes, bookingsRes, feedbacksRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/ports", {
+          axios.get(import.meta.env.BACKEND_URL + "/api/ports", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5000/api/users", {
+          axios.get(import.meta.env.BACKEND_URL + "/api/users", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5000/api/bookings", {
+          axios.get(import.meta.env.BACKEND_URL + "/api/bookings", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5000/api/feedbacks", {
+          axios.get(import.meta.env.BACKEND_URL + "/api/feedbacks", {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);

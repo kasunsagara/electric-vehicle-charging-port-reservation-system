@@ -15,7 +15,7 @@ export default function AdminFeedbackPage() {
   const fetchFeedbacks = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/feedbacks");
+      const response = await axios.get(import.meta.env.BACKEND_URL + "/api/feedbacks");
       
       console.log("Fetched feedbacks:", response.data);
       
@@ -35,7 +35,7 @@ export default function AdminFeedbackPage() {
       setDeletingId(feedbackId);
       
       // Delete by ID only
-      await axios.delete(`http://localhost:5000/api/feedbacks/${feedbackId}`);
+      await axios.delete(import.meta.env.BACKEND_URL + `/api/feedbacks/${feedbackId}`);
       
       toast.success("Feedback deleted successfully");
       

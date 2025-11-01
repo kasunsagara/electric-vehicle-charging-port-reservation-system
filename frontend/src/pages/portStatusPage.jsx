@@ -57,7 +57,7 @@ export default function PortStatusPage() {
       setLoading(true);
       axios
         .get(
-          `http://localhost:5000/api/ports?date=${selectedDate}&time=${selectedTime}`
+          import.meta.env.BACKEND_URL + `/api/ports?date=${selectedDate}&bookingTime=${selectedTime}`
         )
         .then((res) => {
           const data = Array.isArray(res.data) ? res.data : res.data.data;

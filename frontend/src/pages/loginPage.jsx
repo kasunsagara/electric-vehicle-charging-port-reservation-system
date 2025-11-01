@@ -19,7 +19,7 @@ export default function LoginPage() {
     
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users/login",
+        import.meta.env.BACKEND_URL + "/api/users/login",
         formData,
         { withCredentials: true }
       );

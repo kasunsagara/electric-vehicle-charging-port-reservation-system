@@ -13,7 +13,7 @@ export default function AdminPortsPage() {
   const fetchPorts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/ports", {
+      const res = await axios.get(import.meta.env.BACKEND_URL + "/api/ports", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -38,7 +38,7 @@ export default function AdminPortsPage() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.delete(`http://localhost:5000/api/ports/${id}`, {
+      const res = await axios.delete(import.meta.env.BACKEND_URL + `/api/ports/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

@@ -26,8 +26,8 @@ export default function ContactPage() {
 
     try {
       console.log("Submitting feedback:", formData);
-      
-      const response = await axios.post("http://localhost:5000/api/feedbacks", formData, {
+
+      const response = await axios.post(import.meta.env.BACKEND_URL + "/api/feedbacks", formData, {
         headers: {
           "Content-Type": "application/json",
         },

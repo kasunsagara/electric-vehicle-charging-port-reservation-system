@@ -74,7 +74,7 @@ export default function PortBookingPage() {
 
   // Fetch port details
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/ports/${portId}`)
+    axios.get(import.meta.env.BACKEND_URL + `/api/ports/${portId}`)
       .then(res => {
         setPort(res.data);
         if (res.data.chargerOptions?.length > 0) {
@@ -132,7 +132,7 @@ export default function PortBookingPage() {
       data.append("estimatedChargingTime", chargingTime.toFixed(2));
       data.append("estimatedCost", estimatedCost.toFixed(0));
 
-      const res = await axios.post("http://localhost:5000/api/bookings", data, {
+      const res = await axios.post(import.meta.env.BACKEND_URL + "/api/bookings", data, {
         headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` }
       });
 

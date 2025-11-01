@@ -30,7 +30,7 @@ export default function AddPortPage() {
         ]
       };
 
-      await axios.post("http://localhost:5000/api/ports", newPort, {
+      await axios.post(import.meta.env.BACKEND_URL + "/api/ports", newPort, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
