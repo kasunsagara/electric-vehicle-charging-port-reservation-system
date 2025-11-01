@@ -22,12 +22,7 @@ export default function MyAccountPage() {
         }
 
         const res = await axios.get(
-          import.meta.env.BACKEND_URL + `/api/users/${storedUser.email}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-          }
+          import.meta.env.VITE_BACKEND_URL + `/api/users/${storedUser.email}`,
         );
         setUser(res.data.user);
       } catch (error) {

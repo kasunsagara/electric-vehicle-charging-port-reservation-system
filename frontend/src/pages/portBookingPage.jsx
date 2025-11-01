@@ -74,7 +74,7 @@ export default function PortBookingPage() {
 
   // Fetch port details
   useEffect(() => {
-    axios.get(import.meta.env.BACKEND_URL + `/api/ports/${portId}`)
+    axios.get(import.meta.env.VITE_BACKEND_URL + `/api/ports/${portId}`)
       .then(res => {
         setPort(res.data);
         if (res.data.chargerOptions?.length > 0) {

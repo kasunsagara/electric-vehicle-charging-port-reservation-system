@@ -43,7 +43,7 @@ export default function UpdatePortPage() {
       };
 
       // Send update request to backend
-      await axios.put(import.meta.env.BACKEND_URL + `/api/ports/${port._id}`, updatedPort, {
+      await axios.put(import.meta.env.VITE_BACKEND_URL + `/api/ports/${port._id}`, updatedPort, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 

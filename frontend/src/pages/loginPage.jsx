@@ -19,9 +19,8 @@ export default function LoginPage() {
     
     try {
       const res = await axios.post(
-        import.meta.env.BACKEND_URL + "/api/users/login",
+        import.meta.env.VITE_BACKEND_URL + "/api/users/login",
         formData,
-        { withCredentials: true }
       );
 
       if (res.status === 200) {

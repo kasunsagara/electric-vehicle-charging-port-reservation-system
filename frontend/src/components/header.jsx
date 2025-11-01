@@ -18,7 +18,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(import.meta.env.BACKEND_URL + "/api/users/logout", {}, {
+      await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/users/logout", {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
 
