@@ -13,28 +13,16 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:8081"
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
-}));
+app.use(cors());
 
 app.use(bodyParser.json());
 
 const mongoUrl = process.env.MONGO_DB_URI;
 
-mongoose.connect(mongoUrl, {})
+mongoose.connect(mongoUrl, {});
+
 const connection = mongoose.connection;
+
 connection.once('open', () => {
   console.log("Database connected");
 });
@@ -72,7 +60,26 @@ app.listen(5000, () => {
 
 
 /* 
-   {
+  const allowedOrigins = [
+    "http://localhost:5173",
+    "http://localhost:8081"
+  ];
+
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true
+  }));
+*/
+
+
+/* 
+  {
     "email": "kasunsagara689@gmail.com",
     "password": "80187968"
    } 
