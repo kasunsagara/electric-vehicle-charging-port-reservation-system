@@ -58,36 +58,3 @@ app.listen(5000, () => {
 
 
 
-
-/* 
-  const allowedOrigins = [
-    "http://localhost:5173",
-    "http://localhost:8081"
-  ];
-
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true
-  }));
-*/
-
-
-/* 
-  {
-    "email": "kasunsagara689@gmail.com",
-    "password": "80187968"
-   } 
-
-   {
-    "email": "nimal@example.com",
-    "password": "1234"
-   }
-*/
-
-
