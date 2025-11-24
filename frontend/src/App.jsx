@@ -9,7 +9,7 @@ import MyAccountPage from './pages/myAccountPage.jsx';
 import MyBookingsPage from './pages/myBookingsPage.jsx';
 import AdminHomePage from './pages/adminHomePage.jsx';
 import PortStatusPage from './pages/portStatusPage.jsx';
-import PortBookingPage from './pages/portBookingPage.jsx';
+import PortBookingPage from './pages/portBookingPage.jsx'; 
 
 function App() {
   return (
