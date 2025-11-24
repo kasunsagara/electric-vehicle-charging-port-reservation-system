@@ -89,7 +89,7 @@ export default function Header() {
               <div className="relative" ref={dropdownRef}>
                 <button 
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="bg-white text-green-600 hover:bg-green-50 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg flex items-center space-x-1"
+                  className="bg-white text-green-600 hover:bg-green-100 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg flex items-center space-x-1"
                 >
                   <span>Profile</span>
                     <FaChevronDown 
