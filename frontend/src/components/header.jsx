@@ -64,7 +64,7 @@ export default function Header() {
               </Link>
               <Link 
                 to="/login" 
-                className="bg-white text-green-600 hover:bg-green-50 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+                className="bg-white text-green-600 hover:bg-green-100 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
               >
                 Login
               </Link>
