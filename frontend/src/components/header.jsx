@@ -49,38 +49,58 @@ export default function Header() {
         {/* Logo Section */}
         <div className="flex items-center space-x-2">
           <FaBolt className="text-2xl text-yellow-300" />
-          <h1 className="text-2xl font-bold tracking-tight">ChargeNow</h1>
+          <h1 className="text-white text-2xl font-bold tracking-tight">ChargeNow</h1>
         </div>
 
         {/* Navigation Section */}
         <div className="flex items-center space-x-4">
           {!user ? (
-            <>
+            <div className="flex items-center space-x-4">
               <Link 
                 to="/contact" 
-                className="bg-emerald-400 text-gray-800 hover:bg-emerald-300 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+                className="text-white text-lg font-semibold px-4 py-1 rounded-xl
+                          bg-white/15 backdrop-blur-md border border-white/25
+                          hover:bg-white/25 hover:border-white/35
+                          transition-all duration-300 
+                          hover:shadow-lg hover:shadow-white/15
+                          hover:-translate-y-0.5"
               >
                 Contact
               </Link>
               <Link 
                 to="/login" 
-                className="bg-white text-green-600 hover:bg-green-100 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+                className="text-white text-lg font-semibold px-4 py-1 rounded-xl
+                          bg-white/15 backdrop-blur-md border border-white/25
+                          hover:bg-white/25 hover:border-white/35
+                          transition-all duration-300 
+                          hover:shadow-lg hover:shadow-white/15
+                          hover:-translate-y-0.5"
               >
                 Login
               </Link>
               <Link 
                 to="/signup" 
-                className="bg-yellow-400 text-gray-800 hover:bg-yellow-300 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+                className="text-white text-lg font-semibold px-4 py-1 rounded-xl
+                          bg-white/15 backdrop-blur-md border border-white/25
+                          hover:bg-white/25 hover:border-white/35
+                          transition-all duration-300 
+                          hover:shadow-lg hover:shadow-white/15
+                          hover:-translate-y-0.5"
               >
                 Sign Up
               </Link>
-            </>
+            </div>
           ) : (
             <div className="flex items-center space-x-4">
               {/* Contact Link for logged in users */}
               <Link 
                 to="/contact" 
-                className="bg-emerald-400 text-gray-800 hover:bg-emerald-300 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+                className="text-white text-lg font-semibold px-4 py-1 rounded-xl
+                          bg-white/15 backdrop-blur-md border border-white/25
+                          hover:bg-white/25 hover:border-white/35
+                          transition-all duration-300 
+                          hover:shadow-lg hover:shadow-white/15
+                          hover:-translate-y-0.5"
               >
                 Contact
               </Link>
@@ -89,7 +109,12 @@ export default function Header() {
               <div className="relative" ref={dropdownRef}>
                 <button 
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="bg-white text-green-600 hover:bg-green-100 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg flex items-center space-x-1"
+                  className="text-white text-lg font-semibold px-4 py-1 rounded-xl
+                          bg-white/15 backdrop-blur-md border border-white/25
+                          hover:bg-white/25 hover:border-white/35
+                          transition-all duration-300 
+                          hover:shadow-lg hover:shadow-white/15
+                          hover:-translate-y-0.5 flex items-center space-x-2"
                 >
                   <span>Profile</span>
                     <FaChevronDown 
@@ -119,7 +144,12 @@ export default function Header() {
 
               <button 
                 onClick={handleLogout}
-                className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded-lg font-semibold transition duration-200 shadow-md hover:shadow-lg"
+                className="text-white text-lg font-semibold px-4 py-1 rounded-xl
+                          bg-white/15 backdrop-blur-md border border-white/25
+                          hover:bg-red-400/25 hover:border-red-400/35
+                          transition-all duration-300 
+                          hover:shadow-lg hover:shadow-white/15
+                          hover:-translate-y-0.5"
               >
                 Logout
               </button>
