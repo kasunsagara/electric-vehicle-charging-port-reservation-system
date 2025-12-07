@@ -2,7 +2,7 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { FaTachometerAlt, FaChargingStation, FaUsers, FaCalendarCheck, FaComments, FaHome, FaSignOutAlt } from "react-icons/fa";
+import { FaTachometerAlt, FaChargingStation, FaUsers, FaUserShield, FaCalendarCheck, FaComments, FaHome, FaSignOutAlt } from "react-icons/fa";
 import AdminDashboardPage from "./admin/adminDashboardPage";
 import AdminPortsPage from "./admin/adminPortsPage";
 import AddPortPage from "./admin/addPortPage";
@@ -53,6 +53,20 @@ export default function AdminHomePage() {
 
         {/* Navigation Menu */}
         <nav className="flex-1 flex flex-col p-4 space-y-2">
+          {/* Admin Home Link */}
+          <Link
+            to="/admin"
+            onClick={() => setActiveTab("adminHome")}
+            className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+              activeTab === "adminHome"
+                ? "bg-white text-green-700 shadow-lg transform scale-105"
+                : "text-green-100 hover:bg-green-500 hover:text-white hover:shadow-md"
+            }`}
+          >
+            <FaUserShield className={`w-5 h-5 ${activeTab === "adminHome" ? 'text-green-600' : ''}`} />
+            <span className="font-semibold">Admin Home</span>
+          </Link>
+
           {/* Dashboard Link */}
           <Link
             to="/admin/dashboard"
