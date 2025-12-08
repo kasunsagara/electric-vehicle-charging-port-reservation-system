@@ -131,7 +131,7 @@ export default function PortBookingPage() {
       data.append("estimatedCost", estimatedCost.toFixed(0));
 
       const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/bookings", data, {
-        headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` }
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
       });
 
       setRealBookingId(res.data.booking.bookingId);

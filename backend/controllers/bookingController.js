@@ -1,10 +1,5 @@
 import Booking from "../models/booking.js";
 import Port from "../models/port.js";
-import multer from "multer";
-
-// Multer setup
-const storage = multer.memoryStorage();
-export const upload = multer({ storage });
 
 export async function createBooking(req, res) {
   try {
