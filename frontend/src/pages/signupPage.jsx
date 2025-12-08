@@ -23,19 +23,12 @@ export default function SignUpPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Password validation
+    // Password validation: only minimum 8 characters
     const password = formData.password;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    /*
-      Explanation:
-      - (?=.*[a-z]) => at least one lowercase letter
-      - (?=.*[A-Z]) => at least one uppercase letter
-      - (?=.*\d) => at least one number
-      - .{8,} => minimum 8 characters
-    */
+    const passwordRegex = /^.{8,}$/;
 
     if (!passwordRegex.test(password)) {
-      toast.error("Password must be at least 8 characters, include uppercase, lowercase, and a number.");
+      toast.error("Password must be at least 8 characters long.");
       setIsLoading(false);
       return;
     }
