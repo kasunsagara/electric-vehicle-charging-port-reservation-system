@@ -2,12 +2,40 @@ import User from "../models/user.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import emailExistence from "email-existence";
 
 dotenv.config();
+
+// Helper function to check email existence
+const checkEmailExists = (email) => {
+  return new Promise((resolve, reject) => {
+    emailExistence.check(email, (error, response) => {
+      if (error) return reject(error);
+      resolve(response); // true = exists, false = doesn't exist
+    });
+  });
+};
 
 export async function createUser(req, res) { 
   try {
     const newUserData = req.body;
+
+    // 1️⃣ Email format validation
+    if (!/\S+@\S+\.\S+/.test(newUserData.email)) {
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+
+    // 2️⃣ Check if email actually exists
+    const isValidEmail = await checkEmailExists(newUserData.email);
+    if (!isValidEmail) {
+      return res.status(400).json({ message: "Email does not exist" });
+    }
+
+    // 3️⃣ Check for duplicate email
+    const existingUser = await User.findOne({ email: newUserData.email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
 
     // ✅ If creating admin, only main admin can do it
     if (newUserData.role === "admin") {
@@ -31,7 +59,8 @@ export async function createUser(req, res) {
     });
 
   } catch (error) {
-    res.status(400).json({
+    console.error("Create User Error:", error);
+    res.status(500).json({
       message: "User creation failed",
       error: error.message
     });
