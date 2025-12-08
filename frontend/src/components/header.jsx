@@ -59,10 +59,10 @@ export default function Header() {
               <Link 
                 to="/contact" 
                 className="text-white text-lg font-semibold px-4 py-1 rounded-xl
-                          bg-white/15 backdrop-blur-md border border-white/25
-                          hover:bg-white/25 hover:border-white/35
+                          bg-white/20 backdrop-blur-md shadow-sm
+                          hover:bg-green-500
                           transition-all duration-300 
-                          hover:shadow-lg hover:shadow-white/15
+                          hover:shadow-lg hover:shadow-white/10
                           hover:-translate-y-0.5"
               >
                 Contact
@@ -70,10 +70,10 @@ export default function Header() {
               <Link 
                 to="/login" 
                 className="text-white text-lg font-semibold px-4 py-1 rounded-xl
-                          bg-white/15 backdrop-blur-md border border-white/25
-                          hover:bg-white/25 hover:border-white/35
+                          bg-white/20 backdrop-blur-md shadow-sm
+                          hover:bg-green-500
                           transition-all duration-300 
-                          hover:shadow-lg hover:shadow-white/15
+                          hover:shadow-lg hover:shadow-white/10
                           hover:-translate-y-0.5"
               >
                 Login
@@ -81,10 +81,10 @@ export default function Header() {
               <Link 
                 to="/signup" 
                 className="text-white text-lg font-semibold px-4 py-1 rounded-xl
-                          bg-white/15 backdrop-blur-md border border-white/25
-                          hover:bg-white/25 hover:border-white/35
+                          bg-white/20 backdrop-blur-md shadow-sm
+                          hover:bg-green-500
                           transition-all duration-300 
-                          hover:shadow-lg hover:shadow-white/15
+                          hover:shadow-lg hover:shadow-white/10
                           hover:-translate-y-0.5"
               >
                 Sign Up
@@ -96,10 +96,10 @@ export default function Header() {
               <Link 
                 to="/contact" 
                 className="text-white text-lg font-semibold px-4 py-1 rounded-xl
-                          bg-white/15 backdrop-blur-md border border-white/25
-                          hover:bg-white/25 hover:border-white/35
+                          bg-white/20 backdrop-blur-md shadow-sm
+                          hover:bg-green-500
                           transition-all duration-300 
-                          hover:shadow-lg hover:shadow-white/15
+                          hover:shadow-lg hover:shadow-white/10
                           hover:-translate-y-0.5"
               >
                 Contact
@@ -110,10 +110,10 @@ export default function Header() {
                 <button 
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="text-white text-lg font-semibold px-4 py-1 rounded-xl
-                          bg-white/15 backdrop-blur-md border border-white/25
-                          hover:bg-white/25 hover:border-white/35
+                          bg-white/20 backdrop-blur-md shadow-sm
+                          hover:bg-green-500
                           transition-all duration-300 
-                          hover:shadow-lg hover:shadow-white/15
+                          hover:shadow-lg hover:shadow-white/10
                           hover:-translate-y-0.5 flex items-center space-x-2"
                 >
                   <span>Profile</span>
@@ -145,10 +145,10 @@ export default function Header() {
               <button 
                 onClick={handleLogout}
                 className="text-white text-lg font-semibold px-4 py-1 rounded-xl
-                          bg-white/15 backdrop-blur-md border border-white/25
-                          hover:bg-red-400/25 hover:border-red-400/35
+                          bg-white/20 backdrop-blur-md shadow-sm
+                          hover:bg-red-500
                           transition-all duration-300 
-                          hover:shadow-lg hover:shadow-white/15
+                          hover:shadow-lg hover:shadow-white/10
                           hover:-translate-y-0.5"
               >
                 Logout
