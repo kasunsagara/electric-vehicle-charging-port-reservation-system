@@ -22,6 +22,24 @@ export default function SignUpPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    // Password validation
+    const password = formData.password;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    /*
+      Explanation:
+      - (?=.*[a-z]) => at least one lowercase letter
+      - (?=.*[A-Z]) => at least one uppercase letter
+      - (?=.*\d) => at least one number
+      - .{8,} => minimum 8 characters
+    */
+
+    if (!passwordRegex.test(password)) {
+      toast.error("Password must be at least 8 characters, include uppercase, lowercase, and a number.");
+      setIsLoading(false);
+      return;
+    }
+
     console.log("Form Data:", formData);
 
     try {
@@ -58,100 +76,100 @@ export default function SignUpPage() {
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
           <p className="text-gray-600">Join ChargeNow today</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name */}
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              Full Name
+            </label>
+            <div className="relative">
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                placeholder="Enter your full name"
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <FaUser className="h-5 w-5 text-gray-400" />
+              </div>
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Name */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name
-              </label>
-              <div className="relative">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
-                  placeholder="Enter your full name"
-                />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <FaUser className="h-5 w-5 text-gray-400" />
-                </div>
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address
+            </label>
+            <div className="relative">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                placeholder="Enter your email"
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <FaEnvelope className="h-5 w-5 text-gray-400" />
               </div>
             </div>
+          </div>
 
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
-              </label>
-              <div className="relative">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
-                  placeholder="Enter your email"
-                />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <FaEnvelope className="h-5 w-5 text-gray-400" />
-                </div>
+          {/* Password */}
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                placeholder="Create a password"
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <FaLock className="h-5 w-5 text-gray-400" />
               </div>
             </div>
+          </div>
 
-            {/* Password */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
-                  placeholder="Create a password"
-                />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <FaLock className="h-5 w-5 text-gray-400" />
-                </div>
+          {/* Phone */}
+          <div>
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+              Phone Number
+            </label>
+            <div className="relative">
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
+                placeholder="Enter your phone number"
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <FaPhone className="h-5 w-5 text-gray-400" />
               </div>
             </div>
-
-            {/* Phone */}
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number
-              </label>
-              <div className="relative">
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  autoComplete="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
-                  placeholder="Enter your phone number"
-                />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <FaPhone className="h-5 w-5 text-gray-400" />
-                </div>
-              </div>
-            </div>
+          </div>
 
           {/* Submit Button */}
           <button
