@@ -1,10 +1,9 @@
-// src/pages/PortBookingPage.jsx
 import { useState, useEffect } from "react";  
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChargingEstimates from "../components/ChargingEstimates";
 import toast from "react-hot-toast";
-import { FiCalendar, FiClock, FiMapPin, FiBattery, FiUpload, FiCheckCircle } from "react-icons/fi";
+import { FiCalendar, FiClock, FiMapPin, FiBattery, FiCheckCircle } from "react-icons/fi";
 import { FaPlug } from "react-icons/fa";
 
 // Battery capacities per vehicle model (kWh)
@@ -55,7 +54,6 @@ export default function PortBookingPage() {
     vehicleType: "Car",
     vehicleModel: "",
     chargerType: "", 
-    carPhoto: null,
     bookingDate: bookingDate || "",
     bookingTime: bookingTime || "",
     portLocation: locationFromQuery || "",
@@ -91,14 +89,10 @@ export default function PortBookingPage() {
 
   // Handle form changes
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "carPhoto") {
-      setFormData({ ...formData, carPhoto: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-      if (name === "vehicleType") {
-        setFormData(prev => ({ ...prev, vehicleModel: "" }));
-      }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    if (name === "vehicleType") {
+      setFormData(prev => ({ ...prev, vehicleModel: "" }));
     }
   };
 
@@ -125,7 +119,11 @@ export default function PortBookingPage() {
       const estimatedCost = chargingTime * UNIT_RATE;
 
       const data = new FormData();
-      Object.entries(formData).forEach(([key, value]) => data.append(key, value));
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+          data.append(key, value);
+        }
+      });
 
       // 🔹 add calculated values
       data.append("estimatedBatteryCapacity", batteryCapacity);
@@ -304,37 +302,6 @@ export default function PortBookingPage() {
                     No charger options available for this port
                   </div>
                 )}
-              </div>
-
-              {/* Car Photo Upload */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Vehicle Photo (Optional)
-                </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 hover:border-green-500 transition duration-200">
-                  <input 
-                    type="file" 
-                    name="carPhoto" 
-                    accept="image/*" 
-                    onChange={handleChange} 
-                    className="hidden" 
-                    id="carPhoto"
-                  />
-                  <label htmlFor="carPhoto" className="cursor-pointer">
-                    <div className="text-center">
-                      <FiUpload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-600 mb-2">
-                        {formData.carPhoto ? formData.carPhoto.name : "Click to upload vehicle photo"}
-                      </p>
-                      <button 
-                        type="button"
-                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition duration-200"
-                      >
-                        Choose File
-                      </button>
-                    </div>
-                  </label>
-                </div>
               </div>
 
               {/* Calculate Estimates Button */}
