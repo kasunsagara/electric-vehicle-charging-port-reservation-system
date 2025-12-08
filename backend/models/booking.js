@@ -31,10 +31,6 @@ const bookingSchema = mongoose.Schema({
     enum: ["normal", "fast"],
     required: true
   },
-  carPhoto: {                      
-    type: String,
-    required: false
-  },
   bookingDate: {              
     type: Date,
     required: true

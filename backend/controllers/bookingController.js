@@ -16,7 +16,6 @@ export async function createBooking(req, res) {
   }
 
     const { portId, vehicleType, vehicleModel, chargerType, bookingDate, bookingTime } = req.body;
-    const carPhoto = req.file; // optional
 
     if (!portId || !bookingDate || !bookingTime || !chargerType) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -53,7 +52,6 @@ export async function createBooking(req, res) {
       vehicleType,
       vehicleModel,
       chargerType,
-      carPhoto: carPhoto ? carPhoto.buffer : null,
       bookingDate,
       bookingTime,
       estimatedBatteryCapacity: req.body.estimatedBatteryCapacity,
