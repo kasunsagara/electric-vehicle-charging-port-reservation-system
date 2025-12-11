@@ -1,5 +1,5 @@
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { FaUserShield, FaTachometerAlt, FaChargingStation, FaUsers, FaCalendarCheck, FaComments, FaHome, FaSignOutAlt } from "react-icons/fa";
@@ -16,6 +16,18 @@ export default function AdminHomePage() {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState(" ");
   const navigate = useNavigate();
+
+  // Load user data from localStorage on component mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -179,7 +191,7 @@ export default function AdminHomePage() {
                       <FaChargingStation className="w-12 h-12 text-white" />
                     </div>
                     <h1 className="text-5xl font-bold text-gray-800 mb-4">
-                      Welcome, Admin!
+                      Welcome, {user ? user.name || user.username || "Admin" : "Admin"}!
                     </h1>
                     <p className="text-lg text-gray-600 mb-8 max-w-2x">
                       This is your admin dashboard where you can manage ports, users, and view comprehensive reports for the ChargeNow EV charging system.
