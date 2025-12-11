@@ -91,3 +91,37 @@ export async function getBookings(req, res) {
     res.status(500).json({ message: "Server error" });
   }
 }
+
+export async function cancelBooking(req, res) {
+  try {
+    if (!req.user || req.user.role !== "customer") {
+      return res.status(403).json({ message: "Please login as customer" });
+    }
+
+    const { bookingId } = req.params; // EV0001
+
+    const booking = await Booking.findOne({ bookingId });
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // Only the person who booked can cancel
+    if (booking.email !== req.user.email) {
+      return res.status(403).json({ message: "You can only cancel your own bookings" });
+    }
+
+    // Delete booking
+    await Booking.deleteOne({ bookingId });
+
+    // Update port status back to available
+    await Port.findOneAndUpdate(
+      { portId: booking.portId },
+      { status: "available" }
+    );
+
+    return res.status(200).json({ message: "Booking cancelled successfully" });
+  } catch (error) {
+    console.error("Error cancelling booking:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
