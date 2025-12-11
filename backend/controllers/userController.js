@@ -68,43 +68,57 @@ export async function createUser(req, res) {
 }
 
 export async function loginUser(req, res) {
-    try {
-        const users = await User.find({ email: req.body.email });
+  try {
+    const users = await User.find({ email: req.body.email });
 
-        if (users.length == 0) {
-            res.status(404).json({
-                message: "User not found"
-            });
-        }
-
-        const user = users[0];
-
-        const isPasswordCorrect = bcrypt.compareSync(req.body.password, user.password);
-
-        if (isPasswordCorrect) {
-            const token = jwt.sign({
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                phone: user.phone
-            }, process.env.JWT_SECRET);
-
-            res.status(200).json({
-                message: "Login successful",
-                token: token,
-                user: {
-                    name: user.name,
-                    email: user.email,
-                    role: user.role,
-                    phone: user.phone
-                }
-            });
-        }
-    } catch (error) {
-        res.status(401).json({
-            message: "Login failed"
-        });
+    if (users.length === 0) {
+      return res.status(404).json({
+        message: "User not found"
+      });
     }
+
+    const user = users[0];
+
+    const isPasswordCorrect = bcrypt.compareSync(
+      req.body.password,
+      user.password
+    );
+
+    // ❌ Wrong password → return error
+    if (!isPasswordCorrect) {
+      return res.status(401).json({
+        message: "Incorrect password"
+      });
+    }
+
+    // ✅ Password correct → success
+    const token = jwt.sign(
+      {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        phone: user.phone,
+      },
+      process.env.JWT_SECRET
+    );
+
+    return res.status(200).json({
+      message: "Login successful",
+      token: token,
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        phone: user.phone
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Server error"
+    });
+  }
 }
 
 export async function logoutUser(req, res) {
