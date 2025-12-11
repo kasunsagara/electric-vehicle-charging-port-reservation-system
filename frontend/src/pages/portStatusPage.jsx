@@ -93,8 +93,6 @@ export default function PortStatusPage() {
   };
 
   const handleCancelBooking = async (bookingId, portId) => {
-    if (!confirm("Are you sure you want to cancel this booking?")) return;
-
     try {
       await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/api/bookings/${bookingId}`,
