@@ -381,7 +381,7 @@ export default function PortStatusPage() {
                                     port.status === "available"
                                       ? "text-green-600"
                                       : port.bookedBy?.email === currentUser?.email
-                                      ? "text-orange-600"
+                                      ? "text-red-600"
                                       : "text-red-600"
                                   }`}
                                 >
