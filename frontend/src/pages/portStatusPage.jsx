@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -381,7 +382,7 @@ export default function PortStatusPage() {
                                     port.status === "available"
                                       ? "text-green-600"
                                       : port.bookedBy?.email === currentUser?.email
-                                      ? "text-red-600"
+                                      ? "text-orange-600"
                                       : "text-red-600"
                                   }`}
                                 >
@@ -422,8 +423,24 @@ export default function PortStatusPage() {
             {/* Map View */}
             {view === "map" && (
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-green-100">
-                <div className="p-4 border-b border-gray-200">
+                <div className="p-4 border-b border-gray-200 flex justify-between items-center">
                   <h3 className="text-lg font-semibold text-gray-800">Charging Ports Map View</h3>
+                  
+                  {/* Map Legend */}
+                  <div className="flex flex-wrap items-center gap-3 text-sm">
+                    <div className="flex items-center space-x-1">
+                      <div className="w-4 h-4 rounded-full bg-blue-500 border border-blue-600"></div>
+                      <span className="text-gray-700 font-medium">You</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <div className="w-4 h-4 rounded-full bg-green-500 border border-green-600"></div>
+                      <span className="text-gray-700 font-medium">Available</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <div className="w-4 h-4 rounded-full bg-red-500 border border-red-600"></div>
+                      <span className="text-gray-700 font-medium">Booked</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="h-96 md:h-[500px] w-full">
                   <MapContainer
@@ -436,49 +453,84 @@ export default function PortStatusPage() {
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                       attribution="&copy; OpenStreetMap contributors"
                     />
-                    <Marker position={[userLocation.lat, userLocation.lng]}>
+                    
+                    {/* Your Location - Blue color */}
+                    <Marker 
+                      position={[userLocation.lat, userLocation.lng]}
+                      icon={L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                      })}
+                    >
                       <Popup>
                         <div className="text-center">
-                          <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2">
+                          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2">
                             <FiNavigation className="w-4 h-4 text-white" />
                           </div>
                           <b>Your Location</b>
                         </div>
                       </Popup>
                     </Marker>
-                    {ports.map((port) => (
-                      <Marker
-                        key={port._id}
-                        position={[port.coordinates.lat, port.coordinates.lng]}
-                      >
-                        <Popup>
-                          <div className="min-w-[220px]">
-                            <div className="flex items-center space-x-2 mb-3">
-                              <div>
-                                <b className="text-gray-800">Port {port.portId}</b>
-                                <p className="text-sm text-gray-600">
-                                  {port.location} • {port.distance.toFixed(1)} km
-                                </p>
-                                <p
-                                  className={`font-bold mt-2 ${
-                                    port.status === "available"
-                                      ? "text-green-600"
-                                      : port.bookedBy?.email === currentUser?.email
-                                      ? "text-orange-600"
-                                      : "text-red-600"
-                                  }`}
-                                >
-                                  {getStatusText(port)}
-                                </p>
-                                <div className="mt-3">
-                                  {renderActionButton(port)}
+                    
+                    {/* Charging Ports Markers */}
+                    {ports.map((port) => {
+                      // Determine marker color based on status
+                      let iconUrl = '';
+                      
+                      if (port.status === "available") {
+                        // Green color for available ports
+                        iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png';
+                      } else {
+                        // Red color for all booked ports
+                        iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png';
+                      }
+                      
+                      return (
+                        <Marker
+                          key={port._id}
+                          position={[port.coordinates.lat, port.coordinates.lng]}
+                          icon={L.icon({
+                            iconUrl: iconUrl,
+                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41]
+                          })}
+                        >
+                          <Popup>
+                            <div className="min-w-[220px]">
+                              <div className="flex items-center space-x-2 mb-3">
+                                <div>
+                                  <b className="text-gray-800">Port {port.portId}</b>
+                                  <p className="text-sm text-gray-600">
+                                    {port.location} • {port.distance.toFixed(1)} km
+                                  </p>
+                                  <p
+                                    className={`font-bold mt-2 ${
+                                      port.status === "available"
+                                        ? "text-green-600"
+                                        : port.bookedBy?.email === currentUser?.email
+                                        ? "text-orange-600"
+                                        : "text-red-600"
+                                    }`}
+                                  >
+                                    {getStatusText(port)}
+                                  </p>
+                                  <div className="mt-3">
+                                    {renderActionButton(port)}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </Popup>
-                      </Marker>
-                    ))}
+                          </Popup>
+                        </Marker>
+                      );
+                    })}
                   </MapContainer>
                 </div>
               </div>
