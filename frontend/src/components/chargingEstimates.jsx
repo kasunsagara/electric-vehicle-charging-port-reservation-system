@@ -1,9 +1,8 @@
-// src/components/ChargingEstimates.jsx
 import React from "react";
 import { FiBattery, FiClock, FiDollarSign } from "react-icons/fi";
 import { FaCalculator } from "react-icons/fa";
 
-// Example battery capacities per vehicle model (kWh)
+// Battery capacities per vehicle model (kWh)
 const batteryCapacityMap = {
   // Cars
   "Tata Nexon EV": 30.2,
@@ -32,17 +31,24 @@ const batteryCapacityMap = {
   "Piaggio Ape Electric": 8,
 };
 
-const UNIT_RATE = 400; // Rs per hour
+// 🔹 Unit rate based on charger power
+const getUnitRateByPower = (power) => {
+  if (power >= 20) return 600; // Fast (20kW)
+  return 400; // Normal (10kW)
+};
 
 export default function ChargingEstimates({ chargerType, vehicleModel, port }) {
   if (!vehicleModel || !chargerType || !port) return null;
 
-  const charger = port.chargerOptions.find(c => c.type === chargerType);
+  const charger = port.chargerOptions.find(
+    (c) => c.type === chargerType
+  );
   if (!charger) return null;
 
   const batteryCapacity = batteryCapacityMap[vehicleModel] || 0; // kWh
   const chargingTime = batteryCapacity / charger.speed; // hours
-  const estimatedCost = chargingTime * UNIT_RATE; // Rs
+  const unitRate = getUnitRateByPower(charger.speed);
+  const estimatedCost = chargingTime * unitRate;
 
   return (
     <div className="bg-gradient-to-br from-green-50 to-emerald-100 border border-green-200 rounded-2xl p-6 shadow-lg mt-6">
@@ -52,7 +58,9 @@ export default function ChargingEstimates({ chargerType, vehicleModel, port }) {
           <FaCalculator className="w-5 h-5 text-white" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">Charging Estimates</h2>
+          <h2 className="text-2xl font-bold text-gray-800">
+            Charging Estimates
+          </h2>
         </div>
       </div>
 
@@ -65,12 +73,16 @@ export default function ChargingEstimates({ chargerType, vehicleModel, port }) {
               <FiBattery className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <span className="font-semibold text-gray-700">Battery Capacity</span>
+              <span className="font-semibold text-gray-700">
+                Battery Capacity
+              </span>
               <p className="text-sm text-gray-500">Total battery size</p>
             </div>
           </div>
           <div className="text-right">
-            <span className="text-xl font-bold text-blue-600">{batteryCapacity}</span>
+            <span className="text-xl font-bold text-blue-600">
+              {batteryCapacity}
+            </span>
             <span className="text-gray-600 ml-1">kWh</span>
           </div>
         </div>
@@ -82,12 +94,16 @@ export default function ChargingEstimates({ chargerType, vehicleModel, port }) {
               <FiClock className="w-5 h-5 text-orange-600" />
             </div>
             <div>
-              <span className="font-semibold text-gray-700">Estimated Time</span>
+              <span className="font-semibold text-gray-700">
+                Estimated Time
+              </span>
               <p className="text-sm text-gray-500">For full charge</p>
             </div>
           </div>
           <div className="text-right">
-            <span className="text-xl font-bold text-orange-600">{chargingTime.toFixed(2)}</span>
+            <span className="text-xl font-bold text-orange-600">
+              {chargingTime.toFixed(2)}
+            </span>
             <span className="text-gray-600 ml-1">hours</span>
           </div>
         </div>
@@ -99,12 +115,18 @@ export default function ChargingEstimates({ chargerType, vehicleModel, port }) {
               <FiDollarSign className="w-5 h-5 text-red-600" />
             </div>
             <div>
-              <span className="font-semibold text-gray-700">Estimated Cost</span>
-              <p className="text-sm text-gray-500">Total charging cost</p>
+              <span className="font-semibold text-gray-700">
+                Estimated Cost
+              </span>
+              <p className="text-sm text-gray-500">
+                Total charging cost
+              </p>
             </div>
           </div>
           <div className="text-right">
-            <span className="text-xl font-bold text-red-600">Rs. {estimatedCost.toFixed(0)}</span>
+            <span className="text-xl font-bold text-red-600">
+              Rs. {estimatedCost.toFixed(0)}
+            </span>
           </div>
         </div>
       </div>

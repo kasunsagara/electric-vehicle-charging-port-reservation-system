@@ -35,7 +35,11 @@ const batteryCapacityMap = {
   "Piaggio Ape Electric": 8,
 };
 
-const UNIT_RATE = 400; // Rs per hour
+const getUnitRateByPower = (power) => {
+  if (power >= 20) return 600; // Fast
+  return 400; // Normal
+};
+
 
 export default function PortBookingPage() {
   const { portId } = useParams();
@@ -107,44 +111,56 @@ export default function PortBookingPage() {
   const handleConfirmBooking = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) { 
-        toast.error("You must be logged in to book a port"); 
-        return; 
+      if (!token) {
+        toast.error("You must be logged in to book a port");
+        return;
       }
 
-      // 🔹 calculate estimates before saving
-      const batteryCapacity = batteryCapacityMap[formData.vehicleModel] || 0;
-      const charger = port?.chargerOptions.find(c => c.type === formData.chargerType);
-      const chargingTime = charger ? batteryCapacity / charger.speed : 0;
-      const estimatedCost = chargingTime * UNIT_RATE;
+      const batteryCapacity =
+        batteryCapacityMap[formData.vehicleModel] || 0;
+
+      const charger = port.chargerOptions.find(
+        (c) => c.type === formData.chargerType
+      );
+
+      if (!charger) {
+        toast.error("Invalid charger type");
+        return;
+      }
+
+      const chargingTime = batteryCapacity / charger.speed;
+      const unitRate = getUnitRateByPower(charger.speed);
+      const estimatedCost = chargingTime * unitRate;
 
       const data = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-          data.append(key, value);
-        }
+        data.append(key, value);
       });
 
-      // 🔹 add calculated values
       data.append("estimatedBatteryCapacity", batteryCapacity);
       data.append("estimatedChargingTime", chargingTime.toFixed(2));
+      data.append("unitRate", unitRate);
       data.append("estimatedCost", estimatedCost.toFixed(0));
 
-      const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/bookings", data, {
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
-      });
+      const res = await axios.post(
+        import.meta.env.VITE_BACKEND_URL + "/api/bookings",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setRealBookingId(res.data.booking.bookingId);
-      setFinalbookingTime(formData.bookingTime);
 
-      toast.success(`Booking confirmed and Your Booking ID is ${res.data.booking.bookingId}`);
-
-      navigate("/myBookings"); 
-
+      toast.success(
+        `Booking confirmed! Booking ID: ${res.data.booking.bookingId}`
+      );
+      navigate("/myBookings");
     } catch (error) {
       console.error(error);
-      if (error.response) toast.error(error.response.data.message || "Booking failed");
-      else toast.error("Booking failed");
+      toast.error("Booking failed");
     }
   };
 
