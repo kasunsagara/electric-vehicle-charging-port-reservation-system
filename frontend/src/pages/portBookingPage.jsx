@@ -147,6 +147,7 @@ export default function PortBookingPage() {
         data,
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -155,7 +156,7 @@ export default function PortBookingPage() {
       setRealBookingId(res.data.booking.bookingId);
 
       toast.success(
-        `Booking confirmed! Booking ID: ${res.data.booking.bookingId}`
+        `Booking confirmed and Your Booking ID is ${res.data.booking.bookingId}`
       );
       navigate("/myBookings");
     } catch (error) {
