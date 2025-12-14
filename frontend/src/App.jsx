@@ -6,6 +6,7 @@ import SignUpPage from './pages/signupPage.jsx';
 import LoginPage from './pages/loginPage.jsx';
 import ContactPage from './pages/contactPage.jsx';
 import MyAccountPage from './pages/myAccountPage.jsx';
+import UpdateAccountPage from './pages/updateAccountPage.jsx';
 import MyBookingsPage from './pages/myBookingsPage.jsx';
 import AdminHomePage from './pages/adminHomePage.jsx';
 import PortStatusPage from './pages/portStatusPage.jsx';
@@ -22,6 +23,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/myAccount" element={<MyAccountPage />} />
+            <Route path="/updateAccount" element={<UpdateAccountPage />} />
             <Route path="/myBookings" element={<MyBookingsPage />} />
             <Route path="/port-status" element={<PortStatusPage />} />
             <Route path="/port-booking/:portId" element={<PortBookingPage />} />

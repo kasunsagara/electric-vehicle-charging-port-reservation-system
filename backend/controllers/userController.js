@@ -154,7 +154,7 @@ export async function getUsers(req, res) {
   }
 }
 
-export async function getUserProfile(req, res) {
+export async function getUserAccount(req, res) {
   try {
     const email = req.query.email; // GET request: use query params
     if (!email) {
@@ -180,14 +180,64 @@ export async function getUserProfile(req, res) {
   }
 }
 
+export async function updateUserAccount(req, res) {
+  try {
+    const userId = req.params.id;
 
-export async function deleteUser(req, res) {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({
-      message: "You are not an admin",
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { name, email, phone, password } = req.body;
+
+    // Update email only if changed
+    if (email && email !== user.email) {
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        return res.status(400).json({ message: "Invalid email format" });
+      }
+
+      const isValidEmail = await checkEmailExists(email);
+      if (!isValidEmail) {
+        return res.status(400).json({ message: "Email does not exist" });
+      }
+
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ message: "Email already registered" });
+      }
+
+      user.email = email;
+    }
+
+    // Update other fields
+    user.name = name || user.name;
+    user.phone = phone || user.phone;
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
+
+    const updatedUser = await user.save();
+
+    const userResponse = updatedUser.toObject();
+    delete userResponse.password;
+
+    res.status(200).json({
+      message: "User updated successfully",
+      user: userResponse,
+    });
+  } catch (error) {
+    console.error("Update user error:", error);
+    res.status(500).json({
+      message: "Server error while updating user",
+      error: error.message,
     });
   }
+}
 
+export async function deleteUserAccount(req, res) {
   const email = req.params.email;
 
   try {
@@ -195,6 +245,13 @@ export async function deleteUser(req, res) {
     if (email === "kasunsagara689@gmail.com") {
       return res.status(403).json({
         message: "You cannot delete the main admin",
+      });
+    }
+
+    // Allow deletion if user is admin OR if user is deleting their own account
+    if (req.user.role !== "admin" && req.user.email !== email) {
+      return res.status(403).json({
+        message: "You can only delete your own account",
       });
     }
 
@@ -216,3 +273,6 @@ export async function deleteUser(req, res) {
     });
   }
 }
+
+
+
