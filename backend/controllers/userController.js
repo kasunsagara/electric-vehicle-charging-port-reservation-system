@@ -6,12 +6,11 @@ import emailExistence from "email-existence";
 
 dotenv.config();
 
-// Helper function to check email existence
 const checkEmailExists = (email) => {
   return new Promise((resolve, reject) => {
     emailExistence.check(email, (error, response) => {
       if (error) return reject(error);
-      resolve(response); // true = exists, false = doesn't exist
+      resolve(response); 
     });
   });
 };
@@ -20,24 +19,20 @@ export async function createUser(req, res) {
   try {
     const newUserData = req.body;
 
-    // 1️⃣ Email format validation
     if (!/\S+@\S+\.\S+/.test(newUserData.email)) {
       return res.status(400).json({ message: "Invalid email format" });
     }
 
-    // 2️⃣ Check if email actually exists
     const isValidEmail = await checkEmailExists(newUserData.email);
     if (!isValidEmail) {
       return res.status(400).json({ message: "Email does not exist" });
     }
 
-    // 3️⃣ Check for duplicate email
     const existingUser = await User.findOne({ email: newUserData.email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    // ✅ If creating admin, only main admin can do it
     if (newUserData.role === "admin") {
       if (!req.user) {
         return res.status(401).json({ message: "You are not logged in" });
@@ -48,7 +43,6 @@ export async function createUser(req, res) {
       }
     }
 
-    // Hash password
     newUserData.password = bcrypt.hashSync(newUserData.password, 10); 
 
     const user = new User(newUserData);
@@ -84,14 +78,12 @@ export async function loginUser(req, res) {
       user.password
     );
 
-    // ❌ Wrong password → return error
     if (!isPasswordCorrect) {
       return res.status(401).json({
         message: "Incorrect password"
       });
     }
 
-    // ✅ Password correct → success
     const token = jwt.sign(
       {
         name: user.name,
@@ -156,7 +148,7 @@ export async function getUsers(req, res) {
 
 export async function getUserAccount(req, res) {
   try {
-    const email = req.query.email; // GET request: use query params
+    const email = req.query.email; 
     if (!email) {
       return res.status(400).json({ message: "Email is required" });
     }
@@ -191,7 +183,6 @@ export async function updateUserAccount(req, res) {
 
     const { name, email, phone, password } = req.body;
 
-    // Update email only if changed
     if (email && email !== user.email) {
       if (!/\S+@\S+\.\S+/.test(email)) {
         return res.status(400).json({ message: "Invalid email format" });
@@ -210,7 +201,6 @@ export async function updateUserAccount(req, res) {
       user.email = email;
     }
 
-    // Update other fields
     user.name = name || user.name;
     user.phone = phone || user.phone;
 
@@ -241,14 +231,12 @@ export async function deleteUserAccount(req, res) {
   const email = req.params.email;
 
   try {
-    // Prevent deleting the main admin
     if (email === "kasunsagara689@gmail.com") {
       return res.status(403).json({
         message: "You cannot delete the main admin",
       });
     }
 
-    // Allow deletion if user is admin OR if user is deleting their own account
     if (req.user.role !== "admin" && req.user.email !== email) {
       return res.status(403).json({
         message: "You can only delete your own account",

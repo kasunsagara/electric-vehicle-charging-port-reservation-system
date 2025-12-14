@@ -1,10 +1,10 @@
 import express from 'express';
-import { submitFeedbackForm, getAllFeedbacks, deleteFeedback } from '../controllers/feedbackController.js';
+import { submitFeedback, getFeedbacks, deleteFeedback } from '../controllers/feedbackController.js';
 
 const feedbackRouter = express.Router();
 
-feedbackRouter.post("/", submitFeedbackForm);
-feedbackRouter.get("/", getAllFeedbacks);
+feedbackRouter.post("/", submitFeedback);
+feedbackRouter.get("/", getFeedbacks);
 feedbackRouter.delete("/:id", deleteFeedback);
 
 

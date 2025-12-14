@@ -73,10 +73,8 @@ export async function getBookings(req, res) {
     let bookings;
 
     if (req.user.role === "admin") {
-      // Admin sees all bookings
       bookings = await Booking.find();
     } else if (req.user.role === "customer") {
-      // Customers see only their own bookings (based on email or userId)
       bookings = await Booking.find({ email: req.user.email });
     } else {
       return res.status(403).json({ message: "Unauthorized access" });
@@ -98,22 +96,19 @@ export async function cancelBooking(req, res) {
       return res.status(403).json({ message: "Please login as customer" });
     }
 
-    const { bookingId } = req.params; // EV0001
+    const { bookingId } = req.params; 
 
     const booking = await Booking.findOne({ bookingId });
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
     }
 
-    // Only the person who booked can cancel
     if (booking.email !== req.user.email) {
       return res.status(403).json({ message: "You can only cancel your own bookings" });
     }
 
-    // Delete booking
     await Booking.deleteOne({ bookingId });
 
-    // Update port status back to available
     await Port.findOneAndUpdate(
       { portId: booking.portId },
       { status: "available" }

@@ -1,7 +1,6 @@
 import Feedback from '../models/feedback.js';
 
-// Controller function for handling form submissions
-export async function submitFeedbackForm(req, res) {
+export async function submitFeedback(req, res) {
   const { name, message } = req.body;
 
   const newFeedback = new Feedback({
@@ -9,7 +8,6 @@ export async function submitFeedbackForm(req, res) {
     message
   });
 
-  // Save the contact form to the database
   newFeedback.save()
     .then(() => {
       res.status(200).json({ message: 'Your message has been submitted successfully!' });
@@ -20,9 +18,7 @@ export async function submitFeedbackForm(req, res) {
     });
 }
 
-// Controller function to retrieve all contact submissions (optional)
-export async function getAllFeedbacks(req, res) {
-  // Find all contact submissions in the database
+export async function getFeedbacks(req, res) {
   Feedback.find()
     .then((feedback) => {
       res.status(200).json(feedback);
@@ -35,7 +31,7 @@ export async function getAllFeedbacks(req, res) {
 
 export async function deleteFeedback(req, res) {
   try {
-    const { id } = req.params;  // ID එක ගන්න
+    const { id } = req.params;  
 
     const deleted = await Feedback.findByIdAndDelete(id);
 

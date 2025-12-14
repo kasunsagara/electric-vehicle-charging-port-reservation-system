@@ -36,7 +36,6 @@ export async function getPorts(req, res) {
     const { date, time } = req.query;
     const userRole = req.user?.role;
 
-    // Admin sees all ports without filtering
     if (userRole === "admin") {
       const ports = await Port.find();
       return res.status(200).json({
@@ -45,14 +44,12 @@ export async function getPorts(req, res) {
       });
     }
 
-    // Normal user
     if (!date || !time) {
       return res.status(400).json({ message: "Date and time are required" });
     }
 
     const ports = await Port.find();
 
-    // Find bookings for selected date & time
     const bookings = await Booking.find({
       bookingDate: new Date(date),
       bookingTime: time,
@@ -65,7 +62,7 @@ export async function getPorts(req, res) {
         ...port._doc,
         status: booking ? "booked" : "available",
         bookedBy: booking ? { email: booking.email, name: booking.name } : null,
-        currentBookingId: booking ? booking.bookingId : null, // EV0001, EV0002...
+        currentBookingId: booking ? booking.bookingId : null, 
       };
     });
 
