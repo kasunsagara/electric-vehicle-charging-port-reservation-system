@@ -381,8 +381,6 @@ export default function PortStatusPage() {
                                   className={`font-semibold capitalize ${
                                     port.status === "available"
                                       ? "text-green-600"
-                                      : port.bookedBy?.email === currentUser?.email
-                                      ? "text-orange-600"
                                       : "text-red-600"
                                   }`}
                                 >
@@ -429,15 +427,15 @@ export default function PortStatusPage() {
                   {/* Map Legend */}
                   <div className="flex flex-wrap items-center gap-3 text-sm">
                     <div className="flex items-center space-x-1">
-                      <div className="w-4 h-4 rounded-full bg-blue-500 border border-blue-600"></div>
+                      <div className="w-3 h-3 rounded-full bg-blue-500"></div>
                       <span className="text-gray-700 font-medium">You</span>
                     </div>
                     <div className="flex items-center space-x-1">
-                      <div className="w-4 h-4 rounded-full bg-green-500 border border-green-600"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
                       <span className="text-gray-700 font-medium">Available</span>
                     </div>
                     <div className="flex items-center space-x-1">
-                      <div className="w-4 h-4 rounded-full bg-red-500 border border-red-600"></div>
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
                       <span className="text-gray-700 font-medium">Booked</span>
                     </div>
                   </div>
