@@ -19,33 +19,28 @@ app.use(bodyParser.json());
 
 const mongoUrl = process.env.MONGO_DB_URI;
 
-mongoose.connect(mongoUrl, {});
-
-const connection = mongoose.connection;
-
-connection.once('open', () => {
-  console.log("Database connected");
-});
-
-app.use(
-  (req, res, next) => {
-
-    const token = req.header("Authorization")?.replace("Bearer ", "");
-    console.log(token);
-
-    if (token != null) {
-      jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
-
-        if (!error) {
-          req.user = decoded;
-        }
-
-      });
-    }
-
-    next();
-
+mongoose.connect(mongoUrl)
+  .then(() => {
+    console.log("Database connected");
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err.message);
   });
+
+app.use((req, res, next) => {
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+  console.log(token);
+
+  if (token != null) {
+    jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+      if (!error) {
+        req.user = decoded;
+      }
+    });
+  }
+
+  next();
+});
 
 app.use("/api/users", userRouter);
 app.use("/api/ports", portRouter);
@@ -55,6 +50,3 @@ app.use("/api/feedbacks", feedbackRouter);
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });
-
-
-
