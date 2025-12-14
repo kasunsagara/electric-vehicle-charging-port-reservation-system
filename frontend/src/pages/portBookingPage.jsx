@@ -36,8 +36,8 @@ const batteryCapacityMap = {
 };
 
 const getUnitRateByPower = (power) => {
-  if (power >= 20) return 600; // Fast
-  return 400; // Normal
+  if (power >= 20) return 800; // Fast
+  return 300; // Normal
 };
 
 

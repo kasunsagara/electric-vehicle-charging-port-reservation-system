@@ -33,8 +33,8 @@ const batteryCapacityMap = {
 
 // 🔹 Unit rate based on charger power
 const getUnitRateByPower = (power) => {
-  if (power >= 20) return 600; // Fast (20kW)
-  return 400; // Normal (10kW)
+  if (power >= 20) return 800; // Fast 
+  return 300; // Normal 
 };
 
 export default function ChargingEstimates({ chargerType, vehicleModel, port }) {
