@@ -23,7 +23,6 @@ export default function SignUpPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Password validation: only minimum 8 characters
     const password = formData.password;
     const passwordRegex = /^.{8,}$/;
 
@@ -60,7 +59,6 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-lg border border-green-100">
-        {/* Header */}
         <div className="text-center">
           <div className="flex justify-center items-center space-x-2 mb-4">
             <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
@@ -72,7 +70,6 @@ export default function SignUpPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Name */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
               Full Name
@@ -95,7 +92,6 @@ export default function SignUpPage() {
             </div>
           </div>
 
-          {/* Email */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
               Email Address
@@ -118,7 +114,6 @@ export default function SignUpPage() {
             </div>
           </div>
 
-          {/* Password */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
               Password
@@ -141,7 +136,6 @@ export default function SignUpPage() {
             </div>
           </div>
 
-          {/* Phone */}
           <div>
             <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
               Phone Number
@@ -164,7 +158,6 @@ export default function SignUpPage() {
             </div>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
@@ -184,7 +177,6 @@ export default function SignUpPage() {
           </button>
         </form>
 
-        {/* Login Link */}
         <div className="text-center mt-6">
           <p className="text-gray-600">
             Already have an account?{" "}

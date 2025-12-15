@@ -103,7 +103,6 @@ export default function MyAccountPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        {/* Header Section */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
@@ -117,11 +116,9 @@ export default function MyAccountPage() {
         </div>
 
         <div className="flex justify-center">
-          {/* Main Profile Card */}
           <div className="w-full max-w-2xl">
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-8 space-y-6">
 
-              {/* Name */}
               <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-xl border border-green-200">
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                   <FiUser className="w-6 h-6 text-green-600" />
@@ -132,7 +129,6 @@ export default function MyAccountPage() {
                 </div>
               </div>
 
-              {/* Email */}
               <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                   <FiMail className="w-6 h-6 text-blue-600" />
@@ -143,7 +139,6 @@ export default function MyAccountPage() {
                 </div>
               </div>
 
-              {/* Phone */}
               <div className="flex items-center space-x-4 p-4 bg-purple-50 rounded-xl border border-purple-200">
                 <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
                   <FiPhone className="w-6 h-6 text-purple-600" />
@@ -154,7 +149,6 @@ export default function MyAccountPage() {
                 </div>
               </div>
 
-              {/* Role */}
               <div className="flex items-center space-x-4 p-4 bg-orange-50 rounded-xl border border-orange-200">
                 <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-xl">
                   {getRoleIcon(user.role)}
@@ -165,7 +159,6 @@ export default function MyAccountPage() {
                 </div>
               </div>
 
-              {/* Buttons */}
               <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 pt-6 border-t border-gray-200">
                 <button
                   onClick={() => navigate("/updateAccount")}
@@ -175,7 +168,6 @@ export default function MyAccountPage() {
                   <span>Update Account</span>
                 </button>
 
-                {/* Delete Account Button */}
                 <button
                   onClick={deleteAccount}
                   className="px-8 py-3.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2 group"

@@ -1,4 +1,3 @@
-// AdminBookingsPage.jsx
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -50,7 +49,6 @@ export default function AdminBookingsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -66,7 +64,6 @@ export default function AdminBookingsPage() {
         </div>
 
         {loading ? (
-          // Loading State
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -74,10 +71,8 @@ export default function AdminBookingsPage() {
             </div>
           </div>
         ) : (
-          // Bookings Table
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
             {bookings.length === 0 ? (
-              // Empty State
               <div className="text-center py-16 px-6">
                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FaCalendarCheck className="w-12 h-12 text-gray-400" />
@@ -88,7 +83,6 @@ export default function AdminBookingsPage() {
                 </p>
               </div>
             ) : (
-              // Bookings Table
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -124,7 +118,6 @@ export default function AdminBookingsPage() {
                           index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                         }`}
                       >
-                        {/* Booking ID & Status */}
                         <td className="px-6 py-6">
                           <div className="flex flex-col space-y-2">
                             <div className="flex items-center space-x-2">
@@ -140,7 +133,6 @@ export default function AdminBookingsPage() {
                           </div>
                         </td>
 
-                        {/* User Information */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-3">
                             <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -153,7 +145,6 @@ export default function AdminBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Port ID - Separate Column */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
@@ -167,7 +158,6 @@ export default function AdminBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Vehicle - Separate Column */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-xl">
@@ -184,7 +174,6 @@ export default function AdminBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Charger Type - Separate Column */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
@@ -199,7 +188,6 @@ export default function AdminBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Date & Time */}
                         <td className="px-6 py-6">
                           <div className="space-y-2">
                             <div className="flex items-center space-x-2">
@@ -222,7 +210,6 @@ export default function AdminBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Charging Details */}
                         <td className="px-6 py-6">
                           <div className="space-y-2">
                             <div className="flex items-center space-x-2">

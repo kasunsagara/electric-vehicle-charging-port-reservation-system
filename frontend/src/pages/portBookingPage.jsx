@@ -6,9 +6,7 @@ import toast from "react-hot-toast";
 import { FiCalendar, FiClock, FiMapPin, FiBattery, FiCheckCircle } from "react-icons/fi";
 import { FaPlug } from "react-icons/fa";
 
-// Battery capacities per vehicle model (kWh)
 const batteryCapacityMap = {
-  // Cars
   "Tata Nexon EV": 30.2,
   "Tata Tigor EV": 26.2,
   "MG ZS EV": 44,
@@ -16,7 +14,6 @@ const batteryCapacityMap = {
   "BYD Atto 3": 49.8,
   "Nissan Leaf": 40,
 
-  // Bikes
   "Revolt RV400": 3.2,
   "Hero Electric Optima": 1.6,
   "Okinawa i-Praise": 2.0,
@@ -24,20 +21,18 @@ const batteryCapacityMap = {
   "Bajaj Chetak Electric": 3,
   "Ola S1 Pro": 4,
 
-  // Three Wheelers
   "NanoCar EV": 10.5,
   "Micro Luxury EV": 12.8,
   "VIdeo Tron EV": 9,
 
-  // Vans
   "Tata Winger EV": 26,
   "Mahindra eSupro": 25,
   "Piaggio Ape Electric": 8,
 };
 
 const getUnitRateByPower = (power) => {
-  if (power >= 20) return 800; // Fast
-  return 300; // Normal
+  if (power >= 20) return 800; 
+  return 300; 
 };
 
 
@@ -74,7 +69,6 @@ export default function PortBookingPage() {
     Van: ["Tata Winger EV", "Mahindra eSupro", "Piaggio Ape Electric"]
   };
 
-  // Fetch port details
   useEffect(() => {
     axios.get(import.meta.env.VITE_BACKEND_URL + `/api/ports/${portId}`)
       .then(res => {
@@ -91,7 +85,6 @@ export default function PortBookingPage() {
       });
   }, [portId]);
 
-  // Handle form changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -100,14 +93,12 @@ export default function PortBookingPage() {
     }
   };
 
-  // Calculate estimates
   const handleCalculateEstimates = (e) => {
     e.preventDefault();
     setShowEstimates(true);
     setFinalbookingTime(formData.bookingTime);
   };
 
-  // Confirm booking & navigate
   const handleConfirmBooking = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -179,7 +170,6 @@ export default function PortBookingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
             Book Charging Port
@@ -190,7 +180,6 @@ export default function PortBookingPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Booking Summary Card */}
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
@@ -248,7 +237,6 @@ export default function PortBookingPage() {
             </div>
           </div>
 
-          {/* Booking Form Card */}
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
@@ -258,7 +246,6 @@ export default function PortBookingPage() {
             </div>
 
             <form onSubmit={handleCalculateEstimates} className="space-y-6">
-              {/* Vehicle Type */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Vehicle Type
@@ -276,7 +263,6 @@ export default function PortBookingPage() {
                 </select>
               </div>
 
-              {/* Vehicle Model */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Vehicle Model
@@ -295,7 +281,6 @@ export default function PortBookingPage() {
                 </select>
               </div>
 
-              {/* Charger Type */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Charger Type
@@ -321,7 +306,6 @@ export default function PortBookingPage() {
                 )}
               </div>
 
-              {/* Calculate Estimates Button */}
               <button 
                 type="submit" 
                 disabled={!formData.vehicleModel || !formData.chargerType}
@@ -331,7 +315,6 @@ export default function PortBookingPage() {
               </button>
             </form>
 
-            {/* Estimates Section */}
             {showEstimates && (
               <div>
                 <ChargingEstimates 
@@ -340,7 +323,6 @@ export default function PortBookingPage() {
                   port={port} 
                 />
                 
-                {/* Confirm Booking Button */}
                 <button 
                   onClick={handleConfirmBooking} 
                   className="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-4 rounded-xl font-semibold hover:from-orange-600 hover:to-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"

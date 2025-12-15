@@ -35,7 +35,6 @@ export default function MyBookingsPage() {
     fetchBookings();
   }, []);
 
-  // Get appropriate vehicle icon based on vehicle type
   const getVehicleIcon = (vehicleType) => {
     switch (vehicleType?.toLowerCase()) {
       case 'car':
@@ -52,9 +51,7 @@ export default function MyBookingsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
         <div className="text-center mb-8 relative">
-          {/* Back to Home Button */}
           <div className="absolute top-0 right-0">
             <button
               onClick={() => navigate("/")}
@@ -77,7 +74,6 @@ export default function MyBookingsPage() {
         </div>
 
         {loading ? (
-          // Loading State
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -85,10 +81,8 @@ export default function MyBookingsPage() {
             </div>
           </div>
         ) : (
-          // Bookings Content
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
             {bookings.length === 0 ? (
-              // Empty State
               <div className="text-center py-16 px-6">
                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FiPackage className="w-12 h-12 text-gray-400" />
@@ -105,7 +99,6 @@ export default function MyBookingsPage() {
                 </button>
               </div>
             ) : (
-              // Bookings Table
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -136,7 +129,6 @@ export default function MyBookingsPage() {
                         key={booking._id} 
                         className="hover:bg-green-50 transition duration-150 group"
                       >
-                        {/* Booking ID */}
                         <td className="px-6 py-6">
                           <div className="flex flex-col space-y-2">
                             <div className="flex items-center space-x-2">
@@ -152,7 +144,6 @@ export default function MyBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Vehicle Information */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-3">
                             <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-xl">
@@ -169,7 +160,6 @@ export default function MyBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Port ID */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
@@ -183,7 +173,6 @@ export default function MyBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Charger Type */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
@@ -197,7 +186,6 @@ export default function MyBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Date & Time */}
                         <td className="px-6 py-6">
                           <div className="flex flex-col space-y-2">
                             <div className="flex items-center space-x-2">
@@ -220,7 +208,6 @@ export default function MyBookingsPage() {
                           </div>
                         </td>
 
-                        {/* Charging Estimates */}
                         <td className="px-6 py-6">
                           <div className="flex flex-col space-y-2">
                             <div className="flex items-center space-x-2">

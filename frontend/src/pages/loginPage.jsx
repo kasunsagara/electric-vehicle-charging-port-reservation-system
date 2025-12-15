@@ -26,11 +26,9 @@ export default function LoginPage() {
       if (res.status === 200) {
         toast.success("Login successful");
 
-        // Save token + user in localStorage
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        // Redirect based on role
         if (res.data.user.role === "admin") {
           navigate("/admin");
         } else {
@@ -52,7 +50,6 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-lg border border-green-100">
-        {/* Header */}
         <div className="text-center">
           <div className="flex justify-center items-center space-x-2 mb-4">
             <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
@@ -64,7 +61,6 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address
@@ -87,7 +83,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Password
@@ -110,7 +105,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
@@ -130,7 +124,6 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {/* Signup Link */}
         <div className="text-center mt-6">
           <p className="text-gray-600">
             Don't have an account?{" "}

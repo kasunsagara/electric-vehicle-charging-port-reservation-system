@@ -42,22 +42,18 @@ export default function ContactPage() {
         message: ""
       });
       
-      // Navigate to home page after successful submission
       navigate("/");
       
     } catch (error) {
       console.error("Error details:", error);
       
       if (error.response) {
-        // Server responded with error status
         console.error("Server error:", error.response.data);
         toast.error(error.response.data.message || "Server error occurred");
       } else if (error.request) {
-        // Request was made but no response received
         console.error("No response:", error.request);
         toast.error("No response from server. Please check your connection.");
       } else {
-        // Other errors
         console.error("Error:", error.message);
         toast.error("An error occurred. Please try again later.");
       }
@@ -76,7 +72,6 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header Section */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
@@ -90,7 +85,6 @@ export default function ContactPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-8">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
@@ -100,7 +94,6 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-6">
-              {/* Phone */}
               <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                   <FaPhoneAlt className="w-5 h-5 text-blue-600" />
@@ -111,7 +104,6 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Email */}
               <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-xl border border-green-200">
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                   <FaEnvelope className="w-5 h-5 text-green-600" />
@@ -122,7 +114,6 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Address */}
               <div className="flex items-center space-x-4 p-4 bg-orange-50 rounded-xl border border-orange-200">
                 <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
                   <FaMapMarkerAlt className="w-5 h-5 text-orange-600" />
@@ -135,7 +126,6 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Contact Form */}
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-8">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
@@ -145,7 +135,6 @@ export default function ContactPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Your Name
@@ -163,7 +152,6 @@ export default function ContactPage() {
                 />
               </div>
 
-              {/* Message Field */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Your Feedback
@@ -180,7 +168,6 @@ export default function ContactPage() {
                 ></textarea>
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -199,7 +186,6 @@ export default function ContactPage() {
               </button>
             </form>
 
-            {/* Recent Messages Preview */}
             {messages.length > 0 && (
               <div className="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
                 <h4 className="font-semibold text-gray-800 mb-2">Recent Messages</h4>

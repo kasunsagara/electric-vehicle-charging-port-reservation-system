@@ -42,7 +42,6 @@ export default function AddAdminPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
-        {/* Header Section */}
         <div className="mb-8">   
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
@@ -55,10 +54,8 @@ export default function AddAdminPage() {
           </div>
         </div>
 
-        {/* Form Card */}
         <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Name Section */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 <FaUser className="w-4 h-4 inline mr-2 text-blue-600" />
@@ -74,7 +71,6 @@ export default function AddAdminPage() {
               />
             </div>
 
-            {/* Email Section */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 <FaEnvelope className="w-4 h-4 inline mr-2 text-orange-500" />
@@ -90,7 +86,6 @@ export default function AddAdminPage() {
               />
             </div>
 
-            {/* Password Section */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 <FaLock className="w-4 h-4 inline mr-2 text-red-500" />
@@ -106,7 +101,6 @@ export default function AddAdminPage() {
               />
             </div>
 
-            {/* Phone Section */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 <FaPhone className="w-4 h-4 inline mr-2 text-green-500" />
@@ -122,7 +116,6 @@ export default function AddAdminPage() {
               />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}

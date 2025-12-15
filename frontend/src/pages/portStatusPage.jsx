@@ -32,7 +32,6 @@ export default function PortStatusPage() {
   const [manualLocation, setManualLocation] = useState("");
   const navigate = useNavigate();
 
-  // Get current logged in user from localStorage (email is used in your backend)
   const currentUser = JSON.parse(localStorage.getItem("user") || "null");
 
   useEffect(() => {
@@ -50,7 +49,6 @@ export default function PortStatusPage() {
     );
   }, []);
 
-  // Fetch ports with availability
   useEffect(() => {
     if (selectedDate && selectedTime) {
       setLoading(true);
@@ -59,7 +57,7 @@ export default function PortStatusPage() {
           import.meta.env.VITE_BACKEND_URL + `/api/ports?date=${selectedDate}&time=${selectedTime}`
         )
         .then((res) => {
-          const data = res.data.data || res.data; // your API returns { data: [...] }
+          const data = res.data.data || res.data; 
           const portsWithDistance = data.map((port) => ({
             ...port,
             distance: getDistanceFromLatLonInKm(
@@ -106,7 +104,6 @@ export default function PortStatusPage() {
 
       toast.success("Booking cancelled successfully!");
 
-      // Update UI instantly
       setPorts((prev) =>
         prev.map((p) =>
           p.portId === portId
@@ -204,7 +201,6 @@ export default function PortStatusPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
           <div className="mb-4 md:mb-0">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
@@ -221,7 +217,6 @@ export default function PortStatusPage() {
           </button>
         </div>
 
-        {/* Location Search */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-green-100">
           <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
             <div className="flex-1 w-full">
@@ -251,7 +246,6 @@ export default function PortStatusPage() {
           </div>
         </div>
 
-        {/* Controls */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-green-100">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
             <div className="flex space-x-2">
@@ -313,7 +307,6 @@ export default function PortStatusPage() {
           </div>
         </div>
 
-        {/* Loading */}
         {loading ? (
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
@@ -323,7 +316,6 @@ export default function PortStatusPage() {
           </div>
         ) : (
           <>
-            {/* List View */}
             {view === "list" && (
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-green-100">
                 {!selectedDate || !selectedTime ? (
@@ -418,13 +410,11 @@ export default function PortStatusPage() {
               </div>
             )}
 
-            {/* Map View */}
             {view === "map" && (
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-green-100">
                 <div className="p-4 border-b border-gray-200 flex justify-between items-center">
                   <h3 className="text-lg font-semibold text-gray-800">Charging Ports Map View</h3>
                   
-                  {/* Map Legend */}
                   <div className="flex flex-wrap items-center gap-3 text-sm">
                     <div className="flex items-center space-x-1">
                       <div className="w-3 h-3 rounded-full bg-blue-500"></div>
@@ -452,7 +442,6 @@ export default function PortStatusPage() {
                       attribution="&copy; OpenStreetMap contributors"
                     />
                     
-                    {/* Your Location - Blue color */}
                     <Marker 
                       position={[userLocation.lat, userLocation.lng]}
                       icon={L.icon({
@@ -474,16 +463,12 @@ export default function PortStatusPage() {
                       </Popup>
                     </Marker>
                     
-                    {/* Charging Ports Markers */}
                     {ports.map((port) => {
-                      // Determine marker color based on status
                       let iconUrl = '';
                       
                       if (port.status === "available") {
-                        // Green color for available ports
                         iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png';
                       } else {
-                        // Red color for all booked ports
                         iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png';
                       }
                       

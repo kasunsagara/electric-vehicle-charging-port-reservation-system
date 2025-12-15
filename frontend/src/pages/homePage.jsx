@@ -24,21 +24,18 @@ export default function HomePage() {
     }
   };
 
-  // Next slide function
   const nextSlide = () => {
     setCurrentSlide((prev) => 
       prev === feedbacks.length - 1 ? 0 : prev + 1
     );
   };
 
-  // Previous slide function
   const prevSlide = () => {
     setCurrentSlide((prev) => 
       prev === 0 ? feedbacks.length - 1 : prev - 1
     );
   };
 
-  // Auto slide every 5 seconds
   useEffect(() => {
     if (feedbacks.length > 1) {
       const slideInterval = setInterval(nextSlide, 5000);
@@ -46,25 +43,20 @@ export default function HomePage() {
     }
   }, [feedbacks.length]);
 
-  // Function to go to specific slide
   const goToSlide = (index) => {
     setCurrentSlide(index);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex flex-col">
-      {/* Navbar - Fixed */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <Header />
       </div>
 
-      {/* Add padding top to account for fixed header */}
-      <div className="pt-16"> {/* Adjust this value based on your header height */}
+      <div className="pt-16"> 
         
-        {/* Hero Section */}
         <main className="container mx-auto px-4 py-12 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
-            {/* Main Heading */}
             <h2 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6 leading-tight">
               Electric Vehicle Charging Port 
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600 block">
@@ -72,13 +64,11 @@ export default function HomePage() {
               </span>
             </h2>
             
-            {/* Description */}
             <p className="text-lg text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto">
               The future of electric vehicle charging is here with the ability to easily find, 
               book, and manage your EV charging sessions. Fast, reliable, and eco-friendly.
             </p>
             
-            {/* CTA Button */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link 
                 to="/port-status" 
@@ -88,7 +78,6 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Features Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -117,7 +106,6 @@ export default function HomePage() {
           </div>
         </main>
 
-        {/* Customer Feedback Section - Slideshow */}
         <div className="py-16 px-4">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
@@ -135,9 +123,7 @@ export default function HomePage() {
               </div>
             ) : feedbacks.length > 0 ? (
               <div className="relative">
-                {/* Slideshow Container */}
                 <div className="relative overflow-hidden rounded-2xl bg-white border border-green-100 shadow-xl">
-                  {/* Slides */}
                   <div 
                     className="flex transition-transform duration-500 ease-in-out"
                     style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -148,15 +134,12 @@ export default function HomePage() {
                         className="w-full flex-shrink-0 px-8 py-12 md:px-16 md:py-16"
                       >
                         <div className="max-w-2xl mx-auto text-center">
-                          {/* Quote Icon */}
                           <FaQuoteLeft className="w-8 h-8 text-green-400 opacity-50 mx-auto mb-6" />
                           
-                          {/* Feedback Message */}
                           <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed italic">
                             "{feedback.message}"
                           </p>
 
-                          {/* Customer Info */}
                           <div className="flex items-center justify-center">
                             <div className="w-14 h-14 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mr-4">
                               <FaUser className="w-6 h-6 text-white" />
@@ -170,7 +153,6 @@ export default function HomePage() {
                     ))}
                   </div>
 
-                  {/* Navigation Arrows */}
                   {feedbacks.length > 1 && (
                     <>
                       <button
@@ -189,7 +171,6 @@ export default function HomePage() {
                   )}
                 </div>
 
-                {/* Dots Indicator */}
                 {feedbacks.length > 1 && (
                   <div className="flex justify-center mt-8 space-x-3">
                     {feedbacks.map((_, index) => (
@@ -226,7 +207,6 @@ export default function HomePage() {
               </div>
             )}
 
-            {/* Share Your Experience Button */}
             {feedbacks.length > 0 && (
               <div className="text-center mt-12">
                 <Link
@@ -240,7 +220,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Footer Section - Simple */}
         <footer className="bg-gradient-to-r from-green-800 to-emerald-900 text-white py-6">
           <div className="container mx-auto px-4 text-center">
             <p className="text-green-200">

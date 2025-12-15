@@ -20,7 +20,6 @@ export default function UpdateAccountPage() {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
 
-  // Load user
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -45,7 +44,7 @@ export default function UpdateAccountPage() {
           name: userData.name || "",
           email: userData.email || "",
           phone: userData.phone || "",
-          password: "", // password optional
+          password: "", 
         });
       } catch (error) {
         console.error("AxiosError", error);
@@ -68,11 +67,6 @@ export default function UpdateAccountPage() {
     e.preventDefault();
     setUpdating(true);
 
-    /* =====================
-       VALIDATIONS (Signup style)
-       ===================== */
-
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast.error("Please enter a valid email address");
@@ -80,7 +74,6 @@ export default function UpdateAccountPage() {
       return;
     }
 
-    // Password validation (only if user entered one)
     if (formData.password) {
       const passwordRegex = /^.{8,}$/;
       if (!passwordRegex.test(formData.password)) {
@@ -97,7 +90,6 @@ export default function UpdateAccountPage() {
         phone: formData.phone,
       };
 
-      // Only send password if user changed it
       if (formData.password) {
         updatePayload.password = formData.password;
       }
@@ -112,7 +104,6 @@ export default function UpdateAccountPage() {
         }
       );
 
-      // Update localStorage
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       toast.success("Account updated successfully");
@@ -157,7 +148,6 @@ export default function UpdateAccountPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        {/* Header Section */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
@@ -171,11 +161,9 @@ export default function UpdateAccountPage() {
         </div>
 
         <div className="flex justify-center">
-          {/* Main Form Card */}
           <div className="w-full max-w-2xl">
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-8 space-y-6">
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name */}
                 <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-xl border border-green-200">
                   <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                     <FiUser className="w-6 h-6 text-green-600" />
@@ -193,7 +181,6 @@ export default function UpdateAccountPage() {
                   </div>
                 </div>
 
-                {/* Email */}
                 <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
                   <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                     <FiMail className="w-6 h-6 text-blue-600" />
@@ -212,7 +199,6 @@ export default function UpdateAccountPage() {
                   </div>
                 </div>
 
-                {/* Phone */}
                 <div className="flex items-center space-x-4 p-4 bg-purple-50 rounded-xl border border-purple-200">
                   <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
                     <FiPhone className="w-6 h-6 text-purple-600" />
@@ -230,7 +216,6 @@ export default function UpdateAccountPage() {
                   </div>
                 </div>
 
-                {/* Password (Optional) */}
                 <div className="flex items-center space-x-4 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
                   <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
                     <FiLock className="w-6 h-6 text-yellow-600" />
@@ -250,7 +235,6 @@ export default function UpdateAccountPage() {
                   </div>
                 </div>
 
-                {/* Buttons */}
                 <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 pt-6 border-t border-gray-200">
                   <button
                     type="button"

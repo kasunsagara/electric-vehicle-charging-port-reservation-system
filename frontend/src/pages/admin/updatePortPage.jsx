@@ -9,7 +9,6 @@ export default function UpdatePortPage() {
   const navigate = useNavigate();
   const port = loc.state?.port;
 
-  // Redirect if no port data
   useEffect(() => {
     if (!port) {
       navigate("/admin/ports");
@@ -42,7 +41,6 @@ export default function UpdatePortPage() {
         ],
       };
 
-      // Send update request to backend
       await axios.put(import.meta.env.VITE_BACKEND_URL + `/api/ports/${port._id}`, updatedPort, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
@@ -71,7 +69,6 @@ export default function UpdatePortPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
-        {/* Header Section */}
         <div className="mb-8">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
@@ -84,11 +81,9 @@ export default function UpdatePortPage() {
           </div>
         </div>
 
-        {/* Form Card */}
         <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Port ID Section */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 <FaChargingStation className="w-4 h-4 inline mr-2 text-green-600" />
@@ -104,7 +99,6 @@ export default function UpdatePortPage() {
               />
             </div>
 
-            {/* Location Section */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 <FaMapMarkerAlt className="w-4 h-4 inline mr-2 text-orange-500" />
@@ -120,7 +114,6 @@ export default function UpdatePortPage() {
               />
             </div>
 
-            {/* Coordinates Section */}
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                 <FaMapMarkerAlt className="w-4 h-4 mr-2 text-blue-500" />
@@ -158,14 +151,12 @@ export default function UpdatePortPage() {
               </div>
             </div>
 
-            {/* Charger Options Section */}
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                 <FaChargingStation className="w-4 h-4 mr-2 text-purple-500" />
                 Charger Options
               </h3>
               
-              {/* Normal Charger */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold mr-2">Normal</span>
@@ -181,7 +172,6 @@ export default function UpdatePortPage() {
                 />
               </div>
 
-              {/* Fast Charger */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-semibold mr-2">Fast</span>
@@ -198,7 +188,6 @@ export default function UpdatePortPage() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}

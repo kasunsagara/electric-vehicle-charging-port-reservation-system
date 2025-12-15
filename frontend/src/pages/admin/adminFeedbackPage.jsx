@@ -34,12 +34,10 @@ export default function AdminFeedbackPage() {
     try {
       setDeletingId(feedbackId);
       
-      // Delete by ID only
       await axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/feedbacks/${feedbackId}`);
       
       toast.success("Feedback deleted successfully");
       
-      // Remove from state
       setFeedbacks(feedbacks.filter((fb) => {
         return fb._id !== feedbackId && fb.id !== feedbackId;
       }));
@@ -59,7 +57,6 @@ export default function AdminFeedbackPage() {
     }
   };
 
-  // Safe array check for rendering
   const safeFeedbacks = Array.isArray(feedbacks) ? feedbacks : [];
   const feedbacksCount = safeFeedbacks.length;
 
@@ -78,7 +75,6 @@ export default function AdminFeedbackPage() {
   return (
     <div className="min-h-screen py-8 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -93,7 +89,6 @@ export default function AdminFeedbackPage() {
           </div>
         </div>
 
-        {/* Feedback Table */}
         {feedbacksCount === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-12 text-center">
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { FaPlus, FaEdit, FaTrash, FaMapMarkerAlt, FaChargingStation, FaPlug } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash, FaChargingStation, FaPlug } from "react-icons/fa";
 import { FiMapPin } from "react-icons/fi";
 
 export default function AdminPortsPage() {
@@ -49,7 +49,6 @@ export default function AdminPortsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -72,7 +71,6 @@ export default function AdminPortsPage() {
         </div>
 
         {loading ? (
-          // Loading State
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -80,10 +78,8 @@ export default function AdminPortsPage() {
             </div>
           </div>
         ) : (
-          // Ports Table
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
             {ports.length === 0 ? (
-              // Empty State
               <div className="text-center py-16 px-6">
                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FaChargingStation className="w-12 h-12 text-gray-400" />
@@ -101,7 +97,6 @@ export default function AdminPortsPage() {
                 </Link>
               </div>
             ) : (
-              // Ports Table
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -131,7 +126,6 @@ export default function AdminPortsPage() {
                           index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                         }`}
                       >
-                        {/* Port ID */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-3">
                             <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
@@ -143,7 +137,6 @@ export default function AdminPortsPage() {
                           </div>
                         </td>
 
-                        {/* Location */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
@@ -153,7 +146,6 @@ export default function AdminPortsPage() {
                           </div>
                         </td>
 
-                        {/* Coordinates */}
                         <td className="px-6 py-6">
                           <div className="text-sm text-gray-600">
                             <div>Lat: {port.coordinates?.lat || 'N/A'}</div>
@@ -161,7 +153,6 @@ export default function AdminPortsPage() {
                           </div>
                         </td>
 
-                        {/* Charger Options */}
                         <td className="px-6 py-6">
                           <div className="flex flex-wrap gap-2">
                             {port.chargerOptions?.map((opt, idx) => (
@@ -178,7 +169,6 @@ export default function AdminPortsPage() {
                           </div>
                         </td>
 
-                        {/* Actions */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <button

@@ -1,4 +1,3 @@
-// AdminUsersPage.jsx
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -72,7 +71,6 @@ export default function AdminUsersPage() {
   return (
     <div className="min-h-screen p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -95,7 +93,6 @@ export default function AdminUsersPage() {
         </div>
 
         {loading ? (
-          // Loading State
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -103,10 +100,8 @@ export default function AdminUsersPage() {
             </div>
           </div>
         ) : (
-          // Users Table
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
             {users.length === 0 ? (
-              // Empty State
               <div className="text-center py-16 px-6">
                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FaUsers className="w-12 h-12 text-gray-400" />
@@ -117,7 +112,6 @@ export default function AdminUsersPage() {
                 </p>
               </div>
             ) : (
-              // Users Table
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -147,7 +141,6 @@ export default function AdminUsersPage() {
                           index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                         }`}
                       >
-                        {/* User Details */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-3">
                             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
@@ -161,7 +154,6 @@ export default function AdminUsersPage() {
                           </div>
                         </td>
 
-                        {/* Email - Separate Column */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -173,7 +165,6 @@ export default function AdminUsersPage() {
                           </div>
                         </td>
 
-                        {/* Phone - Separate Column */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
@@ -187,7 +178,6 @@ export default function AdminUsersPage() {
                           </div>
                         </td>
 
-                        {/* Role */}
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className={`px-3 py-1 rounded-full text-sm font-semibold border flex items-center space-x-1 ${getRoleColor(user.role)}`}>
@@ -197,7 +187,6 @@ export default function AdminUsersPage() {
                           </div>
                         </td>
 
-                        {/* Actions */}
                         <td className="px-6 py-6">
                           {user.email === "kasunsagara689@gmail.com" ? (
                             <div className="flex items-center space-x-2 text-orange-600">

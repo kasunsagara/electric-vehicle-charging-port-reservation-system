@@ -17,7 +17,6 @@ export default function AdminHomePage() {
   const [activeTab, setActiveTab] = useState(" ");
   const navigate = useNavigate();
 
-  // Load user data from localStorage on component mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -52,9 +51,7 @@ export default function AdminHomePage() {
 
   return (
     <div className="w-full h-screen flex font-sans bg-gradient-to-br from-green-50 to-emerald-100">
-      {/* Sidebar */}
       <div className="w-64 h-screen bg-gradient-to-b from-green-600 to-emerald-700 flex flex-col shadow-xl border-r border-green-500">
-        {/* Logo Section */}
         <div className="p-6 border-b border-green-500">
           <div className="flex items-center space-x-3">
             <div>
@@ -63,9 +60,7 @@ export default function AdminHomePage() {
           </div>
         </div>
 
-        {/* Navigation Menu */}
         <nav className="flex-1 flex flex-col p-4 space-y-2">
-          {/* Admin Home Link */}
           <Link
             to="/admin"
             onClick={() => setActiveTab("adminHome")}
@@ -79,7 +74,6 @@ export default function AdminHomePage() {
             <span className="font-semibold">Admin Home</span>
           </Link>
 
-          {/* Dashboard Link */}
           <Link
             to="/admin/dashboard"
             onClick={() => setActiveTab("dashboard")}
@@ -93,7 +87,6 @@ export default function AdminHomePage() {
             <span className="font-semibold">Dashboard</span>
           </Link>
 
-          {/* Ports Link */}
           <Link
             to="/admin/ports"
             onClick={() => setActiveTab("ports")}
@@ -107,7 +100,6 @@ export default function AdminHomePage() {
             <span className="font-semibold">Ports</span>
           </Link>
 
-          {/* Users Link */}
           <Link
             to="/admin/users"
             onClick={() => setActiveTab("users")}
@@ -121,7 +113,6 @@ export default function AdminHomePage() {
             <span className="font-semibold">Users</span>
           </Link>
 
-          {/* Bookings Link */}
           <Link
             to="/admin/bookings"
             onClick={() => setActiveTab("bookings")}
@@ -135,7 +126,6 @@ export default function AdminHomePage() {
             <span className="font-semibold">Bookings</span>
           </Link>
 
-          {/* Feedback Link */}
           <Link
             to="/admin/feedbacks"
             onClick={() => setActiveTab("feedbacks")}
@@ -149,7 +139,6 @@ export default function AdminHomePage() {
             <span className="font-semibold">Feedbacks</span>
           </Link>
 
-          {/* Home Link */}
           <Link
             to="/"
             onClick={() => setActiveTab("home")}
@@ -164,7 +153,6 @@ export default function AdminHomePage() {
           </Link>
         </nav>
 
-        {/* Logout Section */}
         <div className="p-4 border-t border-green-500">
           <button
             onClick={handleLogout}
@@ -176,10 +164,8 @@ export default function AdminHomePage() {
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div className="flex-1 h-screen overflow-hidden flex flex-col">
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto bg-gradient-to-br from-green-50 to-emerald-100 p-6">
           <Routes>
             <Route

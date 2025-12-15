@@ -42,12 +42,11 @@ export default function AdminDashboardPage() {
         setTotalBookings(bookingsRes.data.bookings?.length || 0);
         setTotalFeedbacks(feedbacksRes.data?.length || 0);
 
-        // Group bookings by date for chart
         const bookings = bookingsRes.data.bookings || [];
         const grouped = bookings.reduce((acc, booking) => {
           const date = new Date(booking.bookingDate)
             .toISOString()
-            .split("T")[0]; // YYYY-MM-DD
+            .split("T")[0]; 
           if (!acc[date]) acc[date] = 0;
           acc[date]++;
           return acc;
@@ -83,7 +82,6 @@ export default function AdminDashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */} 
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -98,9 +96,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Summary Cards - Your original layout with enhanced styling */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          {/* Total Ports Card */}
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition duration-300">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
@@ -113,7 +109,6 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Total Users Card */}
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition duration-300">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center">
@@ -126,7 +121,6 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Total Bookings Card */}
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition duration-300">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center">
@@ -139,7 +133,6 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Total Feedbacks Card */}
           <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition duration-300">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center">
@@ -153,7 +146,6 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Bookings Over Time Chart - Your original chart with enhanced styling */}
         <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
           <h2 className="text-xl font-bold text-gray-800 mb-6">Bookings Over Time</h2>
           {chartData.length > 0 ? (

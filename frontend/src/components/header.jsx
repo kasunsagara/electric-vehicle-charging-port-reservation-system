@@ -46,13 +46,11 @@ export default function Header() {
   return (
     <header className="bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo Section */}
         <div className="flex items-center space-x-2">
           <FaBolt className="text-2xl text-yellow-300" />
           <h1 className="text-white text-2xl font-bold tracking-tight">ChargeNow</h1>
         </div>
 
-        {/* Navigation Section */}
         <div className="flex items-center space-x-4">
           {!user ? (
             <div className="flex items-center space-x-4">
@@ -92,7 +90,6 @@ export default function Header() {
             </div>
           ) : (
             <div className="flex items-center space-x-4">
-              {/* Contact Link for logged in users */}
               <Link 
                 to="/contact" 
                 className="text-white text-lg font-semibold px-4 py-1 rounded-xl
@@ -105,7 +102,6 @@ export default function Header() {
                 Contact
               </Link>
 
-              {/* Dropdown Menu */}
               <div className="relative" ref={dropdownRef}>
                 <button 
                   onClick={() => setDropdownOpen(!dropdownOpen)}
