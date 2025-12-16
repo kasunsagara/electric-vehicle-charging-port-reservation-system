@@ -183,7 +183,6 @@ export default function AdminBookingsPage() {
                               <span className="font-semibold text-gray-800">
                                 {booking.chargerType || "Standard"}
                               </span>
-                              <span className="text-xs text-gray-500">Charger Type</span>
                             </div>
                           </div>
                         </td>
