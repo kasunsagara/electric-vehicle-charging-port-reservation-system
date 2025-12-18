@@ -13,7 +13,7 @@ export default function MyBookingsPage() {
   const fetchBookings = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/bookings", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

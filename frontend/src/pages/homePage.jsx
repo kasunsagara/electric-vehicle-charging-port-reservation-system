@@ -15,7 +15,7 @@ export default function HomePage() {
 
   const fetchFeedbacks = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/feedbacks");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/feedbacks`);
       setFeedbacks(response.data);
     } catch (error) {
       console.error("Error fetching feedbacks:", error);

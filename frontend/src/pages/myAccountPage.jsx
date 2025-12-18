@@ -21,7 +21,7 @@ export default function MyAccountPage() {
         }
 
         const res = await axios.get(
-          import.meta.env.VITE_BACKEND_URL + `/api/users/me?email=${storedUser.email}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/me?email=${storedUser.email}`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           }
@@ -55,7 +55,7 @@ export default function MyAccountPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.delete(
-        import.meta.env.VITE_BACKEND_URL + `/api/users/${user.email}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.email}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

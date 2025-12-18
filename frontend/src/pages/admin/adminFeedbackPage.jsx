@@ -15,7 +15,7 @@ export default function AdminFeedbackPage() {
   const fetchFeedbacks = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/feedbacks");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/feedbacks`);
       
       console.log("Fetched feedbacks:", response.data);
       
@@ -34,7 +34,7 @@ export default function AdminFeedbackPage() {
     try {
       setDeletingId(feedbackId);
       
-      await axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/feedbacks/${feedbackId}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/feedbacks/${feedbackId}`);
       
       toast.success("Feedback deleted successfully");
       

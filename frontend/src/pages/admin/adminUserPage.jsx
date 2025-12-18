@@ -11,7 +11,7 @@ export default function AdminUsersPage() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/users", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
@@ -32,7 +32,7 @@ export default function AdminUsersPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.delete(
-        import.meta.env.VITE_BACKEND_URL + `/api/users/${email}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${email}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

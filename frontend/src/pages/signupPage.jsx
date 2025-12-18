@@ -35,7 +35,7 @@ export default function SignUpPage() {
     console.log("Form Data:", formData);
 
     try {
-      const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/users", {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
         ...formData,
         role: "customer",
       });

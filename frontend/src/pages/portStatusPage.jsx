@@ -54,7 +54,7 @@ export default function PortStatusPage() {
       setLoading(true);
       axios
         .get(
-          import.meta.env.VITE_BACKEND_URL + `/api/ports?date=${selectedDate}&time=${selectedTime}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/ports?date=${selectedDate}&time=${selectedTime}`
         )
         .then((res) => {
           const data = res.data.data || res.data; 

@@ -31,7 +31,7 @@ export default function UpdateAccountPage() {
         }
 
         const res = await axios.get(
-          import.meta.env.VITE_BACKEND_URL + `/api/users/me?email=${storedUser.email}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/me?email=${storedUser.email}`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           }
@@ -95,7 +95,7 @@ export default function UpdateAccountPage() {
       }
 
       const res = await axios.put(
-        import.meta.env.VITE_BACKEND_URL + `/api/users/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
         updatePayload,
         {
           headers: {
