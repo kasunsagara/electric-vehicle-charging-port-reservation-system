@@ -11,6 +11,7 @@ import AdminUsersPage from "./admin/adminUserPage";
 import AddAdminPage from "./admin/addAdminPage";
 import AdminBookingsPage from "./admin/adminBookingsPage";
 import AdminFeedbackPage from "./admin/adminFeedbackPage";
+import NotFoundPage from "./notFoundPage";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -217,6 +218,7 @@ export default function AdminHomePage() {
             <Route path="/users/addAdmin" element={<AddAdminPage />} />                      
             <Route path="/bookings" element={<AdminBookingsPage />} />
             <Route path="/feedbacks" element={<AdminFeedbackPage />} />
+            <Route path="/*" element={<NotFoundPage />} />
           </Routes>
         </div>
       </div>

@@ -28,7 +28,7 @@ function App() {
             <Route path="/port-status" element={<PortStatusPage />} />
             <Route path="/port-booking/:portId" element={<PortBookingPage />} />
             <Route path="/admin/*" element={<AdminHomePage />} />
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
     </>
