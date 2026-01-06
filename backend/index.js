@@ -23,8 +23,8 @@ mongoose.connect(mongoUrl)
   .then(() => {
     console.log("Database connected");
   })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err.message);
+  .catch((error) => {
+    console.error("MongoDB connection error:", error.message);
   });
 
 app.use(authMiddleware);
