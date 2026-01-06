@@ -1,14 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaHome, FaCarBattery, FaExclamationTriangle } from "react-icons/fa";
-import Header from "../components/header";
+import { FaHome, FaExclamationTriangle } from "react-icons/fa";
 
 export default function NotFoundPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex flex-col">
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <Header />
-      </div>
       <div className="pt-16 flex-1">
         <div className="container mx-auto px-4 py-12 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
