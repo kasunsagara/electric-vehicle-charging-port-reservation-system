@@ -1,13 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import userRouter from './routes/userRouter.js';
 import portRouter from './routes/portRouter.js';
 import bookingRouter from './routes/bookingRouter.js';
 import feedbackRouter from "./routes/feedbackRouter.js"; 
+import authMiddleware from "./middleware/authMiddleware.js";
 
 dotenv.config();
 
@@ -27,20 +27,7 @@ mongoose.connect(mongoUrl)
     console.error("MongoDB connection error:", err.message);
   });
 
-app.use((req, res, next) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
-  console.log(token);
-
-  if (token != null) {
-    jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
-      if (!error) {
-        req.user = decoded;
-      }
-    });
-  }
-
-  next();
-});
+app.use(authMiddleware);
 
 app.use("/api/users", userRouter);
 app.use("/api/ports", portRouter);
