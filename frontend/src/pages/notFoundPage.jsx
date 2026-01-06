@@ -9,7 +9,6 @@ export default function NotFoundPage() {
       <div className="fixed top-0 left-0 right-0 z-50">
         <Header />
       </div>
-
       <div className="pt-16 flex-1">
         <div className="container mx-auto px-4 py-12 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
@@ -30,8 +29,7 @@ export default function NotFoundPage() {
 
             <div className="max-w-2xl mx-auto mb-12">
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              The page you requested 
-                couldn't be located on our network.
+              The page you requested couldn't be located on our network.
               </p>
             </div>
 
