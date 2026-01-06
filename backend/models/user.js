@@ -3,28 +3,25 @@ import mongoose from "mongoose";
 const userSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true,
-    trim: true
+    required: true
   },
   email: {
     type: String,
     required: true,
-    unique: true,
-    trim: true
+    unique: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
   role: {
     type: String,
     enum: ["customer", "admin"],
-    default: "customer",
+    default: "customer"
   },
   phone: {
     type: String,
-    required: true,
-    trim: true
+    required: true
   }
 });
 

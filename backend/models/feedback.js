@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const contactSchema = mongoose.Schema({
+const feedbackSchema = mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -11,6 +11,6 @@ const contactSchema = mongoose.Schema({
   },
 });
 
-const Feedback = mongoose.model('Feedback', contactSchema);
+const Feedback = mongoose.model('feedbacks', feedbackSchema);
 
 export default Feedback;

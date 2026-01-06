@@ -20,26 +20,36 @@ export async function createUser(req, res) {
     const newUserData = req.body;
 
     if (!/\S+@\S+\.\S+/.test(newUserData.email)) {
-      return res.status(400).json({ message: "Invalid email format" });
+      return res.status(400).json({
+         message: "Invalid email format" 
+        });
     }
 
     const isValidEmail = await checkEmailExists(newUserData.email);
     if (!isValidEmail) {
-      return res.status(400).json({ message: "Email does not exist" });
+      return res.status(400).json({ 
+        message: "Email does not exist" 
+      });
     }
 
     const existingUser = await User.findOne({ email: newUserData.email });
     if (existingUser) {
-      return res.status(400).json({ message: "Email already registered" });
+      return res.status(400).json({ 
+        message: "Email already registered" 
+      });
     }
 
     if (newUserData.role === "admin") {
       if (!req.user) {
-        return res.status(401).json({ message: "You are not logged in" });
+        return res.status(401).json({ 
+          message: "You are not logged in" 
+        });
       }
 
-      if (req.user.email !== "kasunsagara689@gmail.com") {
-        return res.status(403).json({ message: "Only main admin can add new admins" });
+      if (req.user.role !== "admin") {
+        return res.status(403).json({ 
+          message: "Only admin can add new admins" 
+        });
       }
     }
 
