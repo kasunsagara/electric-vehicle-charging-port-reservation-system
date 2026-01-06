@@ -17,8 +17,17 @@ export default function AddAdminPage() {
     e.preventDefault();
     setLoading(true);
 
+    const passwordRegex = /^.{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      toast.error("Password must be at least 8 characters long.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
+
       await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/users`,
         { name, email, password, phone, role: "admin" },
@@ -27,6 +36,7 @@ export default function AddAdminPage() {
 
       toast.success("Admin added successfully");
       navigate("/admin/users");
+
       setName("");
       setEmail("");
       setPassword("");
@@ -42,14 +52,18 @@ export default function AddAdminPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
-        <div className="mb-8">   
+        <div className="mb-8">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
               <FaUserPlus className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-800">Add New Admin</h1>
-              <p className="text-gray-600 mt-1">Create a new administrator account for the system</p>
+              <h1 className="text-3xl font-bold text-gray-800">
+                Add New Admin
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Create a new administrator account for the system
+              </p>
             </div>
           </div>
         </div>
@@ -93,7 +107,7 @@ export default function AddAdminPage() {
               </label>
               <input
                 type="password"
-                value={password}
+                value={password} 
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 placeholder-gray-400"
                 placeholder="Create a secure password"
