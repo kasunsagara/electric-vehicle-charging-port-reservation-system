@@ -11,6 +11,7 @@ import MyBookingsPage from './pages/myBookingsPage.jsx';
 import AdminHomePage from './pages/adminHomePage.jsx';
 import PortStatusPage from './pages/portStatusPage.jsx';
 import PortBookingPage from './pages/portBookingPage.jsx'; 
+import NotFoundPage from './pages/notFoundPage.jsx';
 function App() {
   return (
     <>
@@ -27,6 +28,7 @@ function App() {
             <Route path="/port-status" element={<PortStatusPage />} />
             <Route path="/port-booking/:portId" element={<PortBookingPage />} />
             <Route path="/admin/*" element={<AdminHomePage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
     </>
