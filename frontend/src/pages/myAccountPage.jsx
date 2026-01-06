@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { FiUser, FiMail, FiPhone } from "react-icons/fi";
-import { FaUserShield, FaUser, FaUserTie, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FiUser, FiMail, FiPhone, FiHome } from "react-icons/fi";
+import { FaUserShield, FaUser, FaUserTie, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export default function MyAccountPage() {
@@ -42,9 +42,9 @@ export default function MyAccountPage() {
 
   const getRoleIcon = (role) => {
     switch (role?.toLowerCase()) {
-      case 'admin':
+      case "admin":
         return <FaUserShield className="text-red-600" />;
-      case 'customer':
+      case "customer":
         return <FaUser className="text-red-600" />;
       default:
         return <FaUserTie className="text-red-600" />;
@@ -81,17 +81,21 @@ export default function MyAccountPage() {
       </div>
     );
 
-  if (!user) 
+  if (!user)
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex justify-center items-center">
         <div className="text-center">
           <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <FiUser className="w-12 h-12 text-red-600" />
           </div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">No User Data Available</h3>
-          <p className="text-gray-600 mb-6">Please log in to view your account details.</p>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+            No User Data Available
+          </h3>
+          <p className="text-gray-600 mb-6">
+            Please log in to view your account details.
+          </p>
           <button
-            onClick={() => navigate('/login')}
+            onClick={() => navigate("/login")}
             className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition duration-200 shadow-lg hover:shadow-xl"
           >
             Go to Login
@@ -103,14 +107,34 @@ export default function MyAccountPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
+
+        <div className="text-center mb-8 relative">
+
+          <div className="absolute top-0 right-0">
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center space-x-2 px-6 py-3 
+                         bg-gradient-to-r from-green-500 to-emerald-600 
+                         text-white rounded-xl font-semibold 
+                         hover:from-green-600 hover:to-emerald-700 
+                         transition duration-200 shadow-lg hover:shadow-xl"
+            >
+              <FiHome className="w-5 h-5" />
+              <span>Back to Home</span>
+            </button>
+          </div>
+
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
               <FiUser className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-800">My Account</h1>
-              <p className="text-gray-600 mt-2">View your profile Information</p>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+                My Account
+              </h1>
+              <p className="text-gray-600 mt-2">
+                View your profile Information
+              </p>
             </div>
           </div>
         </div>
@@ -124,8 +148,12 @@ export default function MyAccountPage() {
                   <FiUser className="w-6 h-6 text-green-600" />
                 </div>
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">Full Name</label>
-                  <p className="text-lg font-semibold text-gray-800">{user.name}</p>
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Full Name
+                  </label>
+                  <p className="text-lg font-semibold text-gray-800">
+                    {user.name}
+                  </p>
                 </div>
               </div>
 
@@ -134,8 +162,12 @@ export default function MyAccountPage() {
                   <FiMail className="w-6 h-6 text-blue-600" />
                 </div>
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">Email Address</label>
-                  <p className="text-lg font-semibold text-gray-800">{user.email}</p>
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Email Address
+                  </label>
+                  <p className="text-lg font-semibold text-gray-800">
+                    {user.email}
+                  </p>
                 </div>
               </div>
 
@@ -144,8 +176,12 @@ export default function MyAccountPage() {
                   <FiPhone className="w-6 h-6 text-purple-600" />
                 </div>
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">Phone Number</label>
-                  <p className="text-lg font-semibold text-gray-800">{user.phone}</p>
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Phone Number
+                  </label>
+                  <p className="text-lg font-semibold text-gray-800">
+                    {user.phone}
+                  </p>
                 </div>
               </div>
 
@@ -154,25 +190,29 @@ export default function MyAccountPage() {
                   {getRoleIcon(user.role)}
                 </div>
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-600 mb-1">Account Role</label>
-                  <p className="text-lg font-semibold text-gray-800 capitalize">{user.role}</p>
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Account Role
+                  </label>
+                  <p className="text-lg font-semibold text-gray-800 capitalize">
+                    {user.role}
+                  </p>
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 pt-6 border-t border-gray-200">
                 <button
                   onClick={() => navigate("/updateAccount")}
-                  className="px-8 py-3.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2 group"
+                  className="px-8 py-3.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
                 >
-                  <FaEdit className="w-4 h-4 transition-transform" />
+                  <FaEdit className="w-4 h-4" />
                   <span>Update Account</span>
                 </button>
 
                 <button
                   onClick={deleteAccount}
-                  className="px-8 py-3.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2 group"
+                  className="px-8 py-3.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
                 >
-                  <FaTrashAlt className="w-4 h-4 transition-transform" />
+                  <FaTrashAlt className="w-4 h-4" />
                   <span>Delete Account</span>
                 </button>
               </div>
@@ -180,6 +220,7 @@ export default function MyAccountPage() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
