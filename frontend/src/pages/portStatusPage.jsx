@@ -301,6 +301,7 @@ export default function PortStatusPage() {
                   <option value="08:00">08:00 AM</option>
                   <option value="13:00">01:00 PM</option>
                   <option value="18:00">06:00 PM</option>
+                  <option value="23:00">11:00 PM</option>
                 </select>
               </div>
             </div>

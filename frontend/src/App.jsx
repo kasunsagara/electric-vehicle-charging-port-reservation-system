@@ -13,7 +13,7 @@ import PortStatusPage from './pages/portStatusPage.jsx';
 import PortBookingPage from './pages/portBookingPage.jsx'; 
 import NotFoundPage from './pages/notFoundPage.jsx';
 
-function App() {
+function App() { 
   return (
     <>
         <BrowserRouter>

@@ -1,4 +1,3 @@
-import React from "react";
 import { FiBattery, FiClock, FiDollarSign } from "react-icons/fi";
 import { FaCalculator } from "react-icons/fa";
 
