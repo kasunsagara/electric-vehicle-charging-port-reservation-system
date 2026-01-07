@@ -8,9 +8,9 @@ import ContactPage from './pages/contactPage.jsx';
 import MyAccountPage from './pages/myAccountPage.jsx';
 import UpdateAccountPage from './pages/updateAccountPage.jsx';
 import MyBookingsPage from './pages/myBookingsPage.jsx';
-import AdminHomePage from './pages/adminHomePage.jsx';
 import PortStatusPage from './pages/portStatusPage.jsx';
 import PortBookingPage from './pages/portBookingPage.jsx'; 
+import AdminHomePage from './pages/adminHomePage.jsx';
 import NotFoundPage from './pages/notFoundPage.jsx';
 
 function App() { 
