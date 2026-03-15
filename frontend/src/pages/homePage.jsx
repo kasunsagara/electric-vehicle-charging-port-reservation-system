@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaBolt, FaShieldAlt, FaClock, FaStar, FaQuoteLeft, FaUser, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import Header from "../components/header";
-import axios from "axios";
+import api from "../services/api";
 
 export default function HomePage() {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -15,7 +15,7 @@ export default function HomePage() {
 
   const fetchFeedbacks = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/feedbacks`);
+      const response = await api.get("/feedbacks");
       setFeedbacks(response.data);
     } catch (error) {
       console.error("Error fetching feedbacks:", error);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";  
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import ChargingEstimates from "../components/ChargingEstimates";
 import toast from "react-hot-toast";
 import { FiCalendar, FiClock, FiMapPin, FiBattery, FiCheckCircle } from "react-icons/fi";
@@ -70,7 +70,7 @@ export default function PortBookingPage() {
   };
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/ports/${portId}`)
+    api.get(`/ports/${portId}`)
       .then(res => {
         setPort(res.data);
         if (res.data.chargerOptions?.length > 0) {
@@ -133,16 +133,12 @@ export default function PortBookingPage() {
       data.append("unitRate", unitRate);
       data.append("estimatedCost", estimatedCost.toFixed(0));
 
-      const res = await axios.post(
-        import.meta.env.VITE_BACKEND_URL + "/api/bookings",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await api.post("/bookings", data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setRealBookingId(res.data.booking.bookingId);
 

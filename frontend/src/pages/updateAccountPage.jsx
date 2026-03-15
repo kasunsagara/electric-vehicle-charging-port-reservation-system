@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMail, FiPhone, FiLock, FiArrowLeft } from "react-icons/fi";
@@ -30,12 +30,9 @@ export default function UpdateAccountPage() {
           return;
         }
 
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/users/me?email=${storedUser.email}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          }
-        );
+        const res = await api.get(`/users/me?email=${storedUser.email}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
         
         const userData = res.data.user;
         setUser(userData);
@@ -94,15 +91,11 @@ export default function UpdateAccountPage() {
         updatePayload.password = formData.password;
       }
 
-      const res = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
-        updatePayload,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const res = await api.put(`/users/${userId}`, updatePayload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       localStorage.setItem("user", JSON.stringify(res.data.user));
 

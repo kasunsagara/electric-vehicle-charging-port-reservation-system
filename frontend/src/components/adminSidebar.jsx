@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import toast from "react-hot-toast";
 import { FaUserShield, FaTachometerAlt, FaChargingStation, FaUsers, FaCalendarCheck, FaComments, FaHome, FaSignOutAlt } from "react-icons/fa";
 
@@ -10,15 +10,11 @@ export default function AdminSidebar() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      await api.post("/users/logout", {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       localStorage.removeItem("token");
       localStorage.removeItem("user");

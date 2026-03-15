@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../services/api";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaTrash, FaUser, FaComments } from "react-icons/fa";
@@ -15,7 +15,7 @@ export default function AdminFeedbackPage() {
   const fetchFeedbacks = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/feedbacks`);
+      const response = await api.get("/feedbacks");
       
       console.log("Fetched feedbacks:", response.data);
       
@@ -34,7 +34,7 @@ export default function AdminFeedbackPage() {
     try {
       setDeletingId(feedbackId);
       
-      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/feedbacks/${feedbackId}`);
+      await api.delete(`/feedbacks/${feedbackId}`);
       
       toast.success("Feedback deleted successfully");
       

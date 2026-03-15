@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../services/api";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FiCalendar, FiClock, FiBattery, FiDollarSign, FiPackage, FiCpu, FiHome } from "react-icons/fi";
@@ -13,7 +13,7 @@ export default function MyBookingsPage() {
   const fetchBookings = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
+      const res = await api.get("/bookings", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

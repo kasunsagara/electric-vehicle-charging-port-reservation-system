@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../services/api";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaTachometerAlt, FaChargingStation, FaUsers, FaCalendarCheck } from "react-icons/fa";
@@ -23,16 +23,16 @@ export default function AdminDashboardPage() {
     const fetchData = async () => {
       try {
         const [portsRes, usersRes, bookingsRes, feedbacksRes] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/ports`, {
+          api.get("/ports", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
+          api.get("/users", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
+          api.get("/bookings", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/feedbacks`, {
+          api.get("/feedbacks", {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);

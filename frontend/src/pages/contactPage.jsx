@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../services/api";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPhoneAlt, FaComments, FaEnvelope, FaMapMarkerAlt, FaPaperPlane, FaHeadset } from "react-icons/fa";
@@ -27,7 +27,7 @@ export default function ContactPage() {
     try {
       console.log("Submitting feedback:", formData);
 
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/feedbacks`, formData, {
+      const response = await api.post("/feedbacks", formData, {
         headers: {
           "Content-Type": "application/json",
         },

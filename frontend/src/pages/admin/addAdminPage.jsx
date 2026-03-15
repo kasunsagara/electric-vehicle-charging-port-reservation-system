@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus, FaUser, FaEnvelope, FaLock, FaPhone } from "react-icons/fa";
@@ -28,9 +28,8 @@ export default function AddAdminPage() {
     try {
       const token = localStorage.getItem("token");
 
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users`,
-        { name, email, password, phone, role: "admin" },
+      await api.post("/users", 
+        { name, email, password, phone, role: "admin" }, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

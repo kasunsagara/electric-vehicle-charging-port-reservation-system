@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { toast } from "react-hot-toast";
 import { FiUser, FiMail, FiPhone, FiHome } from "react-icons/fi";
 import { FaUserShield, FaUser, FaUserTie, FaEdit, FaTrashAlt } from "react-icons/fa";
@@ -20,12 +20,9 @@ export default function MyAccountPage() {
           return;
         }
 
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/users/me?email=${storedUser.email}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          }
-        );
+        const res = await api.get(`/users/me?email=${storedUser.email}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
         setUser(res.data.user);
       } catch (error) {
         console.error("AxiosError", error);
@@ -54,12 +51,9 @@ export default function MyAccountPage() {
   const deleteAccount = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.email}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await api.delete(`/users/${user.email}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       toast.success(res.data.message || "Account deleted successfully");
       localStorage.removeItem("user");

@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../services/api";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaHashtag, FaCalendarCheck, FaPlug, FaCar, FaMotorcycle, FaTruckPickup, FaShuttleVan, FaBolt } from "react-icons/fa";
@@ -11,7 +11,7 @@ export default function AdminBookingsPage() {
   const fetchBookings = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
+      const res = await api.get("/bookings", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

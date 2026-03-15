@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -52,10 +52,7 @@ export default function PortStatusPage() {
   useEffect(() => {
     if (selectedDate && selectedTime) {
       setLoading(true);
-      axios
-        .get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/ports?date=${selectedDate}&time=${selectedTime}`
-        )
+      api.get(`/ports?date=${selectedDate}&time=${selectedTime}`)
         .then((res) => {
           const data = res.data.data || res.data; 
           const portsWithDistance = data.map((port) => ({
@@ -93,14 +90,11 @@ export default function PortStatusPage() {
 
   const handleCancelBooking = async (bookingId, portId) => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/bookings/${bookingId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      await api.delete(`/bookings/${bookingId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       toast.success("Booking cancelled successfully!");
 

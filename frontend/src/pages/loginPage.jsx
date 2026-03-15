@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import { toast } from "react-hot-toast";
 import { FaSignInAlt, FaEnvelope, FaLock } from 'react-icons/fa';
 
@@ -18,10 +18,7 @@ export default function LoginPage() {
     setIsLoading(true);
     
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
-        formData,
-      );
+      const res = await api.post("/users/login", formData);
 
       if (res.status === 200) {
         toast.success("Login successful");

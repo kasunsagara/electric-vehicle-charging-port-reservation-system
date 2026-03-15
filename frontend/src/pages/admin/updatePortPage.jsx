@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaChargingStation, FaMapMarkerAlt, FaArrowLeft, FaEdit } from "react-icons/fa";
@@ -41,7 +41,7 @@ export default function UpdatePortPage() {
         ],
       };
 
-      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/ports/${port._id}`, updatedPort, {
+      await api.put(`/ports/${port._id}`, updatedPort, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBolt } from "react-icons/fa";
 import { toast } from "react-hot-toast";
-import axios from "axios";
+import api from "../services/api";
 import { FaChevronDown } from 'react-icons/fa';
 
 export default function Header() {
@@ -18,8 +18,10 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/logout`, {}, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      await api.post("/users/logout", {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       localStorage.removeItem("token");

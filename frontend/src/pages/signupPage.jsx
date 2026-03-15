@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { FaUserPlus, FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
@@ -35,7 +35,7 @@ export default function SignUpPage() {
     console.log("Form Data:", formData);
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
+      const res = await api.post("/users", {
         ...formData,
         role: "customer",
       });

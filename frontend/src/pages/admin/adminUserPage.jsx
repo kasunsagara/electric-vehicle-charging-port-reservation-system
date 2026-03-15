@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../services/api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -11,7 +11,7 @@ export default function AdminUsersPage() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
+      const res = await api.get("/users", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
@@ -31,12 +31,9 @@ export default function AdminUsersPage() {
   const deleteUser = async (email) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${email}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await api.delete(`/users/${email}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       toast.success(res.data.message);
       fetchUsers();
