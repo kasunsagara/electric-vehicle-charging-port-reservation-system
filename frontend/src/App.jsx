@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import HomePage from './pages/homePage.jsx';
-import SignUpPage from './pages/signupPage.jsx';
+import SignUpPage from './pages/signUpPage.jsx';
 import LoginPage from './pages/loginPage.jsx';
 import ContactPage from './pages/contactPage.jsx';
 import MyAccountPage from './pages/myAccountPage.jsx';
