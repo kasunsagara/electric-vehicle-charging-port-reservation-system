@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
+import connectDB from "./config/db.js";
 import dotenv from 'dotenv';
 import cors from 'cors';
 import userRouter from './routes/userRouter.js';
@@ -17,15 +17,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-const mongoUrl = process.env.MONGO_DB_URI;
-
-mongoose.connect(mongoUrl)
-  .then(() => {
-    console.log("Database connected");
-  })
-  .catch((error) => {
-    console.error("MongoDB connection error:", error.message);
-  });
+connectDB();
 
 app.use(authMiddleware);
 
