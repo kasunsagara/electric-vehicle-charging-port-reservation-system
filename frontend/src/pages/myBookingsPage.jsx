@@ -104,7 +104,7 @@ export default function MyBookingsPage() {
                   <thead>
                     <tr className="bg-gradient-to-r from-green-500 to-emerald-600 text-white">
                       <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
-                        Booking Details
+                        Booking ID
                       </th>
                       <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
                         Vehicle Info
