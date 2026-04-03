@@ -73,9 +73,9 @@ export async function getBookings(req, res) {
     let bookings;
 
     if (req.user.role === "admin") {
-      bookings = await Booking.find();
+      bookings = await Booking.find().sort({ bookingId: 1 });
     } else if (req.user.role === "customer") {
-      bookings = await Booking.find({ email: req.user.email });
+      bookings = await Booking.find({ email: req.user.email }).sort({ bookingId: 1 });
     } else {
       return res.status(403).json({ message: "Unauthorized access" });
     }
