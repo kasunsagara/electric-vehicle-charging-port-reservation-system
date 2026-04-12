@@ -14,14 +14,18 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  phone: {
+    type: String,
+    required: true
+  },
   role: {
     type: String,
     enum: ["customer", "admin"],
     default: "customer"
   },
-  phone: {
-    type: String,
-    required: true
+  isMainAdmin: {
+    type: Boolean,
+    default: false
   }
 });
 

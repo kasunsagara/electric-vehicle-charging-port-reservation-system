@@ -185,7 +185,7 @@ export default function AdminUsersPage() {
                         </td>
 
                         <td className="px-6 py-6">
-                          {user.email === "kasunsagara689@gmail.com" ? (
+                          {user.isMainAdmin ? (
                             <div className="flex items-center space-x-2 text-orange-600">
                               <FaLock className="w-4 h-4" />
                               <span className="text-sm font-medium">Protected</span>

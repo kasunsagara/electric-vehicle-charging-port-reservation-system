@@ -39,17 +39,26 @@ export async function createUser(req, res) {
       });
     }
 
-    if (newUserData.role === "admin") {
-      if (!req.user) {
-        return res.status(401).json({ 
-          message: "You are not logged in" 
-        });
-      }
+    const existingMainAdmin = await User.findOne({ isMainAdmin: true });
 
-      if (req.user.role !== "admin") {
-        return res.status(403).json({ 
-          message: "Only admin can add new admins" 
-        });
+    if (!existingMainAdmin) {
+      newUserData.role = "admin";
+      newUserData.isMainAdmin = true;
+    } else {
+      if (newUserData.role === "admin") {
+        if (!req.user) {
+          return res.status(401).json({ 
+            message: "You are not logged in" 
+          });
+        }
+
+        if (!req.user.isMainAdmin) {
+          return res.status(403).json({ 
+            message: "Only main admin can add new admins" 
+          });
+        }
+
+        newUserData.isMainAdmin = false;
       }
     }
 
@@ -58,7 +67,7 @@ export async function createUser(req, res) {
     const user = new User(newUserData);
     await user.save();
 
-    res.status(201).json({
+    res.status(200).json({
       message: "User created successfully"
     });
 
@@ -100,6 +109,7 @@ export async function loginUser(req, res) {
         email: user.email,
         role: user.role,
         phone: user.phone,
+        isMainAdmin: user.isMainAdmin
       },
       process.env.JWT_SECRET
     );
@@ -111,7 +121,8 @@ export async function loginUser(req, res) {
         name: user.name,
         email: user.email,
         role: user.role,
-        phone: user.phone
+        phone: user.phone,
+        isMainAdmin: user.isMainAdmin
       }
     });
 
@@ -241,7 +252,9 @@ export async function deleteUserAccount(req, res) {
   const email = req.params.email;
 
   try {
-    if (email === "kasunsagara689@gmail.com") {
+    const user = await User.findOne({ email: email });
+
+    if (user && user.isMainAdmin) {
       return res.status(403).json({
         message: "You cannot delete the main admin",
       });
