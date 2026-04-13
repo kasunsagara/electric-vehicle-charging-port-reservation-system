@@ -143,7 +143,7 @@ export default function PortBookingPage() {
       setRealBookingId(res.data.booking.bookingId);
 
       toast.success(
-        `Booking confirmed and Your Booking ID is ${res.data.booking.bookingId}`
+        `Booking confirmed and Confirmation email has been sent to your email.`
       );
       navigate("/myBookings");
     } catch (error) {

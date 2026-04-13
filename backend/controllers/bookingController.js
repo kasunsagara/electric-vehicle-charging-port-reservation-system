@@ -1,14 +1,15 @@
 import Booking from "../models/booking.js";
 import Port from "../models/port.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 export async function createBooking(req, res) {
   try {
     if (req.user.role !== "customer") {
-    res.status(403).json({
-      message: "Please login as customer to create booking"
-    });
-    return;
-  }
+      res.status(403).json({
+        message: "Please login as customer to create booking"
+      });
+      return;
+    }
 
     const { portId, vehicleType, vehicleModel, chargerType, bookingDate, bookingTime } = req.body;
 
@@ -58,6 +59,13 @@ export async function createBooking(req, res) {
 
     portData.status = "booked";
     await portData.save();
+
+    try {
+      await sendEmail(req.user.email, newBooking);
+      console.log("Email sent successfully");
+    } catch (emailError) {
+      console.error("Email failed:", emailError.message);
+    }
 
     res.status(201).json({ message: "Booking successful", booking: newBooking });
 
