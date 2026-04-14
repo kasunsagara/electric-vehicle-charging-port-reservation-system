@@ -44,6 +44,7 @@ export async function createBooking(req, res) {
       bookingId,
       name: req.user.name,
       email: req.user.email,
+      phone: req.user.phone,
       portId,
       vehicleType,
       vehicleModel,

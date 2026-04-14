@@ -65,6 +65,17 @@ export default function AdminUsersPage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 text-lg">Loading users...</p>
+        </div>
+      </div>
+    );
+  }  
+
   return (
     <div className="min-h-screen p-6">
       <div className="max-w-7xl mx-auto">
@@ -89,123 +100,112 @@ export default function AdminUsersPage() {
           </div>
         </div>
 
-        {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="text-center">
-              <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600 text-lg">Loading users...</p>
+        {users.length === 0 ? (
+          <div className="text-center py-16 px-6">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FaUsers className="w-12 h-12 text-gray-400" />
             </div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">No Users Available</h3>
+            <p className="text-gray-600 mb-6 max-w-md mx-auto">
+              There are no users registered in the system yet.
+            </p>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
-            {users.length === 0 ? (
-              <div className="text-center py-16 px-6">
-                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <FaUsers className="w-12 h-12 text-gray-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">No Users Available</h3>
-                <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                  There are no users registered in the system yet.
-                </p>
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-gradient-to-r from-green-500 to-emerald-600 text-white">
-                      <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
-                        User Details
-                      </th>
-                      <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
-                        Email
-                      </th>
-                      <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
-                        Phone
-                      </th>
-                      <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
-                        Role
-                      </th>
-                      <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {users.map((user, index) => (
-                      <tr 
-                        key={user._id} 
-                        className={`hover:bg-green-50 transition duration-150 ${
-                          index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                        }`}
-                      >
-                        <td className="px-6 py-6">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                              <span className="text-white font-bold text-sm">
-                                {user.name?.charAt(0)?.toUpperCase() || 'U'}
-                              </span>
-                            </div>
-                            <div>
-                              <span className="font-bold text-gray-800 block">{user.name}</span>
-                            </div>
-                          </div>
-                        </td>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gradient-to-r from-green-500 to-emerald-600 text-white">
+                  <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
+                    User Details
+                  </th>
+                  <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
+                    Email
+                  </th>
+                  <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
+                    Phone
+                  </th>
+                  <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
+                    Role
+                  </th>
+                  <th className="px-6 py-4 text-left font-semibold text-sm uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {users.map((user, index) => (
+                  <tr 
+                    key={user._id} 
+                    className={`hover:bg-green-50 transition duration-150 ${
+                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                    }`}
+                  >
+                    <td className="px-6 py-6">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-sm">
+                            {user.name?.charAt(0)?.toUpperCase() || 'U'}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="font-bold text-gray-800 block">{user.name}</span>
+                        </div>
+                      </div>
+                    </td>
 
-                        <td className="px-6 py-6">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                              <FaEnvelope className="w-3 h-3 text-blue-600" />
-                            </div>
-                            <div>
-                              <span className="font-medium text-gray-800 text-sm">{user.email}</span>
-                            </div>
-                          </div>
-                        </td>
+                    <td className="px-6 py-6">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                          <FaEnvelope className="w-3 h-3 text-blue-600" />
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-800 text-sm">{user.email}</span>
+                        </div>
+                      </div>
+                    </td>
 
-                        <td className="px-6 py-6">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                              <FaPhone className="w-3 h-3 text-green-600" />
-                            </div>
-                            <div>
-                              <span className="font-medium text-gray-800 text-sm">
-                                {user.phone || 'Not provided'}
-                              </span>
-                            </div>
-                          </div>
-                        </td>
+                    <td className="px-6 py-6">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                          <FaPhone className="w-3 h-3 text-green-600" />
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-800 text-sm">
+                            {user.phone || 'Not provided'}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
 
-                        <td className="px-6 py-6">
-                          <div className="flex items-center space-x-2">
-                            <div className={`px-3 py-1 rounded-full text-sm font-semibold border flex items-center space-x-1 ${getRoleColor(user.role)}`}>
-                              {getRoleIcon(user.role)}
-                              <span className="capitalize">{user.role}</span>
-                            </div>
-                          </div>
-                        </td>
+                    <td className="px-6 py-6">
+                      <div className="flex items-center space-x-2">
+                        <div className={`px-3 py-1 rounded-full text-sm font-semibold border flex items-center space-x-1 ${getRoleColor(user.role)}`}>
+                          {getRoleIcon(user.role)}
+                          <span className="capitalize">{user.role}</span>
+                        </div>
+                      </div>
+                    </td>
 
-                        <td className="px-6 py-6">
-                          {user.isMainAdmin ? (
-                            <div className="flex items-center space-x-2 text-orange-600">
-                              <FaLock className="w-4 h-4" />
-                              <span className="text-sm font-medium">Protected</span>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => deleteUser(user.email)}
-                              className="flex items-center space-x-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition duration-200 shadow-sm hover:shadow-md"
-                            >
-                              <FaTrash className="w-3 h-3" />
-                              <span>Delete</span>
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                    <td className="px-6 py-6">
+                      {user.isMainAdmin ? (
+                        <div className="flex items-center space-x-2 text-orange-600">
+                          <FaLock className="w-4 h-4" />
+                          <span className="text-sm font-medium">Protected</span>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => deleteUser(user.email)}
+                          className="flex items-center space-x-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition duration-200 shadow-sm hover:shadow-md"
+                        >
+                          <FaTrash className="w-3 h-3" />
+                          <span>Delete</span>
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

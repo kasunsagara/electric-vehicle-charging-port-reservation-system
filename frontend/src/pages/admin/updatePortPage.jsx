@@ -57,7 +57,7 @@ export default function UpdatePortPage() {
 
   if (!port) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex justify-center items-center">
+      <div className="flex justify-center items-center py-20">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600 text-lg">Redirecting to ports...</p>

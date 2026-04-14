@@ -1,8 +1,8 @@
 import api from "../services/api";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { FiCalendar, FiClock, FiBattery, FiDollarSign, FiPackage, FiCpu, FiHome } from "react-icons/fi";
-import { FaCar, FaMotorcycle, FaTruckPickup, FaShuttleVan, FaHashtag, FaPlug } from 'react-icons/fa';
+import { FiCalendar, FiClock, FiBattery, FiDollarSign, FiPackage, FiHome } from "react-icons/fi";
+import { FaCar, FaMotorcycle, FaTruckPickup, FaShuttleVan, FaHashtag, FaPlug, FaBolt } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
 export default function MyBookingsPage() {
@@ -176,7 +176,7 @@ export default function MyBookingsPage() {
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                              <FiCpu className="w-3 h-3 text-green-600" />
+                              <FaBolt className="w-3 h-3 text-green-600" />
                             </div>
                             <div className="flex flex-col">
                               <span className="font-semibold text-gray-800">
