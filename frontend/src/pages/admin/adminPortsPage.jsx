@@ -83,7 +83,7 @@ export default function AdminPortsPage() {
 
         {ports.length === 0 ? (
           <div className="text-center py-16 px-6">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-24 h-24 flex items-center justify-center mx-auto mb-4">
               <FaChargingStation className="w-12 h-12 text-gray-400" />
             </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">No Ports Available</h3>

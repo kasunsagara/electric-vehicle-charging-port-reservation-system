@@ -89,8 +89,8 @@ export default function AdminFeedbackPage() {
         </div>
 
         {feedbacksCount === 0 ? (
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-12 text-center">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="rounded-2xl p-12 text-center">
+            <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
               <FaComments className="w-10 h-10 text-gray-400" />
             </div>
             <h3 className="text-2xl font-bold text-gray-800 mb-3">No Feedback Yet</h3>
