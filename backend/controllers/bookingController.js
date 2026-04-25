@@ -1,6 +1,7 @@
 import Booking from "../models/booking.js";
 import Port from "../models/port.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import { sendSMS } from "../utils/sendSMS.js";
 
 export async function createBooking(req, res) {
   try {
@@ -66,6 +67,13 @@ export async function createBooking(req, res) {
       console.log("Email sent successfully");
     } catch (emailError) {
       console.error("Email failed:", emailError.message);
+    }
+
+    try {
+      await sendSMS(req.user.phone, newBooking);
+      console.log("SMS sent successfully");
+    } catch (smsError) {
+      console.error("SMS failed:", smsError.message);
     }
 
     res.status(201).json({ message: "Booking successful", booking: newBooking });

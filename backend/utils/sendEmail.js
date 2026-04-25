@@ -14,40 +14,32 @@ export const sendEmail = async (to, booking) => {
       from: `"EV Charging System" <${process.env.EMAIL_USER}>`,
       to: to,
       subject: "EV Charging Booking Confirmation",
-      html: `
-        <h2>Booking Confirmed Successfully</h2>
+      text: `
+Booking Confirmed Successfully
 
-        <p>Dear Customer,</p>
+Dear Customer,
 
-        <p>Your EV charging slot has been successfully booked.</p>
+Your EV charging slot has been successfully booked.
 
-        <h3>Booking Details</h3>
-        <ul>
-        <li><b>Booking ID:</b> ${booking.bookingId}</li>
-        <li><b>Port ID:</b> ${booking.portId}</li>
-        <li><b>Date:</b> ${booking.bookingDate}</li>
-        <li><b>Time:</b> ${booking.bookingTime}</li>
-        </ul>
+Booking Details
+- Booking ID: ${booking.bookingId}
+- Port ID: ${booking.portId}
+- Date: ${booking.bookingDate}
+- Time: ${booking.bookingTime}
 
-        <h3>Vehicle Details</h3>
-        <ul>
-        <li><b>Vehicle Type:</b> ${booking.vehicleType || "N/A"}</li>
-        <li><b>Vehicle Model:</b> ${booking.vehicleModel || "N/A"}</li>
-        <li><b>Charger Type:</b> ${booking.chargerType}</li>
-        </ul>
+Vehicle Details
+- Vehicle Type: ${booking.vehicleType || "N/A"}
+- Vehicle Model: ${booking.vehicleModel || "N/A"}
+- Charger Type: ${booking.chargerType}
 
-        <h3>Estimated Details</h3>
-        <ul>
-        <li><b>Battery Capacity:</b> ${booking.estimatedBatteryCapacity || "N/A"} kWh</li>
-        <li><b>Charging Time:</b> ${booking.estimatedChargingTime || "N/A"} hours</li>
-        <li><b>Estimated Cost:</b>  Rs. ${booking.estimatedCost || "N/A"}</li>
-        </ul>
+Estimated Details
+- Battery Capacity: ${booking.estimatedBatteryCapacity || "N/A"} kWh
+- Charging Time: ${booking.estimatedChargingTime || "N/A"} hours
+- Estimated Cost: Rs. ${booking.estimatedCost || "N/A"}
 
-        <p>Please arrive on time for your selected slot.</p>
+Please arrive on time for your selected slot.
 
-        <p>Thank you for using our EV Charging System</p>
-
-        <p><b>This is an automated email. Please do not reply.</b></p>
+Thank you for using EV Charging System.
       `,
     };
 
