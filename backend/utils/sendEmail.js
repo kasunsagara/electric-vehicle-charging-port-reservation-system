@@ -15,7 +15,7 @@ export const sendEmail = async (to, booking) => {
       to: to,
       subject: "EV Charging Booking Confirmation",
       text: `
-Booking Confirmed Successfully
+Booking Confirmed Successfully!
 
 Dear Customer,
 

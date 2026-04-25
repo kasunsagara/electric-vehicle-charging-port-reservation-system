@@ -15,7 +15,8 @@ Port ID: ${booking.portId}
 Date: ${booking.bookingDate}
 Time: ${booking.bookingTime}
 
-Thank you for using EV Charging System`;
+Thank you for using EV Charging System.
+    `;
 
     const request_url = `${API_URL}?key=${API_KEY}&number=${encodeURIComponent(
       formattedNumber
