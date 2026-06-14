@@ -5,6 +5,7 @@ import { sendSMS } from "../utils/sendSMS.js";
 
 export async function createBooking(req, res) {
   try {
+    // Only customers may create bookings; admins or unauthenticated users cannot reserve charging slots.
     if (req.user.role !== "customer") {
       res.status(403).json({
         message: "Please login as customer to create booking"
@@ -21,6 +22,7 @@ export async function createBooking(req, res) {
     const latestBooking = await Booking.find().sort({ bookingId: -1 }).limit(1);
     let bookingId;
 
+    // Sequential booking IDs are generated using a fixed EV prefix and zero-padded numeric suffix.
     if (latestBooking.length === 0) {
       bookingId = "EV0001";
     } else {
@@ -36,6 +38,7 @@ export async function createBooking(req, res) {
       return res.status(404).json({ message: "Port not found" });
     }
 
+    // Prevent the same port from being booked more than once for the requested date/time slot.
     const existingBooking = await Booking.findOne({ portId, bookingDate, bookingTime });
     if (existingBooking) {
       return res.status(400).json({ message: "Port already booked for this time slot" });
@@ -59,6 +62,7 @@ export async function createBooking(req, res) {
 
     await newBooking.save();
 
+    // Update port availability status once the booking is confirmed.
     portData.status = "booked";
     await portData.save();
 
@@ -66,6 +70,7 @@ export async function createBooking(req, res) {
       await sendEmail(req.user.email, newBooking);
       console.log("Email sent successfully");
     } catch (emailError) {
+      // Notification failure should not rollback the booking itself.
       console.error("Email failed:", emailError.message);
     }
 
@@ -73,6 +78,7 @@ export async function createBooking(req, res) {
       await sendSMS(req.user.phone, newBooking);
       console.log("SMS sent successfully");
     } catch (smsError) {
+      // Notification failure should not rollback the booking itself.
       console.error("SMS failed:", smsError.message);
     }
 

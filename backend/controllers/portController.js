@@ -37,6 +37,7 @@ export async function getPorts(req, res) {
     const userRole = req.user?.role;
 
     if (userRole === "admin") {
+      // Admins receive the raw list of ports without date/time availability filtering.
       const ports = await Port.find();
       return res.status(200).json({
         message: "All ports retrieved successfully (admin view)",

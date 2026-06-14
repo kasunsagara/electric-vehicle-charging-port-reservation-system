@@ -1,3 +1,10 @@
+// Page component for the adminFeedbackPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the adminFeedbackPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Admin page for viewing and deleting feedback submissions.
 import api from "../../services/api";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";

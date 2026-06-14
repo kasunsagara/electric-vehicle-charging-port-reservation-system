@@ -1,3 +1,9 @@
+// Page component for the portBookingPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the portBookingPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
 import { useState, useEffect } from "react";  
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import api from "../services/api";
@@ -45,6 +51,8 @@ export default function PortBookingPage() {
   const bookingDate = queryParams.get("date");
   const bookingTime = queryParams.get("bookingTime");
   const locationFromQuery = queryParams.get("location");
+
+  // Prefill form fields when navigation includes date/time/location query parameters.
 
   const [port, setPort] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -96,6 +104,7 @@ export default function PortBookingPage() {
   const handleCalculateEstimates = (e) => {
     e.preventDefault();
     setShowEstimates(true);
+    // Preserve the chosen time for display in the order summary panel.
     setFinalbookingTime(formData.bookingTime);
   };
 

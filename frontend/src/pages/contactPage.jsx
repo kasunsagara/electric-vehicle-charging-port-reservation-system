@@ -1,3 +1,10 @@
+// Page component for the contactPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the contactPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Contact page for submitting user feedback to the backend.
 import api from "../services/api";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";

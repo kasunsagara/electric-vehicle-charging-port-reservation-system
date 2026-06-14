@@ -1,3 +1,10 @@
+// Page component for the adminUserPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the adminUserPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Admin page for viewing and managing user accounts.
 import api from "../../services/api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";

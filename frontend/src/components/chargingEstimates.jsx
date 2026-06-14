@@ -1,3 +1,9 @@
+// Reusable UI component used by one or more frontend pages.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Reusable UI component used by one or more frontend pages.
+// This comment clarifies the file's purpose for future maintainers.
+
 import { FiBattery, FiClock, FiDollarSign } from "react-icons/fi";
 import { FaCalculator } from "react-icons/fa";
 
@@ -26,6 +32,7 @@ const batteryCapacityMap = {
 };
 
 const getUnitRateByPower = (power) => {
+  // Higher-power chargers are billed at a premium unit rate.
   if (power >= 20) return 800; 
   return 300; 
 };
@@ -38,6 +45,7 @@ export default function ChargingEstimates({ chargerType, vehicleModel, port }) {
   );
   if (!charger) return null;
 
+  // Use vehicle-specific battery capacity mapping for estimate calculations.
   const batteryCapacity = batteryCapacityMap[vehicleModel] || 0; 
   const chargingTime = batteryCapacity / charger.speed; 
   const unitRate = getUnitRateByPower(charger.speed);

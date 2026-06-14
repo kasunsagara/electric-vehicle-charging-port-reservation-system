@@ -1,3 +1,10 @@
+// Reusable UI component used by one or more frontend pages.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Reusable UI component used by one or more frontend pages.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Admin sidebar navigation component used in admin pages.
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import api from "../services/api";

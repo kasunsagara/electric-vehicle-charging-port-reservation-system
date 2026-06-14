@@ -1,3 +1,10 @@
+// Page component for the homePage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the homePage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Landing page with featured services and navigation options.
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaBolt, FaShieldAlt, FaClock, FaStar, FaQuoteLeft, FaUser, FaChevronLeft, FaChevronRight } from 'react-icons/fa';

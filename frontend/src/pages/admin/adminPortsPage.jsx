@@ -1,3 +1,10 @@
+// Page component for the adminPortsPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the adminPortsPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Admin page for managing charging port inventory.
 import api from "../../services/api";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";

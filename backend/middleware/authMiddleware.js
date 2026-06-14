@@ -5,6 +5,7 @@ dotenv.config();
 
 const authMiddleware = async (req, res, next) => {
     try {
+        // Attach decoded user info when a valid token is provided, but allow public routes as well.
         const token = req.header("authorization")?.replace("Bearer ", "");
 
         if (token != null) {

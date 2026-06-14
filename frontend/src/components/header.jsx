@@ -1,3 +1,10 @@
+// Reusable UI component used by one or more frontend pages.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Reusable UI component used by one or more frontend pages.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Header component with site navigation and account action links.
 import { useEffect, useState, useRef } from "react"; 
 import { Link, useNavigate } from "react-router-dom";
 import { FaBolt } from "react-icons/fa";

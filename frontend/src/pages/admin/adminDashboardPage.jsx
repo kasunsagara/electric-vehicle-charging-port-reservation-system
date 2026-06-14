@@ -1,3 +1,10 @@
+// Page component for the adminDashboardPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the adminDashboardPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Admin dashboard overview page.
 import api from "../../services/api";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";

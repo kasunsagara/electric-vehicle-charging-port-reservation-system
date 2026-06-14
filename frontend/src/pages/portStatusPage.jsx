@@ -1,3 +1,9 @@
+// Page component for the portStatusPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the portStatusPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";

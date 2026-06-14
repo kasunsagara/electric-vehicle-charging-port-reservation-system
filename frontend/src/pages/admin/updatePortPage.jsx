@@ -1,3 +1,10 @@
+// Page component for the updatePortPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the updatePortPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Admin page for updating existing port details.
 import { useState, useEffect } from "react";
 import api from "../../services/api";
 import { toast } from "react-hot-toast";

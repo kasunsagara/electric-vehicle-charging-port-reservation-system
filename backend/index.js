@@ -13,12 +13,16 @@ dotenv.config();
 
 const app = express();
 
+// Enable cross-origin requests from the frontend app.
 app.use(cors());
 
+// Parse incoming JSON payloads into req.body.
 app.use(bodyParser.json());
 
+// Connect to MongoDB before handling any requests.
 connectDB();
 
+// Attach optional user info from JWT to each request.
 app.use(authMiddleware);
 
 app.use("/api/users", userRouter);

@@ -7,6 +7,7 @@ import emailExistence from "email-existence";
 dotenv.config();
 
 const checkEmailExists = (email) => {
+  // Verify that the provided email exists before proceeding with registration or updates.
   return new Promise((resolve, reject) => {
     emailExistence.check(email, (error, response) => {
       if (error) return reject(error);
@@ -41,6 +42,8 @@ export async function createUser(req, res) {
 
     const existingMainAdmin = await User.findOne({ isMainAdmin: true });
 
+    // The first user created in the system becomes the main admin.
+    // Later admin accounts may only be created by the main admin user.
     if (!existingMainAdmin) {
       newUserData.role = "admin";
       newUserData.isMainAdmin = true;
@@ -58,6 +61,7 @@ export async function createUser(req, res) {
           });
         }
 
+        // Admin users created after the first one are not main admins.
         newUserData.isMainAdmin = false;
       }
     }
@@ -205,6 +209,7 @@ export async function updateUserAccount(req, res) {
     const { name, email, phone, password } = req.body;
 
     if (email && email !== user.email) {
+      // Validate changed email only when the user is updating it.
       if (!/\S+@\S+\.\S+/.test(email)) {
         return res.status(400).json({ message: "Invalid email format" });
       }
@@ -233,7 +238,7 @@ export async function updateUserAccount(req, res) {
     const updatedUser = await user.save();
 
     const userResponse = updatedUser.toObject();
-    delete userResponse.password;
+    delete userResponse.password; // Remove sensitive password data from the response.
 
     res.status(200).json({
       message: "User updated successfully",
@@ -254,12 +259,14 @@ export async function deleteUserAccount(req, res) {
   try {
     const user = await User.findOne({ email: email });
 
+    // Preserve the main admin account to avoid losing administrative control.
     if (user && user.isMainAdmin) {
       return res.status(403).json({
         message: "You cannot delete the main admin",
       });
     }
 
+    // Allow admins to delete any user, but customers can only delete their own account.
     if (req.user.role !== "admin" && req.user.email !== email) {
       return res.status(403).json({
         message: "You can only delete your own account",

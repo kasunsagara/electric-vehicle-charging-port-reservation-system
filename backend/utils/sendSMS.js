@@ -5,6 +5,7 @@ export const sendSMS = async (number, booking) => {
     const API_URL = process.env.SMS_API_URL;
     const API_KEY = process.env.SMS_API_KEY;
 
+    // Convert local phone format (0xxxxxxxxx) to Sri Lanka international format (+94xxxxxxxxx).
     const formattedNumber = `+94${number.substring(1)}`;
 
     const message = `

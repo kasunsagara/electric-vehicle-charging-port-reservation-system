@@ -1,3 +1,10 @@
+// Page component for the myBookingsPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the myBookingsPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page listing the current user's bookings and status.
 import api from "../services/api";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";

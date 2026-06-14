@@ -1,3 +1,10 @@
+// Page component for the signUpPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Page component for the signUpPage route in the frontend application.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Registration page for new users.
 import { useState } from "react";
 import api from "../services/api";
 import { useNavigate, Link } from "react-router-dom";

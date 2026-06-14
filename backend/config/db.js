@@ -1,7 +1,9 @@
+// Database connection setup using MongoDB URI from environment variables.
 import mongoose from 'mongoose';
 
 const connectDB = async () => {
     try {
+        // Use the configured MongoDB connection string from environment variables.
         const mongoUrl = process.env.MONGO_DB_URI;
         await mongoose.connect(mongoUrl);
         console.log("Database connected");

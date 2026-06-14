@@ -1,3 +1,9 @@
+// Top-level React router configuration and application page wiring.
+// This comment clarifies the file's purpose for future maintainers.
+
+// Top-level React router configuration and application page wiring.
+// This comment clarifies the file's purpose for future maintainers.
+
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
