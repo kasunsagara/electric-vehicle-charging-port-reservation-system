@@ -438,6 +438,7 @@ export default function PortStatusPage() {
                     style={{ height: "100%", width: "100%" }}
                     className="rounded-b-2xl"
                   >
+                    //OpenStreetMap integrated with Leaflet to display the map and markers for user location and charging ports.
                     <TileLayer
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                       attribution="&copy; OpenStreetMap contributors"
