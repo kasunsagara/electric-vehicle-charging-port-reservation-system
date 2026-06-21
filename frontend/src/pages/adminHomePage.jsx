@@ -1,9 +1,3 @@
-// Page component for the adminHomePage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Page component for the adminHomePage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
 import { Routes, Route } from "react-router-dom";
 import AdminSidebar from "../components/adminSidebar";
 import AdminWelcomePage from "./admin/adminWelcomePage";

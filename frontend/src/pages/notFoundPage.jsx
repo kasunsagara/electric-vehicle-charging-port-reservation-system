@@ -1,10 +1,3 @@
-// Page component for the notFoundPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Page component for the notFoundPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Fallback page displayed when no route matches.
 import { Link } from "react-router-dom";
 import { FaHome, FaExclamationTriangle } from "react-icons/fa";
 

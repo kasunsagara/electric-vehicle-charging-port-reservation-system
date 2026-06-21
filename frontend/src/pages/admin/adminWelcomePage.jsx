@@ -1,9 +1,3 @@
-// Page component for the adminWelcomePage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Page component for the adminWelcomePage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
 import { useState, useEffect } from "react";
 import { FaChargingStation, FaUsers, FaCalendarCheck } from "react-icons/fa";
 

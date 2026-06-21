@@ -1,10 +1,3 @@
-// Page component for the loginPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Page component for the loginPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Login page for user authentication and redirect after sign-in.
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";

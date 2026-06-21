@@ -1,10 +1,3 @@
-// Page component for the myAccountPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Page component for the myAccountPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// User account page displaying profile details and actions.
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { toast } from "react-hot-toast";

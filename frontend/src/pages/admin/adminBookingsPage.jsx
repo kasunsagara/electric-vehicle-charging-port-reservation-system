@@ -1,10 +1,3 @@
-// Page component for the adminBookingsPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Page component for the adminBookingsPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Admin view listing all booking records.
 import api from "../../services/api";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";

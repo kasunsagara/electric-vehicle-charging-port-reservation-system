@@ -1,4 +1,3 @@
-// Database connection setup using MongoDB URI from environment variables.
 import mongoose from 'mongoose';
 
 const connectDB = async () => {

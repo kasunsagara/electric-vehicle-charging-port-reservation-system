@@ -1,9 +1,3 @@
-// ESLint configuration rules for the frontend project.
-// This comment clarifies the file's purpose for future maintainers.
-
-// ESLint configuration rules for the frontend project.
-// This comment clarifies the file's purpose for future maintainers.
-
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'

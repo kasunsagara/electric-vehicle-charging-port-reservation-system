@@ -1,10 +1,3 @@
-// Page component for the addPortPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Page component for the addPortPage route in the frontend application.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Admin page for adding charging ports.
 import { useState } from "react";
 import api from "../../services/api";
 import { toast } from "react-hot-toast";

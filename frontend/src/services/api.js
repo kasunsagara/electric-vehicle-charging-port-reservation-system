@@ -1,7 +1,3 @@
-// Axios service helper that centralizes the API base URL and auth header injection.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Axios API client with base URL and auth token request interceptor.
 import axios from "axios";
 
 const api = axios.create({

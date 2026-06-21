@@ -1,9 +1,3 @@
-// Reusable UI component used by one or more frontend pages.
-// This comment clarifies the file's purpose for future maintainers.
-
-// Reusable UI component used by one or more frontend pages.
-// This comment clarifies the file's purpose for future maintainers.
-
 import { FiBattery, FiClock, FiDollarSign } from "react-icons/fi";
 import { FaCalculator } from "react-icons/fa";
 
